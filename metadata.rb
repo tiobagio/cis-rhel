@@ -1,7 +1,7 @@
 name 'cis-rhel'
 maintainer 'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
-license 'Apache-2.0'
+license 'Proprietary - All Rights Reserved'
 description 'Installs/Configures cis_rhel'
 long_description 'Installs/Configures cis_rhel'
 version '0.1.0'
