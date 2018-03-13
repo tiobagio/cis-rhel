@@ -1,4 +1,4 @@
-# cis_rhel
+# cis-rhel
 
 This cookbook provides security-related recipes to apply CIS Benchmarks to RHEL based systems.
 

@@ -1,5 +1,5 @@
 #
-# Cookbook:: cis_rhel
+# Cookbook:: cis-rhel
 # Spec:: default
 #
 # Copyright:: 2018, The Authors
@@ -18,7 +18,7 @@
 
 require 'spec_helper'
 
-describe 'cis_rhel::default' do
+describe 'cis-rhel::default' do
   context 'When all attributes are default, on an Ubuntu 16.04' do
     let(:chef_run) do
       # for a complete list of available platforms and versions see:

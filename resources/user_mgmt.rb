@@ -1,5 +1,5 @@
 #
-# Cookbook:: cis_rhel
+# Cookbook:: cis-rhel
 # Resources:: user_mgmt
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
