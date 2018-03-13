@@ -40,7 +40,7 @@ verifier:
 suites:
   - name: default
     run_list:
-      - recipe[cis_rhel::default]
+      - recipe[cis-rhel::default]
     attributes:
       ssh-hardening:
         ssh:

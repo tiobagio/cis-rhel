@@ -1,5 +1,5 @@
 #
-# Cookbook:: cis_rhel
+# Cookbook:: cis-rhel
 # Resource:: kernel
 #
 # Copyright:: 2018, Chef Software, Inc.

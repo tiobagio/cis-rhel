@@ -9,7 +9,7 @@ driver:
   subnet_id:
   retryable_tries: 120
   tags: {
-    Name: "cis_rhel-kitchen",
+    Name: "cis-rhel-kitchen",
     created-by: "test-kitchen"
   }
 
@@ -29,4 +29,4 @@ transport:
 suites:
   - name: default
     run_list:
-      - recipe[cis_rhel::enable_sudo_no_tty]
+      - recipe[cis-rhel::enable_sudo_no_tty]

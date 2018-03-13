@@ -1,5 +1,5 @@
 #
-# Cookbook:: cis_rhel
+# Cookbook:: cis-rhel
 # Recipe:: core_dumps
 #
 # Copyright:: 2018, Chef Software, Inc.
