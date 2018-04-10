@@ -4,7 +4,8 @@ driver:
   name: vagrant
 
 provisioner:
-  name: chef_solo
+  name: chef_zero
+  root_path: "/home/vagrant/kitchen" # move from /tmp
 <% if ENV['CHEF_VERSION'] %>
   require_chef_omnibus: <%= ENV['CHEF_VERSION'] %>
 <% end %>
@@ -13,25 +14,17 @@ provisioner:
 verifier:
   name: inspec
 
+# See .kitchen.aws.yml for RedHat Testing
 platforms:
-- name: centos-6
-  verifier:
-    inspec_tests:
-      - ../compliance-profiles/src/inspec/supported/cis-centos6-level1-v1.1.0-1
+# TODO: Uncomment when CentOS7 is complete
+#- name: centos-6
+#  verifier:
+#    inspec_tests:
+#      - ../compliance-profiles/src/inspec/supported/cis-centos6-level1-v1.1.0-1
 - name: centos-7
   verifier:
     inspec_tests:
       - ../compliance-profiles/src/inspec/supported/cis-centos7-level1-v1.1.0
-- name: oracle-7
-  verifier:
-    inspec_tests:
-      - ../compliance-profiles/src/inspec/supported/cis-oraclelinux7-level1-v1.1.0
-- name: fedora-25
-- name: fedora-26
-- name: rhel-7
-  verifier:
-    inspec_tests:
-      - ../compliance-profiles/src/inspec/supported/cis-rhel7-level1-server-v2.1.1
 
 verifier:
   name: inspec

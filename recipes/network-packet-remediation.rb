@@ -34,6 +34,7 @@ sysctl_param 'net.ipv4.conf.default.send_redirects' do
   value 0
 end
 # End Send Packet Redirects
+
 # Addresses ICMP Redirect Acceptance
 sysctl_param 'net.ipv4.conf.all.accept_redirects' do
   value 0
@@ -48,6 +49,7 @@ sysctl_param 'net.ipv4.conf.default.secure_redirects' do
   value 0
 end
 # End ICMP Redirect Acceptance
+
 cis_rhel_ipv6 'harden ipv6' do
   action 'harden'
 end

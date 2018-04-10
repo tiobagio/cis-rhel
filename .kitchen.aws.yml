@@ -17,14 +17,21 @@ provisioner:
   name: chef_solo
 
 platforms:
+# - name: rhel-6
+#   verifier:
+#     inspec_tests:
+#       - TODO: Add path to compliance profile
   - name: rhel-7
+    verifier:
+      inspec_tests:
+        - ../compliance-profiles/src/inspec/supported/cis-rhel7-level1-server-v2.1.1
 
 verifier:
   name: inspec
   sudo: true
 
 transport:
-  ssh_key: 
+  ssh_key:
 
 suites:
   - name: default

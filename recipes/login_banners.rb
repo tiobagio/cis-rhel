@@ -28,9 +28,9 @@
 ['/etc/motd', '/etc/issue', '/etc/issue.net'].each do |loginfile|
   file loginfile do
     content 'This system is managed by Chef.'
-    mode 0644
-    owner 'root'
-    group 'root'
-    action :create
+    mode    0644
+    owner   'root'
+    group   'root'
+    action  :create
   end
 end

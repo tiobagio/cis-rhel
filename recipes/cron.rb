@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include_recipe 'cron'
+include_recipe 'cron::default'
 
 # Start fix for hardening of cronfiles
 ['/etc/cron.d', '/etc/cron.monthly', '/etc/cron.weekly',

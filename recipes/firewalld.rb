@@ -17,4 +17,4 @@
 # limitations under the License.
 # Fix for "xccdf_org.cisecurity.benchmarks_rule_3.6.1_Ensure_iptables_is_installed"
 
-include_recipe 'firewall'
+include_recipe 'firewall::default'
