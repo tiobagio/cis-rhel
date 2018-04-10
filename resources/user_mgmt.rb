@@ -16,7 +16,7 @@
 
 # This resource should probably exist in the users community cookbook.
 action :harden do
-  ['/etc/default/useradd', '/etc/passwd','/etc/passwd-', '/etc/pam.d/su', '/etc/bashrc', '/etc/group', '/etc/group-'].each do |systemfile|
+  ['/etc/default/useradd', '/etc/passwd', '/etc/passwd-', '/etc/pam.d/su', '/etc/bashrc', '/etc/group', '/etc/group-'].each do |systemfile|
     file systemfile do
       mode 0644
       owner 'root'

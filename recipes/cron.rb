@@ -21,7 +21,7 @@ include_recipe 'cron'
 
 # Start fix for hardening of cronfiles
 ['/etc/cron.d', '/etc/cron.monthly', '/etc/cron.weekly',
-'/etc/cron.daily', '/etc/cron.hourly'].each do |crondir|
+ '/etc/cron.daily', '/etc/cron.hourly'].each do |crondir|
   directory crondir do
     mode '0700'
     owner 'root'
