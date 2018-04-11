@@ -13,6 +13,9 @@ provisioner:
 
 verifier:
   name: inspec
+  sudo: true
+  format: json-min
+  output: tmp/results-min.json
 
 # See .kitchen.aws.yml for RedHat Testing
 platforms:
@@ -25,10 +28,6 @@ platforms:
   verifier:
     inspec_tests:
       - ../compliance-profiles/src/inspec/supported/cis-centos7-level1-v1.1.0
-
-verifier:
-  name: inspec
-  sudo: true
 
 suites:
   - name: default

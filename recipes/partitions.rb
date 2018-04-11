@@ -19,12 +19,16 @@
 # https://www.cyberciti.biz/faq/linux-add-nodev-nosuid-noexec-options-to-temporary-storage-partitions/
 # These do not persist yet
 
-# 1.1.3_Ensure_nodev_option_set_on_tmp_partition: Ensure nodev option set on /tmp partition
-# 1.1.4_Ensure_nosuid_option_set_on_tmp_partition: Ensure nosuid option set on /tmp partition
-# 1.1.5_Ensure_noexec_option_set_on_tmp_partition: Ensure noexec option set on /tmp partition
-execute 'mount -o remount,nosuid,nodev,noexec /tmp' do
-  only_if 'findmnt /tmp'
-  not_if 'findmnt /tmp | grep nosuid,nodev,noexec'
+# centos7_1.1.1_Create_Separate_Partition_for_tmp:  Mount /tmp should be mounted
+# centos7_1.1.2_Set_nodev_option_for_tmp_Partition: Mount /tmp should be mounted
+# centos7_1.1.3_Set_nosuid_option_set_on_tmp_partition: Ensure nodev option set on /tmp partition
+# centos7_1.1.4_Set_noexec_option_set_on_tmp_partition: Ensure nosuid option set on /tmp partition
+mount '/tmp' do
+  pass    0
+  fstype  'tmpfs'
+  device  'tmpfs'
+  options 'nodev,nosuid,noexec'
+  action  [:enable, :mount]
 end
 
 # 1.1.8_Ensure_nodev_option_set_on_vartmp_partition: Ensure nodev option set on /var/tmp partition
