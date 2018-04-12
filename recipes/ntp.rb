@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: firewalld
+# Recipe:: ntp
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -15,6 +15,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-# Fix for "xccdf_org.cisecurity.benchmarks_rule_3.6.1_Ensure_iptables_is_installed"
-include_recipe 'firewall::default'
+# xccdf_org.cisecurity.benchmarks_rule_3.6_Configure_Network_Time_Protocol_NTP
+include_recipe 'ntp::default'
+
+cookbook_file '/etc/sysconfig/ntpd' do
+  source 'etc_sysconfig_ntpd'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  action :create
+  notifies :restart, "service[#{node['ntp']['service']}]"
+end
