@@ -15,7 +15,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# Begin xccdf_org.cisecurity.benchmarks_rule_1.6.1_Restrict_Core_Dumps
 
+# Begin xccdf_org.cisecurity.benchmarks_rule_1.6.1_Restrict_Core_Dumps
 include_recipe 'os-hardening::limits'
+
+# Change location for rendered template
+t = resources(template: '/etc/security/limits.d/10.hardcore.conf')
+t.name = '/etc/security/limits.conf'
