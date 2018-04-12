@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: default
+# Recipe:: sysctl
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -16,14 +16,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'cis-rhel::aide'
-include_recipe 'cis-rhel::core_dumps'
-include_recipe 'cis-rhel::cron'
-include_recipe 'cis-rhel::firewalld'
-include_recipe 'cis-rhel::login_banners'
-include_recipe 'cis-rhel::network-packet-remediation'
-include_recipe 'cis-rhel::partitions'
-include_recipe 'cis-rhel::ssh'
-include_recipe 'cis-rhel::sysctl'
-include_recipe 'rsyslog::client'
-cis_rhel_user_mgmt 'CIS benchmark'
+include_recipe 'os-hardening::sysctl'
+
