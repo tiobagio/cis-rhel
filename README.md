@@ -22,13 +22,14 @@ It prefers community cookbook driven solutions over trying to implement everythi
 ### Cookbooks
 
 * 'aide'
-* 'os-hardening'
-* 'sudo'
-* 'firewall'
-* 'ssh-hardening'
 * 'cron'
-* 'sysctl'
+* 'firewall'
+* 'ntp'
+* 'os-hardening'
 * 'rsyslog'
+* 'ssh-hardening'
+* 'sudo'
+* 'sysctl'
 
 ## Usage
 

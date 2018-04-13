@@ -7,8 +7,8 @@ long_description 'Installs/Configures cis-rhel'
 version          '0.1.0'
 chef_version     '>= 13.1' if respond_to?(:chef_version)
 
-source_url 'https://github.com/cis-rhel'
-issues_url 'https://github.com/cis-rhel/issues'
+source_url 'https://github.com/chef/cis-rhel'
+issues_url 'https://github.com/chef/cis-rhel/issues'
 
 supports 'redhat'
 supports 'centos'
