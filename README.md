@@ -37,7 +37,11 @@ Test out hardening a system by using the default recipe. In your environment, yo
 ## Testing
 
 ```
+# Run Cookstyle linting and ChefSpec unit tests
 rake
+
+# Run Test-Kitchen
+kitchen verify
 ```
 
 ## Maintainers
