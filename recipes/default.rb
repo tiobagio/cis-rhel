@@ -21,10 +21,8 @@ include_recipe 'cis-rhel::core_dumps'
 include_recipe 'cis-rhel::cron'
 include_recipe 'cis-rhel::firewalld'
 include_recipe 'cis-rhel::login_banners'
-
 include_recipe 'cis-rhel::network_packet_remediation'
 include_recipe 'cis-rhel::ntp'
-
 include_recipe 'cis-rhel::partitions'
 include_recipe 'cis-rhel::ssh'
 include_recipe 'cis-rhel::sysctl'
