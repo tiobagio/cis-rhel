@@ -6,10 +6,3 @@ steps:
     plugins:
       docker#v1.1.1:
         image: "chefes/buildkite"
-
-  - label: lint-foodcritic
-    commands:
-      - chef exec foodcritic .
-    plugins:
-      docker#v1.1.1:
-        image: "chefes/buildkite"
