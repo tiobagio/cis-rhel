@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: avahi
+# Spec:: avahi
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -16,7 +16,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# 2.2.3 Ensure Avahi Server is not enabled
-service 'avahi-daemon' do
-  action [:disable, :stop]
+require 'spec_helper'
+
+describe 'cis-rhel::avahi' do
+  context 'When all attributes are default, on an CentOS 7' do
+    cached(:chef_run) do
+      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
+      runner.converge(described_recipe)
+    end
+
+    it 'disables the avahi service' do
+      expect(chef_run).to disable_service('avahi-daemon')
+    end
+
+    it 'stops the avahi service' do
+      expect(chef_run).to stop_service('avahi-daemon')
+    end
+  end
 end

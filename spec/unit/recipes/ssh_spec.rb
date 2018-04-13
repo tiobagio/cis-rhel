@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Spec:: default
+# Spec:: ssh
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -18,11 +18,9 @@
 
 require 'spec_helper'
 
-describe 'cis-rhel::default' do
+describe 'cis-rhel::ssh' do
   context 'When all attributes are default, on an CentOS 7' do
     cached(:chef_run) do
-      # for a complete list of available platforms and versions see:
-      # https://github.com/customink/fauxhai/blob/master/PLATFORMS.md
       runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
       runner.converge(described_recipe)
     end
@@ -34,24 +32,8 @@ describe 'cis-rhel::default' do
       stub_command("test $(awk '$5 < 2047 && $5 ~ /^[0-9]+$/ { print $5 }' /etc/ssh/moduli | uniq | wc -c) -eq 0").and_return(true)
     end
 
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
-    end
-
-    %w(
-      cis-rhel::aide
-      cis-rhel::core_dumps
-      cis-rhel::cron
-      cis-rhel::firewalld
-      cis-rhel::login_banners
-      cis-rhel::network_packet_remediation
-      cis-rhel::partitions
-      cis-rhel::ssh
-      rsyslog::client
-    ).each do |recipe|
-      it "includes #{recipe} recipe" do
-        expect(chef_run).to include_recipe recipe
-      end
+    it 'includes the ssh-hardening::default recipe' do
+      expect(chef_run).to include_recipe 'ssh-hardening::default'
     end
   end
 end

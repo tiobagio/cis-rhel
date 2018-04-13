@@ -18,4 +18,7 @@ rescue LoadError
   puts 'Unable to load Test-Kitchen Rake tasks.'
 end
 
-task default: ['rubocop']
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:chefspec)
+
+task default: %w(rubocop chefspec)

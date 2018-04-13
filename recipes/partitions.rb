@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 # https://www.cyberciti.biz/faq/linux-add-nodev-nosuid-noexec-options-to-temporary-storage-partitions/
 # These do not persist yet
 
@@ -31,24 +32,26 @@ mount '/tmp' do
   action  [:enable, :mount]
 end
 
+# TODO: These may be out of scope of the remediation. Remove if they are, add tests if they are not
+
 # 1.1.8_Ensure_nodev_option_set_on_vartmp_partition: Ensure nodev option set on /var/tmp partition
 # 1.1.9_Ensure_nosuid_option_set_on_vartmp_partition: Ensure nosuid option set on /var/tmp partition
 # 1.1.10_Ensure_noexec_option_set_on_vartmp_partition: Ensure noexec option set on /var/tmp partition
-execute 'mount -o remount,nosuid,nodev,noexec /var/tmp' do
-  only_if 'findmnt /var/tmp'
-  not_if 'findmnt /var/tmp | grep nosuid,nodev,noexec'
-end
+# execute 'mount -o remount,nosuid,nodev,noexec /var/tmp' do
+#   only_if 'findmnt /var/tmp'
+#   not_if 'findmnt /var/tmp | grep nosuid,nodev,noexec'
+# end
 
 # 1.1.14_Ensure_nodev_option_set_on_home_partition: Ensure nodev option set on /home partition
-execute 'mount -o remount,nodev /home' do
-  only_if 'findmnt /home'
-  not_if 'findmnt /home | grep nodev'
-end
+# execute 'mount -o remount,nodev /home' do
+#   only_if 'findmnt /home'
+#   not_if 'findmnt /home | grep nodev'
+# end
 
 # 1.1.15_Ensure_nodev_option_set_on_devshm_partition: Ensure nodev option set on /dev/shm partition
 # 1.1.16_Ensure_nosuid_option_set_on_devshm_partition: Ensure nosuid option set on /dev/shm partition
 # 1.1.17_Ensure_noexec_option_set_on_devshm_partition: Ensure noexec option set on /dev/shm partition
-execute 'mount -o remount,nosuid,nodev,noexec /dev/shm' do
-  only_if 'findmnt /dev/shm'
-  not_if 'findmnt /dev/shm | grep nosuid,nodev,noexec'
-end
+# execute 'mount -o remount,nosuid,nodev,noexec /dev/shm' do
+#   only_if 'findmnt /dev/shm'
+#   not_if 'findmnt /dev/shm | grep nosuid,nodev,noexec'
+# end

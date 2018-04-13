@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: network-packet-remediation
+# Recipe:: network_packet_remediation
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -16,7 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'sysctl'
+# TODO: Migrate to newer sysctl resources
+# The sysctl cookbook this uses is older (because of os-hardening dependency)
+# Chef 14 also includes a sysctl resource and the sysctl cookbook is being deprecated in favor of the resource
+include_recipe 'sysctl::default'
 
 # Addresses Log Suspicious Packets
 sysctl_param 'net.ipv4.conf.all.log_martians' do
@@ -26,6 +29,7 @@ sysctl_param 'net.ipv4.conf.default.log_martians' do
   value 1
 end
 # End Log Suspicious Packets
+
 # Addresses Send Packet Redirects
 sysctl_param 'net.ipv4.conf.all.send_redirects' do
   value 0

@@ -34,6 +34,11 @@ It prefers community cookbook driven solutions over trying to implement everythi
 
 Test out hardening a system by using the default recipe. In your environment, you most likely will customize to your environment. For example, the firewall configuration should be specific to the configuration you need in your environment.
 
+## Testing
+
+```
+rake
+```
 
 ## Maintainers
 
