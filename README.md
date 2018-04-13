@@ -17,7 +17,7 @@ It prefers community cookbook driven solutions over trying to implement everythi
 
 ### Chef
 
-- Chef 12.19+
+- Chef 13+
 
 ### Cookbooks
 
