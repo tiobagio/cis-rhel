@@ -39,5 +39,9 @@ describe 'cis-rhel::ssh' do
     it 'has the correct log level set' do
       expect(chef_run.node['ssh-hardening']['ssh']['server']['log_level']).to eq('INFO')
     end
+
+    it 'has the correct ClientAliveCount set' do
+      expect(chef_run.node['ssh-hardening']['ssh']['server']['client_alive_count']).to eq(0)
+    end
   end
 end

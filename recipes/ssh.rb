@@ -16,4 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# 6.2.2 Set LogLevel to INFO
+node.default['ssh-hardening']['ssh']['server']['log_level'] = 'INFO'
+# 6.2.12 12_Set_Idle_Timeout_Interval_for_User_Login
+node.default['ssh-hardening']['ssh']['server']['client_alive_count'] = 0
+
 include_recipe 'ssh-hardening::default'
