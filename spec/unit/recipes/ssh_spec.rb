@@ -35,5 +35,9 @@ describe 'cis-rhel::ssh' do
     it 'includes the ssh-hardening::default recipe' do
       expect(chef_run).to include_recipe 'ssh-hardening::default'
     end
+
+    it 'has the correct log level set' do
+      expect(chef_run.node['ssh-hardening']['ssh']['server']['log_level']).to eq('INFO')
+    end
   end
 end
