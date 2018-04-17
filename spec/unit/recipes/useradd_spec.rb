@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: default
+# Spec:: useradd
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -16,18 +16,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'cis-rhel::aide'
-include_recipe 'cis-rhel::core_dumps'
-include_recipe 'cis-rhel::cron'
-include_recipe 'cis-rhel::firewalld'
-include_recipe 'cis-rhel::login_banners'
-include_recipe 'cis-rhel::network_packet_remediation'
-include_recipe 'cis-rhel::ntp'
-include_recipe 'cis-rhel::partitions'
-include_recipe 'cis-rhel::ssh'
-include_recipe 'cis-rhel::sysctl'
-include_recipe 'cis-rhel::useradd'
+require 'spec_helper'
 
-include_recipe 'rsyslog::client'
+describe 'cis-rhel::useradd' do
+  context 'When all attributes are default, on an CentOS 7' do
+    cached(:chef_run) do
+      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
+      runner.converge(described_recipe)
+    end
 
-cis_rhel_user_mgmt 'CIS benchmark'
+    it 'renders the /etc/default/useradd file' do
+      expect(chef_run).to create_cookbook_file('/etc/default/useradd')
+    end
+  end
+end

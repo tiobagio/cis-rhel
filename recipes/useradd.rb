@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: default
+# Recipe:: useradd
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -15,19 +15,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-include_recipe 'cis-rhel::aide'
-include_recipe 'cis-rhel::core_dumps'
-include_recipe 'cis-rhel::cron'
-include_recipe 'cis-rhel::firewalld'
-include_recipe 'cis-rhel::login_banners'
-include_recipe 'cis-rhel::network_packet_remediation'
-include_recipe 'cis-rhel::ntp'
-include_recipe 'cis-rhel::partitions'
-include_recipe 'cis-rhel::ssh'
-include_recipe 'cis-rhel::sysctl'
-include_recipe 'cis-rhel::useradd'
-
-include_recipe 'rsyslog::client'
-
-cis_rhel_user_mgmt 'CIS benchmark'
+# 7.5_Lock_Inactive_User_Accounts
+cookbook_file '/etc/default/useradd' do
+  source 'useradd'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  action :create
+end

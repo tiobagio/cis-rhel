@@ -47,6 +47,7 @@ describe 'cis-rhel::default' do
       cis-rhel::network_packet_remediation
       cis-rhel::partitions
       cis-rhel::ssh
+      cis-rhel::useradd
       rsyslog::client
     ).each do |recipe|
       it "includes #{recipe} recipe" do
