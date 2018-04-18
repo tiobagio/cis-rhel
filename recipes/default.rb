@@ -24,10 +24,9 @@ include_recipe 'cis-rhel::login_banners'
 include_recipe 'cis-rhel::network_packet_remediation'
 include_recipe 'cis-rhel::ntp'
 include_recipe 'cis-rhel::partitions'
+include_recipe 'cis-rhel::rsyslog'
 include_recipe 'cis-rhel::ssh'
 include_recipe 'cis-rhel::sysctl'
 include_recipe 'cis-rhel::useradd'
-
-include_recipe 'rsyslog::client'
 
 cis_rhel_user_mgmt 'CIS benchmark'
