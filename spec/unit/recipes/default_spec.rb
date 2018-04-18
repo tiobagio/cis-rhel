@@ -45,6 +45,7 @@ describe 'cis-rhel::default' do
       cis-rhel::firewalld
       cis-rhel::login_banners
       cis-rhel::network_packet_remediation
+      cis-rhel::pam
       cis-rhel::partitions
       cis-rhel::ssh
       cis-rhel::useradd

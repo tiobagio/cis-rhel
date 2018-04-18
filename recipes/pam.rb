@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: default
+# Recipe:: pam
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -16,18 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'cis-rhel::aide'
-include_recipe 'cis-rhel::core_dumps'
-include_recipe 'cis-rhel::cron'
-include_recipe 'cis-rhel::firewalld'
-include_recipe 'cis-rhel::login_banners'
-include_recipe 'cis-rhel::network_packet_remediation'
-include_recipe 'cis-rhel::ntp'
-include_recipe 'cis-rhel::pam'
-include_recipe 'cis-rhel::partitions'
-include_recipe 'cis-rhel::rsyslog'
-include_recipe 'cis-rhel::ssh'
-include_recipe 'cis-rhel::sysctl'
-include_recipe 'cis-rhel::useradd'
+# 6.3.2 Set Password Creation Requirement Parameters Using pam_pwquality
+include_recipe 'os-hardening::pam'
 
-cis_rhel_user_mgmt 'CIS benchmark'
+cookbook_file '/etc/security/pwquality.conf' do
+  source 'pwquality.conf'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  action :create
+end
