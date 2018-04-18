@@ -1,5 +1,4 @@
 name: profile-validation-tests
 depends:
   - name: cis-centos7-level1
-    path: ../compliance-profiles/dist/supported/cis-centos7-level1-1.1.0-3.tar.gz
-    # path: ../compliance-profiles/src/inspec/supported/cis-centos7-level1-v1.1.0 # Latest non-tarred/released version
+    path: ../compliance-profiles/src/inspec/supported/cis-rhel7-level1-server-v2.1.1
