@@ -1,5 +1,6 @@
 include_controls 'cis-centos7-level1' do
   # CentOS 7 controls that are out of scope for remediation
+  # TODO: Circle back on 1.2.1 to decide if we can reliably cover this
   skipped_controls = %w(
     xccdf_org.cisecurity.benchmarks_rule_1.1.5_Create_Separate_Partition_for_var
     xccdf_org.cisecurity.benchmarks_rule_1.1.6_Bind_Mount_the_vartmp_directory_to_tmp
@@ -7,6 +8,8 @@ include_controls 'cis-centos7-level1' do
     xccdf_org.cisecurity.benchmarks_rule_1.1.8_Create_Separate_Partition_for_varlogaudit
     xccdf_org.cisecurity.benchmarks_rule_1.1.10_Add_nodev_Option_to_home
     xccdf_org.cisecurity.benchmarks_rule_1.1.16_Add_noexec_Option_to_devshm_Partition
+
+    xccdf_org.cisecurity.benchmarks_rule_1.2.1_Ensure_package_manager_repositories_are_configured
 
     xccdf_org.cisecurity.benchmarks_rule_1.5.3_Set_Boot_Loader_Password
 
