@@ -40,6 +40,7 @@ describe 'cis-rhel::default' do
 
     %w(
       cis-rhel::aide
+      cis-rhel::at
       cis-rhel::core_dumps
       cis-rhel::cron
       cis-rhel::firewalld

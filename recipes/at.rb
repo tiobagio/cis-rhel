@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: default
+# Recipe:: at
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -15,20 +15,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-include_recipe 'cis-rhel::aide'
-include_recipe 'cis-rhel::at'
-include_recipe 'cis-rhel::core_dumps'
-include_recipe 'cis-rhel::cron'
-include_recipe 'cis-rhel::firewalld'
-include_recipe 'cis-rhel::login_banners'
-include_recipe 'cis-rhel::network_packet_remediation'
-include_recipe 'cis-rhel::ntp'
-include_recipe 'cis-rhel::pam'
-include_recipe 'cis-rhel::partitions'
-include_recipe 'cis-rhel::rsyslog'
-include_recipe 'cis-rhel::ssh'
-include_recipe 'cis-rhel::sysctl'
-include_recipe 'cis-rhel::useradd'
+# 6.1.10_Restrict_at_Daemon
+file '/etc/at.deny' do
+  action :delete
+end
 
-cis_rhel_user_mgmt 'CIS benchmark'
+file '/etc/at.allow' do
+  mode   '0700'
+  owner  'root'
+  group  'root'
+  action :create
+end
