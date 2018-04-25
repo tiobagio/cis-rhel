@@ -4,8 +4,7 @@ This cookbook provides security-related recipes to apply CIS Benchmarks to RHEL 
 
 It does not:
 
-* Install or update system packages.
-* Install security patches.
+* Install or update system packages.  * Install security patches.
 
 It prefers community cookbook driven solutions over trying to implement everything in this cookbook, using resources or attributes as necessary to customize and harden based on CIS benchmarks.
 
@@ -21,15 +20,15 @@ It prefers community cookbook driven solutions over trying to implement everythi
 
 ### Cookbooks
 
-* 'aide'
-* 'cron'
-* 'firewall'
-* 'ntp'
-* 'os-hardening'
-* 'rsyslog'
-* 'ssh-hardening'
-* 'sudo'
-* 'sysctl'
+* aide
+* cron
+* firewall
+* ntp
+* os-hardening
+* rsyslog
+* ssh-hardening
+* sudo
+* sysctl
 
 ## Usage
 
@@ -41,7 +40,26 @@ Test out hardening a system by using the default recipe. In your environment, yo
 # Run Cookstyle linting and ChefSpec unit tests
 rake
 
-# Run Test-Kitchen
+# Run Local Test-Kitchen
+kitchen verify
+```
+
+### AWS Test-Kitchen (RHEL)
+
+Ensure you have AWS credentials in `~/.aws/credentials`
+
+Add the following variables:
+Create a file named `.envrc` and add the following
+```
+# .envrc
+export AWS_KEYPAIR_NAME='dca-kitchen'
+export EC2_SSH_KEY_PATH='/path/to/id_rsa_kitchen.pem'
+export KITCHEN_YAML=.kitchen.aws.yml
+```
+
+Run Test-Kitchen with AWS config
+```
+source .envrc
 kitchen verify
 ```
 
