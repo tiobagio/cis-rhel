@@ -29,6 +29,7 @@ include_recipe 'cis-rhel::partitions'
 include_recipe 'cis-rhel::rsyslog' unless node['platform'] == 'redhat' # Temp condition until bug is found
 include_recipe 'cis-rhel::ssh'
 include_recipe 'cis-rhel::sysctl'
+include_recipe 'cis-rhel::syslog-ng'
 include_recipe 'cis-rhel::useradd'
 
 cis_rhel_user_mgmt 'CIS benchmark'

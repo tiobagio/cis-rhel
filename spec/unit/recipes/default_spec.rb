@@ -49,8 +49,9 @@ describe 'cis-rhel::default' do
       cis-rhel::pam
       cis-rhel::partitions
       cis-rhel::ssh
+      cis-rhel::sysctl
+      cis-rhel::syslog-ng
       cis-rhel::useradd
-      rsyslog::client
     ).each do |recipe|
       it "includes #{recipe} recipe" do
         expect(chef_run).to include_recipe recipe
