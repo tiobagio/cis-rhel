@@ -32,6 +32,8 @@ describe 'cis-rhel::default' do
       stub_command('getenforce | grep -vq Disabled && semodule -l | grep -q ssh_password').and_return('')
       # ssh-hardening::default
       stub_command("test $(awk '$5 < 2047 && $5 ~ /^[0-9]+$/ { print $5 }' /etc/ssh/moduli | uniq | wc -c) -eq 0").and_return(true)
+      # cis-rhel::kernel_modules
+      stub_command('lsmod | grep dccp').and_return('')
     end
 
     it 'converges successfully' do
@@ -44,6 +46,7 @@ describe 'cis-rhel::default' do
       cis-rhel::core_dumps
       cis-rhel::cron
       cis-rhel::firewalld
+      cis-rhel::kernel_modules
       cis-rhel::login_banners
       cis-rhel::network_packet_remediation
       cis-rhel::pam
