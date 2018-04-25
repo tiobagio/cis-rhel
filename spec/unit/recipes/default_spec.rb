@@ -46,8 +46,10 @@ describe 'cis-rhel::default' do
       cis-rhel::core_dumps
       cis-rhel::cron
       cis-rhel::firewalld
+      cis-rhel::grub
       cis-rhel::kernel_modules
       cis-rhel::login_banners
+      cis-rhel::login_defs
       cis-rhel::network_packet_remediation
       cis-rhel::pam
       cis-rhel::partitions
