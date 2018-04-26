@@ -31,5 +31,9 @@ describe 'cis-rhel::network_packet_remediation' do
     it 'includes sysctl::default recipe' do
       expect(chef_run).to include_recipe 'sysctl::default'
     end
+
+    it 'installs tcp_wrappers package' do
+      expect(chef_run).to install_package 'tcp_wrappers'
+    end
   end
 end

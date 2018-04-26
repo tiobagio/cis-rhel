@@ -57,3 +57,8 @@ end
 cis_rhel_ipv6 'harden ipv6' do
   action 'harden'
 end
+
+# xccdf_org.cisecurity.benchmarks_rule_3.4.1_Ensure_TCP_Wrappers_is_installed
+package 'tcp_wrappers' do
+  action :install
+end
