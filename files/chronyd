@@ -1,0 +1,6 @@
+#
+# Maintained by Chef
+#
+
+# Command line options for chronyd
+OPTIONS="-u chrony"

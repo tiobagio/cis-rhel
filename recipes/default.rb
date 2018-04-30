@@ -29,7 +29,7 @@ include_recipe 'cis-rhel::network_packet_remediation'
 include_recipe 'cis-rhel::ntp'
 include_recipe 'cis-rhel::pam'
 include_recipe 'cis-rhel::partitions'
-include_recipe 'cis-rhel::rsyslog' unless node['platform'] == 'redhat' # Temp condition until bug is found
+include_recipe 'cis-rhel::rsyslog'
 include_recipe 'cis-rhel::ssh'
 include_recipe 'cis-rhel::sysctl'
 include_recipe 'cis-rhel::syslog-ng'

@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-# 6.1.10_Restrict_at_Daemon
+# CIS-RHEL7 v2.2.0 - 5.1.8 Restrict_at_Daemon
 file '/etc/at.deny' do
   action :delete
 end

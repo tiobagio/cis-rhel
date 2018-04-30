@@ -35,6 +35,7 @@ suites:
   - name: default
     run_list:
       - recipe[cis-rhel::default]
+      - recipe[augment::vbox]
     attributes:
       ssh-hardening:
         ssh:

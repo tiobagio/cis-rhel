@@ -17,7 +17,8 @@
 # limitations under the License.
 #
 
-# 5.1.4_Create_and_Set_Permissions_on_rsyslog_Log_File
+# CIS-RHEL7 v2.2.0 - 4.2 Configure Logging
+# TODO: Add notes in README about setting server
 include_recipe 'rsyslog::client'
 
 %w(

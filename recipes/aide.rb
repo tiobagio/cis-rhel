@@ -16,6 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# 1.3.1_Ensure_AIDE_is_installed: Ensure AIDE is installed
+# CIS-RHEL7 v2.2.0 - 1.3.1_Ensure_AIDE_is_installed: Ensure AIDE is installed
 # xccdf_org.cisecurity.benchmarks_rule_1.3.2_Ensure_filesystem_integrity_is_regularly_checked:
 include_recipe 'aide::default'
+
+# xccdf_org.cisecurity.benchmarks_rule_1.3.2_Ensure_filesystem_integrity_is_regularly_checked
+# Modify cron creation in aide cookbook
+c = resources(cron_d: 'aide')
+c.minute  = '5'
+c.command = '/usr/sbin/aide --check'

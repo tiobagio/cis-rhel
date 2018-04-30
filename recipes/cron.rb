@@ -23,16 +23,17 @@ include_recipe 'cron::default'
 ['/etc/cron.d', '/etc/cron.monthly', '/etc/cron.weekly',
  '/etc/cron.daily', '/etc/cron.hourly'].each do |crondir|
   directory crondir do
-    mode   '0700'
+    mode   '00700'
     owner  'root'
     group  'root'
     action :create
   end
 end
 
+# xccdf_org.cisecurity.benchmarks_rule_5.1.2_Ensure_permissions_on_etccrontab_are_configured
 ['/etc/crontab', '/etc/anacrontab'].each do |cronfile|
   file cronfile do
-    mode   '0700'
+    mode   '0600'
     owner  'root'
     group  'root'
     action :create

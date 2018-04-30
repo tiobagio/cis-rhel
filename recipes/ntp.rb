@@ -17,6 +17,14 @@
 # limitations under the License.
 #
 
+node.default['ntp']['restrict_default'] = 'kod nomodify notrap nopeer noquery'
+node.default['ntp']['servers'] = [
+  '0.rhel.pool.ntp.org',
+  '1.rhel.pool.ntp.org',
+  '2.rhel.pool.ntp.org',
+  '3.rhel.pool.ntp.org',
+]
+
 # xccdf_org.cisecurity.benchmarks_rule_3.6_Configure_Network_Time_Protocol_NTP
 include_recipe 'ntp::default'
 
@@ -27,4 +35,48 @@ cookbook_file '/etc/sysconfig/ntpd' do
   mode   '0644'
   action :create
   notifies :restart, "service[#{node['ntp']['service']}]"
+end
+
+# xccdf_org.cisecurity.benchmarks_rule_2.2.1.2_Ensure_ntp_is_configured
+# Managing template file in this cookbook instead of recipe[ntp::default]
+r = resources(template: node['ntp']['conffile'])
+r.cookbook('cis-rhel')
+r.source('ntp.conf.erb')
+
+# xccdf_org.cisecurity.benchmarks_rule_2.2.1.3_Ensure_chrony_is_configured
+package 'chrony' do
+  action :install
+end
+
+service 'chrony-daemon' do
+  service_name 'chronyd'
+  supports     restart: true, status: true, reload: true
+  action       [:enable, :start]
+end
+
+template '/etc/chrony.conf' do
+  source 'chrony.conf.erb'
+  mode   '0644'
+  owner  'root'
+  owner  'root'
+  action :create
+  notifies :restart, 'service[chrony-daemon]'
+end
+
+cookbook_file '/etc/sysconfig/chronyd' do
+  source 'chronyd'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  action :create
+  notifies :restart, 'service[chrony-daemon]'
+end
+
+cookbook_file '/usr/lib/systemd/system/chronyd.service' do
+  source 'chronyd.service'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  action :create
+  notifies :restart, 'service[chrony-daemon]'
 end
