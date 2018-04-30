@@ -26,3 +26,11 @@ cookbook_file '/etc/security/pwquality.conf' do
   mode   '0644'
   action :create
 end
+
+cookbook_file '/etc/pam.d/password-auth' do
+  source  'password-auth'
+  owner   'root'
+  group   'root'
+  mode    '0644'
+  action  :create
+end

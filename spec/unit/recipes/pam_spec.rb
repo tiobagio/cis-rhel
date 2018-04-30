@@ -32,5 +32,9 @@ describe 'cis-rhel::pam' do
     it 'renders the /etc/security/pwquality.conf file' do
       expect(chef_run).to create_cookbook_file('/etc/security/pwquality.conf')
     end
+
+    it 'renders the /etc/pam.d/password-auth file' do
+      expect(chef_run).to create_cookbook_file('/etc/pam.d/password-auth')
+    end
   end
 end
