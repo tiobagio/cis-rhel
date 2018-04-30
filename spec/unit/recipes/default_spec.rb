@@ -34,6 +34,7 @@ describe 'cis-rhel::default' do
       stub_command("test $(awk '$5 < 2047 && $5 ~ /^[0-9]+$/ { print $5 }' /etc/ssh/moduli | uniq | wc -c) -eq 0").and_return(true)
       # cis-rhel::kernel_modules
       stub_command('lsmod | grep dccp').and_return('')
+      stub_command('lsmod | grep sctp').and_return('')
     end
 
     it 'converges successfully' do

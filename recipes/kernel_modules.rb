@@ -29,3 +29,17 @@ execute 'disable_dccp' do
   command '/sbin/modprobe -r dccp'
   only_if 'lsmod | grep dccp'
 end
+
+# 3.5.2 Ensure SCTP is disabled
+cookbook_file '/etc/modprobe.d/sctp.conf' do
+  source 'sctp.conf'
+  owner  'root'
+  group  'root'
+  mode   '0600'
+  action :create
+end
+
+execute 'disable_sctp' do
+  command '/sbin/modprobe -r sctp'
+  only_if 'lsmod | grep sctp'
+end

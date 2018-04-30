@@ -28,6 +28,8 @@ describe 'cis-rhel::kernel_modules' do
     before(:each) do
       # mocked result for an enabled dccp kernel module
       stub_command('lsmod | grep dccp').and_return('dccp')
+      # mocked result for an enabled sctp kernel module
+      stub_command('lsmod | grep sctp').and_return('sctp')
     end
 
     it 'renders the /etc/modprobe.d/dccp.conf file' do
