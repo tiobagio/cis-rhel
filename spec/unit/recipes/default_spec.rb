@@ -35,6 +35,15 @@ describe 'cis-rhel::default' do
       # cis-rhel::kernel_modules
       stub_command('lsmod | grep dccp').and_return('')
       stub_command('lsmod | grep sctp').and_return('')
+      # cis-rhel::minimize_access
+      stub_command('find /var/log -type f -ls').and_return('')
+      # os-hardening::minimize_access
+      stub_command("find /usr/local/sbin  -perm -go+w -type f | wc -l | egrep '^0$'").and_return(false)
+      stub_command("find /usr/local/bin  -perm -go+w -type f | wc -l | egrep '^0$'").and_return(false)
+      stub_command("find /usr/sbin  -perm -go+w -type f | wc -l | egrep '^0$'").and_return(false)
+      stub_command("find /usr/bin  -perm -go+w -type f | wc -l | egrep '^0$'").and_return(false)
+      stub_command("find /sbin  -perm -go+w -type f | wc -l | egrep '^0$'").and_return(false)
+      stub_command("find /bin  -perm -go+w -type f | wc -l | egrep '^0$'").and_return(false)
     end
 
     it 'converges successfully' do

@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: sysctl
+# Recipe:: permissions
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -16,21 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'os-hardening::sysctl'
+include_recipe 'os-hardening::minimize_access'
 
-# xccdf_org.cisecurity.benchmarks_rule_2.2.7_Ensure_NFS_and_RPC_are_not_enabled
-%w(
-  nfs
-  nfs-server
-  rpcbind
-).each do |svc|
-  service svc do
-    action [:disable, :stop]
-  end
-end
-
-# Ensure rpcbind is inactive by removing it
-# https://bugzilla.redhat.com/show_bug.cgi?id=1531984
-package 'rpcbind' do
-  action :remove
+# xccdf_org.cisecurity.benchmarks_rule_4.2.4_Ensure_permissions_on_all_logfiles_are_configured
+execute '4-2-4-log-permissions' do
+  command 'find /var/log -type f -exec chmod g-wx,o-rwx {} +'
+  user    'root'
+  only_if 'find /var/log -type f -ls'
+  action  :run
 end

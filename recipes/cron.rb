@@ -23,7 +23,7 @@ include_recipe 'cron::default'
 ['/etc/cron.d', '/etc/cron.monthly', '/etc/cron.weekly',
  '/etc/cron.daily', '/etc/cron.hourly'].each do |crondir|
   directory crondir do
-    mode   '00700'
+    mode   '0600'
     owner  'root'
     group  'root'
     action :create
@@ -39,7 +39,6 @@ end
     action :create
   end
 end
-# End fix for hardening of cronfiles
 
 # Begin xccdf_org.cisecurity.benchmarks_rule_6.1.11_Restrict_atcron_to_Authorized_Users
 file '/etc/cron.deny' do
@@ -47,9 +46,16 @@ file '/etc/cron.deny' do
 end
 
 file '/etc/cron.allow' do
-  mode   '0700'
+  mode   '0600'
   owner  'root'
   group  'root'
   action :create
 end
-# End xccdf_org.cisecurity.benchmarks_rule_6.1.11_Restrict_atcron_to_Authorized_Users
+
+# xccdf_org.cisecurity.benchmarks_rule_5.1.8_Ensure_atcron_is_restricted_to_authorized_user
+file '/etc/at.allow' do
+  mode   '0600'
+  owner  'root'
+  group  'root'
+  action :create
+end

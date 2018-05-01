@@ -34,7 +34,7 @@ describe 'cis-rhel::cron' do
 
       it "creates #{crondir} directory with attributes" do
         expect(chef_run).to create_directory(crondir).with(
-          mode:  '00700',
+          mode:  '0600',
           user:  'root',
           group: 'root'
         )
@@ -57,7 +57,7 @@ describe 'cis-rhel::cron' do
 
     it 'creates /etc/cron.allow file' do
       expect(chef_run).to create_file('/etc/cron.allow').with(
-        mode:  '0700',
+        mode:  '0600',
         user:  'root',
         group: 'root'
       )

@@ -8,6 +8,8 @@ include_controls 'cis-rhel7-level1-server' do
   # - managing /var is out of scope
   # - syslog-ng requires RH subscription management
   #
+  # TODO:
+  # - Investigate 6.1.6, 6.1.7, 6.1.8, & 6.1.9 controls later
   skipped_controls = %w(
     xccdf_org.cisecurity.benchmarks_rule_1.1.8_Ensure_nodev_option_set_on_vartmp_partition
     xccdf_org.cisecurity.benchmarks_rule_1.1.9_Ensure_nosuid_option_set_on_vartmp_partition
@@ -17,6 +19,11 @@ include_controls 'cis-rhel7-level1-server' do
     xccdf_org.cisecurity.benchmarks_rule_4.2.2.1_Ensure_syslog-ng_service_is_enabled
     xccdf_org.cisecurity.benchmarks_rule_4.2.2.3_Ensure_syslog-ng_default_file_permissions_configured
     xccdf_org.cisecurity.benchmarks_rule_4.2.2.4_Ensure_syslog-ng_is_configured_to_send_logs_to_a_remote_log_host
+
+    xccdf_org.cisecurity.benchmarks_rule_6.1.6_Ensure_permissions_on_etcpasswd-_are_configured
+    xccdf_org.cisecurity.benchmarks_rule_6.1.7_Ensure_permissions_on_etcshadow-_are_configured
+    xccdf_org.cisecurity.benchmarks_rule_6.1.8_Ensure_permissions_on_etcgroup-_are_configured
+    xccdf_org.cisecurity.benchmarks_rule_6.1.9_Ensure_permissions_on_etcgshadow-_are_configured
   )
 
   skipped_controls.each { |ctrl| skip_control ctrl }
