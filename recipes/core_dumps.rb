@@ -20,5 +20,6 @@
 include_recipe 'os-hardening::limits'
 
 # Change location for rendered template
-t = resources(template: '/etc/security/limits.d/10.hardcore.conf')
-t.name = '/etc/security/limits.conf'
+edit_resource!(:template, '/etc/security/limits.d/10.hardcore.conf') do
+  name '/etc/security/limits.conf'
+end

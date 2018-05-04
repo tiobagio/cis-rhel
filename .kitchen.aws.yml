@@ -12,6 +12,7 @@ driver_config:
 
 transport:
   ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+  username: 'ec2-user'
 
 provisioner:
   name: chef_zero

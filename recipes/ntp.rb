@@ -39,9 +39,10 @@ end
 
 # xccdf_org.cisecurity.benchmarks_rule_2.2.1.2_Ensure_ntp_is_configured
 # Managing template file in this cookbook instead of recipe[ntp::default]
-r = resources(template: node['ntp']['conffile'])
-r.cookbook('cis-rhel')
-r.source('ntp.conf.erb')
+edit_resource!(:template, node['ntp']['conffile']) do
+  cookbook 'cis-rhel'
+  source   'ntp.conf.erb'
+end
 
 # xccdf_org.cisecurity.benchmarks_rule_2.2.1.3_Ensure_chrony_is_configured
 package 'chrony' do

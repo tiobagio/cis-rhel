@@ -22,6 +22,7 @@ include_recipe 'aide::default'
 
 # xccdf_org.cisecurity.benchmarks_rule_1.3.2_Ensure_filesystem_integrity_is_regularly_checked
 # Modify cron creation in aide cookbook
-c = resources(cron_d: 'aide')
-c.minute  = '5'
-c.command = '/usr/sbin/aide --check'
+edit_resource!(:cron_d, 'aide') do
+  minute  '5'
+  command '/usr/sbin/aide --check'
+end

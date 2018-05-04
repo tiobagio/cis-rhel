@@ -28,7 +28,6 @@ end
 sysctl_param 'net.ipv4.conf.default.log_martians' do
   value 1
 end
-# End Log Suspicious Packets
 
 # Addresses Send Packet Redirects
 sysctl_param 'net.ipv4.conf.all.send_redirects' do
@@ -37,7 +36,6 @@ end
 sysctl_param 'net.ipv4.conf.default.send_redirects' do
   value 0
 end
-# End Send Packet Redirects
 
 # Addresses ICMP Redirect Acceptance
 sysctl_param 'net.ipv4.conf.all.accept_redirects' do
@@ -52,10 +50,14 @@ end
 sysctl_param 'net.ipv4.conf.default.secure_redirects' do
   value 0
 end
-# End ICMP Redirect Acceptance
 
-cis_rhel_ipv6 'harden ipv6' do
-  action 'harden'
+# xccdf_org.cisecurity.benchmarks_rule_3.3.3_Ensure_IPv6_is_disabled
+cis_rhel_ipv6 'harden_ipv6' do
+  action :harden
+end
+
+cis_rhel_ipv6 'disable_ipv6' do
+  action :disable
 end
 
 # xccdf_org.cisecurity.benchmarks_rule_3.4.1_Ensure_TCP_Wrappers_is_installed

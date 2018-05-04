@@ -28,9 +28,26 @@ cookbook_file '/etc/security/pwquality.conf' do
 end
 
 cookbook_file '/etc/pam.d/password-auth' do
-  source  'password-auth'
-  owner   'root'
-  group   'root'
-  mode    '0644'
-  action  :create
+  source 'password-auth'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  manage_symlink_source true
+  action :create
+end
+
+# xccdf_org.cisecurity.benchmarks_rule_5.6_Ensure_access_to_the_su_command_is_restricted
+cookbook_file '/etc/pam.d/su' do
+  source 'pam_d_su'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  manage_symlink_source true
+  action :create
+end
+
+# xccdf_org.cisecurity.benchmarks_rule_5.3.2_Ensure_lockout_for_failed_password_attempts_is_configured
+# Change cookbook source for template from os-hardening to cis-rhel
+edit_resource!(:template, '/etc/pam.d/system-auth-ac') do
+  cookbook 'cis-rhel'
 end

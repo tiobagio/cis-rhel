@@ -35,6 +35,8 @@ describe 'cis-rhel::default' do
       # cis-rhel::kernel_modules
       stub_command('lsmod | grep dccp').and_return('')
       stub_command('lsmod | grep sctp').and_return('')
+      stub_command('lsmod | grep tipc').and_return('')
+      stub_command('lsmod | grep rds').and_return('')
       # cis-rhel::minimize_access
       stub_command('find /var/log -type f -ls').and_return('')
       # os-hardening::minimize_access

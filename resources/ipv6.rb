@@ -18,11 +18,6 @@
 #
 
 action :harden do
-  # Ensure IPv6 is enabled
-  sysctl_param 'net.ipv6.conf.all.disable_ipv6' do
-    value 0
-  end
-  # End IPv6 is enabled
   # Ensure IPv6 router advertisements are not accepted
   sysctl_param 'net.ipv6.conf.default.accept_ra' do
     value 0
@@ -30,7 +25,7 @@ action :harden do
   sysctl_param 'net.ipv6.conf.all.accept_ra' do
     value 0
   end
-  # End IPv6 router advertisements are not accepted
+
   # Ensure IPv6 redirects are not accepted
   sysctl_param 'net.ipv6.conf.all.accept_redirects' do
     value 0
@@ -38,14 +33,19 @@ action :harden do
   sysctl_param 'net.ipv6.conf.default.accept_redirects' do
     value 0
   end
-  # End IPv6 redirects are not accepted
 end
 
 action :disable do
-  include_recipe 'sysctl'
   # Ensure IPv6 is disabled
   sysctl_param 'net.ipv6.conf.all.disable_ipv6' do
     value 1
   end
-  # End of Ensure IPv6 is disabled
+
+  sysctl_param 'net.ipv6.conf.all.disable_ipv6' do
+    value 1
+  end
+
+  sysctl_param 'net.ipv6.conf.default.disable_ipv6' do
+    value 1
+  end
 end
