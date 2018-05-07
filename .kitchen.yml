@@ -15,16 +15,15 @@ verifier:
   name: inspec
   sudo: true
 #  Uncomment to create results as a JSON file
-#  format: json-min
-#  output: tmp/results-min.json
+  # format: json-min
+  # output: tmp/results-min.json
 
 # See .kitchen.aws.yml for RedHat Testing
 platforms:
-# TODO: Uncomment when CentOS7 is complete
-#- name: centos-6
-#  verifier:
-#    inspec_tests:
-#      - ../compliance-profiles/src/inspec/supported/cis-centos6-level1-v1.1.0-1
+- name: centos-6
+  verifier:
+   inspec_tests:
+     - test/integration/rhel6/inspec
 
 - name: centos-7
   verifier:
