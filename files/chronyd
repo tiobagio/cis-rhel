@@ -1,5 +1,6 @@
 #
 # Maintained by Chef
+# cookbook: cis-rhel
 #
 
 # Command line options for chronyd

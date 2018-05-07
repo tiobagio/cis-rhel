@@ -23,14 +23,10 @@ verifier:
   sudo: true
 
 platforms:
-# - name: rhel-6
-#   verifier:
-#     inspec_tests:
-#       - TODO: Add path to compliance profile
   - name: rhel-7
     driver_config:
       image_id: ami-223f945a # RHEL 7.4 (HVM)
-      instance_type: t2.micro
+      instance_type: t2.medium
     verifier:
       inspec_tests:
         - test/integration/aws/inspec # cis-rhel7-level1

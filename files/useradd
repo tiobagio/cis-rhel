@@ -1,5 +1,6 @@
 #
 # Maintained by Chef
+# cookbook: cis-rhel
 #
 GROUP=100
 HOME=/home

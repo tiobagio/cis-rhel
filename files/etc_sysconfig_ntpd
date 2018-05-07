@@ -1,5 +1,6 @@
 #
-# Maintained by Chef
+# Maintained by Chef cookbook
+# cookbook: cis-rhel
 #
 
 # Command line options for ntpd
