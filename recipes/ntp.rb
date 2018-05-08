@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+::Chef::Recipe.send(:include, CISRHELCookbook::Helpers)
+
 node.default['ntp']['restrict_default'] = 'kod nomodify notrap nopeer noquery'
 node.default['ntp']['servers'] = [
   '0.rhel.pool.ntp.org',
@@ -45,39 +47,41 @@ edit_resource!(:template, node['ntp']['conffile']) do
 end
 
 # xccdf_org.cisecurity.benchmarks_rule_2.2.1.3_Ensure_chrony_is_configured
-package 'chrony' do
-  action :install
-end
+unless rhel_6?
+  package 'chrony' do
+    action :install
+  end
 
-service 'chrony-daemon' do
-  service_name 'chronyd'
-  supports     restart: true, status: true, reload: true
-  action       [:enable, :start]
-end
+  service 'chrony-daemon' do
+    service_name 'chronyd'
+    supports     restart: true, status: true, reload: true
+    action       [:enable, :start]
+  end
 
-template '/etc/chrony.conf' do
-  source 'chrony.conf.erb'
-  mode   '0644'
-  owner  'root'
-  owner  'root'
-  action :create
-  notifies :restart, 'service[chrony-daemon]'
-end
+  template '/etc/chrony.conf' do
+    source 'chrony.conf.erb'
+    mode   '0644'
+    owner  'root'
+    owner  'root'
+    action :create
+    notifies :restart, 'service[chrony-daemon]'
+  end
 
-cookbook_file '/etc/sysconfig/chronyd' do
-  source 'chronyd'
-  owner  'root'
-  group  'root'
-  mode   '0644'
-  action :create
-  notifies :restart, 'service[chrony-daemon]'
-end
+  cookbook_file '/etc/sysconfig/chronyd' do
+    source 'chronyd'
+    owner  'root'
+    group  'root'
+    mode   '0644'
+    action :create
+    notifies :restart, 'service[chrony-daemon]'
+  end
 
-cookbook_file '/usr/lib/systemd/system/chronyd.service' do
-  source 'chronyd.service'
-  owner  'root'
-  group  'root'
-  mode   '0644'
-  action :create
-  notifies :restart, 'service[chrony-daemon]'
+  cookbook_file '/usr/lib/systemd/system/chronyd.service' do
+    source 'chronyd.service'
+    owner  'root'
+    group  'root'
+    mode   '0644'
+    action :create
+    notifies :restart, 'service[chrony-daemon]'
+  end
 end
