@@ -1,0 +1,4 @@
+name: profile-validation-tests
+depends:
+  - name: cis-rhel6-level1-server
+    path: ../compliance-profiles/src/inspec/supported/cis-rhel6-level1-server-v2.0.2

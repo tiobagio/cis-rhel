@@ -34,7 +34,7 @@ describe 'cis-rhel::pam' do
     end
 
     it 'renders the /etc/pam.d/password-auth file' do
-      expect(chef_run).to create_cookbook_file('/etc/pam.d/password-auth')
+      expect(chef_run).to create_template('/etc/pam.d/password-auth')
     end
   end
 end

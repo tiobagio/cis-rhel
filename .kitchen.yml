@@ -55,5 +55,3 @@ suites:
         ssh:
           server:
             cipher: 'aes128-ctr,aes192-ctr,aes256-ctr'
-      firewall:
-        allow_ssh: true

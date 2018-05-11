@@ -16,6 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# RHEL6 xccdf_org.cisecurity.benchmarks_rule_1.4.4_Ensure_interactive_boot_is_not_enabled
+node.default['os-hardening']['security']['init']['prompt'] = false if rhel_6?
+# RHEL6 xccdf_org.cisecurity.benchmarks_rule_1.4.3_Ensure_authentication_required_for_single_user_mode
+node.default['os-hardening']['security']['init']['single'] = true if rhel_6?
+
 include_recipe 'os-hardening::sysctl'
 
 # xccdf_org.cisecurity.benchmarks_rule_2.2.7_Ensure_NFS_and_RPC_are_not_enabled

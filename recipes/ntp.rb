@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-::Chef::Recipe.send(:include, CISRHELCookbook::Helpers)
-
 node.default['ntp']['restrict_default'] = 'kod nomodify notrap nopeer noquery'
 node.default['ntp']['servers'] = [
   '0.rhel.pool.ntp.org',

@@ -16,10 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-::Chef::Resource.send(:include, CISRHELCookbook::Helpers)
-
 node.default['firewall']['redhat7_iptables'] = true
 
+# TODO: Figure out why InSpec CIS RHEL 6 & 7 profiles fail even though the settings are correct
 # xccdf_org.cisecurity.benchmarks_rule_3.6.3_Ensure_loopback_traffic_is_configured
 node.default['firewall']['allow_loopback'] = true
 
@@ -32,37 +31,35 @@ firewall_rule 'ssh' do
 end
 
 # xccdf_org.cisecurity.benchmarks_rule_3.6.3_Ensure_loopback_traffic_is_configured
-[
-  '-A INPUT -i lo -j ACCEPT',
-  '-A OUTPUT -o lo -j ACCEPT',
-  '-A INPUT -s 127.0.0.0/8 -j DROP',
-].each do |rule|
-  firewall_rule 'INPUT lo ACCEPT' do
-    raw     raw_iptable4(rule)
-    only_if { linux? && node['firewall']['allow_loopback'] }
-  end
+firewall_rule '-A OUTPUT -o lo -j ACCEPT' do
+  protocol       :none
+  direction      :out
+  dest_interface 'lo'
+  command        :allow
+  only_if        { linux? && node['firewall']['allow_loopback'] }
+end
+
+firewall_rule '-A INPUT -s 127.0.0.0/8 -j DROP' do
+  protocol  :none
+  direction :in
+  source    '127.0.0.0/8'
+  command   :deny
+  only_if   { linux? && node['firewall']['allow_loopback'] }
 end
 
 # xccdf_org.cisecurity.benchmarks_rule_3.6.4_Ensure_outbound_and_established_connections_are_configured
-new_est_rules = [
-  '-A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT',
-  '-A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT',
-  '-A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT',
-  '-A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT',
-  '-A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT',
-  '-A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT',
-]
-
-new_est_ipv4_rules = Array.new(new_est_rules)
-new_est_ipv4_rules.each do |ipv4_rule|
-  firewall_rule 'IPv4 NEW and ESTABLISHED' do
-    raw raw_iptable4(ipv4_rule)
+%i(tcp udp icmp).each do |p|
+  firewall_rule "-A INPUT -p #{p} -m state --state NEW,ESTABLISHED -j ACCEPT" do
+    direction :in
+    protocol  p
+    stateful  [:related, :established]
+    command   :allow
   end
-end
 
-new_est_ipv6_rules = Array.new(new_est_rules)
-new_est_ipv6_rules.each do |ipv6_rule|
-  firewall_rule 'IPv6 NEW and ESTABLISHED' do
-    raw raw_iptable6(ipv6_rule)
+  firewall_rule "-A OUTPUT -p #{p} -m state --state NEW,ESTABLISHED -j ACCEPT" do
+    direction :out
+    protocol  p
+    stateful  [:related, :established]
+    command   :allow
   end
 end

@@ -12,13 +12,7 @@ module CISRHELCookbook
 
       false
     end
-
-    def raw_iptable4(rule)
-      rule.prepend('-4 ') unless rhel_6?
-    end
-
-    def raw_iptable6(rule)
-      rule.prepend('-6 ') unless rhel_6?
-    end
   end
 end
+
+::Chef::Recipe.send(:include, CISRHELCookbook::Helpers)
