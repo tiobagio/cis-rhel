@@ -18,14 +18,14 @@
 action :harden do
   ['/etc/default/useradd', '/etc/passwd', '/etc/passwd-', '/etc/pam.d/su', '/etc/bashrc', '/etc/group', '/etc/group-'].each do |systemfile|
     file systemfile do
-      mode 0644
+      mode '0644'
       owner 'root'
       group 'root'
     end
   end
   ['/etc/gshadow-', '/etc/shadow', '/etc/gshadow', '/etc/shadow-'].each do |systemfile|
     file systemfile do
-      mode 0000
+      mode '0000'
       owner 'root'
       group 'root'
     end

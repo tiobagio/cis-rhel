@@ -22,7 +22,7 @@ include_recipe 'os-hardening::minimize_access'
 execute '4-2-4-log-permissions' do
   command 'find /var/log -type f -exec chmod g-wx,o-rwx {} +'
   user    'root'
-  only_if { 'find /var/log -type f -ls' }
+  only_if 'find /var/log -type f -ls'
   action  :run
 end
 
