@@ -48,4 +48,14 @@ action :disable do
   sysctl_param 'net.ipv6.conf.default.disable_ipv6' do
     value 1
   end
+
+  if node['platform_version'].to_i == 6
+    cookbook_file '/etc/modprobe.d/ipv6.conf' do
+      source 'ipv6.conf'
+      mode   '0600'
+      owner  'root'
+      group  'root'
+      action :create
+    end
+  end
 end
