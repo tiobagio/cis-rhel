@@ -23,3 +23,8 @@ yum_package 'xorg-x11*' do
   flush_cache :after
   action      :remove
 end
+
+# xccdf_org.cisecurity.benchmarks_rule_1.2.5_Disable_the_rhnsd_Daemon
+service 'rhnsd' do
+  action [:disable, :stop]
+end
