@@ -4,7 +4,7 @@ maintainer_email 'cookbooks@chef.io'
 license          'Proprietary - All Rights Reserved'
 description      'Installs/Configures cis-rhel'
 long_description 'Installs/Configures cis-rhel'
-version          '0.2.0'
+version          '0.2.3'
 chef_version     '>= 13.1' if respond_to?(:chef_version)
 
 source_url 'https://github.com/chef/cis-rhel'
