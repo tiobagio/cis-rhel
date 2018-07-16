@@ -4,7 +4,7 @@ maintainer_email 'cookbooks@chef.io'
 license          'Proprietary - All Rights Reserved'
 description      'Installs/Configures cis-rhel'
 long_description 'Installs/Configures cis-rhel'
-version          '0.2.5'
+version          '0.2.6'
 chef_version     '>= 13.1' if respond_to?(:chef_version)
 
 source_url 'https://github.com/chef/cis-rhel'
@@ -14,7 +14,7 @@ supports 'redhat', '>= 6.7'
 supports 'centos', '>= 6.7'
 
 depends 'aide', '~> 0.2'
-depends 'auditd', '~> 2.3.0'
+depends 'auditd', '~> 2.3.1'
 depends 'cron', '~> 5.1'
 depends 'firewall', '~> 2.6'
 depends 'ntp', '~> 3.5'
