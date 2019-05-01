@@ -55,20 +55,25 @@ describe 'cis-rhel::default' do
     %w(
       cis-rhel::aide
       cis-rhel::at
+      cis-rhel::auditd
       cis-rhel::core_dumps
       cis-rhel::cron
-      cis-rhel::firewalld
       cis-rhel::grub
+      cis-rhel::firewalld
       cis-rhel::kernel_modules
       cis-rhel::login_banners
       cis-rhel::login_defs
       cis-rhel::network_packet_remediation
+      cis-rhel::ntp
       cis-rhel::pam
       cis-rhel::partitions
+      cis-rhel::rsyslog
+      cis-rhel::packages_services
       cis-rhel::ssh
       cis-rhel::sysctl
       cis-rhel::syslog-ng
       cis-rhel::useradd
+      cis-rhel::minimize_access
     ).each do |recipe|
       it "includes #{recipe} recipe" do
         expect(chef_run).to include_recipe recipe

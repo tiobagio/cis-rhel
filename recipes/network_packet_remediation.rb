@@ -51,14 +51,28 @@ sysctl_param 'net.ipv4.conf.default.secure_redirects' do
   value 0
 end
 
-# xccdf_org.cisecurity.benchmarks_rule_3.3.3_Ensure_IPv6_is_disabled
-cis_rhel_ipv6 'harden_ipv6' do
-  action :harden
+# If IPV6 is disabled in grub we cannot manage the IPV6 settings
+# rubocop:disable Style/NumericPredicate
+if ::File.exist?('/etc/default/grub')
+  if File.readlines('/etc/default/grub').grep(/ipv6.disable=1/).size.zero?
+    # xccdf_org.cisecurity.benchmarks_rule_3.3.3_Ensure_IPv6_is_disabled
+    cis_rhel_ipv6 'harden_ipv6' do
+      action :harden
+    end
+    cis_rhel_ipv6 'disable_ipv6' do
+      action :disable
+    end
+  end
+else
+  # xccdf_org.cisecurity.benchmarks_rule_3.3.3_Ensure_IPv6_is_disabled
+  cis_rhel_ipv6 'harden_ipv6' do
+    action :harden
+  end
+  cis_rhel_ipv6 'disable_ipv6' do
+    action :disable
+  end
 end
-
-cis_rhel_ipv6 'disable_ipv6' do
-  action :disable
-end
+# rubocop:enable Style/NumericPredicate
 
 # xccdf_org.cisecurity.benchmarks_rule_3.4.1_Ensure_TCP_Wrappers_is_installed
 package 'tcp_wrappers' do

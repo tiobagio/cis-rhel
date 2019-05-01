@@ -12,6 +12,14 @@ module CISRHELCookbook
 
       false
     end
+
+    def rhel_7?
+      if platform_family?('rhel') && node['platform_version'].to_i == 7
+        return true
+      end
+
+      false
+    end
   end
 end
 

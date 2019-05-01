@@ -16,7 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# xccdf_org.cisecurity.benchmarks_rule_5.4.1.1_Ensure_password_expiration_is_90_days_or_less
-node.default['os-hardening']['auth']['pw_max_age'] = 90
-
+if rhel_6?
+  # xccdf_org.cisecurity.benchmarks_rule_5.4.1.1_Ensure_password_expiration_is_90_days_or_less
+  node.default['os-hardening']['auth']['pw_max_age'] = 90
+elsif rhel_7?
+  # xccdf_org.cisecurity.benchmarks_rule_5.4.1.1_Ensure_password_expiration_is_365_days_or_less
+  node.default['os-hardening']['auth']['pw_max_age'] = 365
+end
 include_recipe 'os-hardening::login_defs'

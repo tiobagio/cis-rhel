@@ -19,13 +19,39 @@
 # xccdf_org.cisecurity.benchmarks_rule_1.4.1_Ensure_permissions_on_bootloader_config_are_configured
 # xccdf_org.cisecurity.benchmarks_rule_1.5.1_Set_UserGroup_Owner_on_bootgrub2grub.cfg
 # xccdf_org.cisecurity.benchmarks_rule_1.5.2_Set_Permissions_on_bootgrub2grub.cfg
-if node['platform_version'].to_f >= 7
+if node['platform_version'].to_i >= 7
   package 'grub2' do
     action :install
   end
 
   # ensure correct permissions
   file '/boot/grub2/grub.cfg' do
+    mode   '0600'
+    owner  'root'
+    group  'root'
+    action :create
+  end
+
+  file '/boot/grub2/user.cfg' do
+    mode   '0600'
+    owner  'root'
+    group  'root'
+    action :create
+  end
+
+  replace_or_add 'insert line if it does not exist' do
+    path    '/etc/default/grub'
+    pattern 'GRUB_CMDLINE_LINUX="ipv6.disable=1 audit=1"'
+    line    'GRUB_CMDLINE_LINUX="ipv6.disable=1 audit=1"'
+    replace_only false
+  end
+
+  execute 'update grub' do
+    command 'grub2-mkconfig -o /boot/grub2/grub.cfg'
+    action :run
+  end
+elsif node['platform_version'].to_i == 6
+  file '/boot/grub/grub.cfg' do
     mode   '0600'
     owner  'root'
     group  'root'

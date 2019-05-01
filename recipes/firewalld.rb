@@ -18,9 +18,20 @@
 
 node.default['firewall']['redhat7_iptables'] = true
 
-# TODO: Figure out why InSpec CIS RHEL 6 & 7 profiles fail even though the settings are correct
+# TODO: Figure out a way to fix control 3.6.2
 # xccdf_org.cisecurity.benchmarks_rule_3.6.3_Ensure_loopback_traffic_is_configured
 node.default['firewall']['allow_loopback'] = true
+
+# If IPV6 is disabled in grub we cannot manage the IPV6 settings
+# rubocop:disable Style/NumericPredicate
+if ::File.exist?('/etc/default/grub')
+  unless File.readlines('/etc/default/grub').grep(/ipv6.disable=1/).size.zero?
+    node.default['firewall']['ipv6_enabled'] = false
+  end
+else
+  node.default['firewall']['ipv6_enabled'] = false
+end
+# rubocop:enable Style/NumericPredicate
 
 include_recipe 'firewall::default'
 
@@ -31,12 +42,21 @@ firewall_rule 'ssh' do
 end
 
 # xccdf_org.cisecurity.benchmarks_rule_3.6.3_Ensure_loopback_traffic_is_configured
+firewall_rule 'allow loopback' do
+  interface 'lo'
+  protocol :none
+  command :allow
+  include_comment false
+  only_if { node['firewall']['allow_loopback'] }
+end
+
 firewall_rule '-A OUTPUT -o lo -j ACCEPT' do
   protocol       :none
   direction      :out
   dest_interface 'lo'
   command        :allow
-  only_if        { linux? && node['firewall']['allow_loopback'] }
+  include_comment false
+  only_if { node['firewall']['allow_loopback'] }
 end
 
 firewall_rule '-A INPUT -s 127.0.0.0/8 -j DROP' do
@@ -44,7 +64,8 @@ firewall_rule '-A INPUT -s 127.0.0.0/8 -j DROP' do
   direction :in
   source    '127.0.0.0/8'
   command   :deny
-  only_if   { linux? && node['firewall']['allow_loopback'] }
+  include_comment false
+  only_if { node['firewall']['allow_loopback'] }
 end
 
 # xccdf_org.cisecurity.benchmarks_rule_3.6.4_Ensure_outbound_and_established_connections_are_configured

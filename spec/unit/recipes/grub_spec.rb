@@ -36,5 +36,12 @@ describe 'cis-rhel::grub' do
         group: 'root'
       )
     end
+    it 'sets correct file permissions for /boot/grub2/user.cfg' do
+      expect(chef_run).to create_file('/boot/grub2/user.cfg').with(
+        mode:  '0600',
+        owner: 'root',
+        group: 'root'
+      )
+    end
   end
 end
