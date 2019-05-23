@@ -41,6 +41,14 @@ end
     not_if  { find_resource!(:template, "/etc/#{file}") rescue false }
     action :run
   end
+  next unless node['platform_version'].to_i >= 7
+  # xccdf_org.cisecurity.benchmarks_rule_5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
+  replace_or_add "ensure user shell timeout is set to #{node['shell']['tmout']}" do
+    path    "/etc/#{file}"
+    pattern 'TMOUT=*'
+    line    "TMOUT=#{node['shell']['tmout']}"
+    ignore_missing false
+  end
 end
 # rubocop:enable Style/RescueModifier
 
