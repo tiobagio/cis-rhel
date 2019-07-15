@@ -29,9 +29,9 @@ describe 'cis-rhel::login_banners' do
       it "creates #{loginfile} file with attributes" do
         expect(chef_run).to create_file(loginfile).with(
           content: 'This system is managed by Chef.',
-          mode:    '0644',
-          owner:   'root',
-          group:   'root'
+          mode: '0644',
+          owner: 'root',
+          group: 'root'
         )
       end
     end

@@ -17,12 +17,17 @@
 # limitations under the License.
 
 # CIS-RHEL7 v2.2.0 - 1.3.1_Ensure_AIDE_is_installed: Ensure AIDE is installed
-# xccdf_org.cisecurity.benchmarks_rule_1.3.2_Ensure_filesystem_integrity_is_regularly_checked:
-include_recipe 'aide::default'
+# xccdf_org.cisecurity.benchmarks_rule_1.3.2_Ensure_filesystem_integrity_is_regularly_checked
+package 'aide' do
+  action :install
+end
 
 # xccdf_org.cisecurity.benchmarks_rule_1.3.2_Ensure_filesystem_integrity_is_regularly_checked
 # Modify cron creation in aide cookbook
-edit_resource!(:cron_d, 'aide') do
-  minute  '5'
+cron_d 'aide' do
+  action :create
+  minute '5'
+  user 'root'
   command '/usr/sbin/aide --check'
+  mailto node['cis-rhel']['cron_mailto'] if node['cis-rhel']['cron_mailto']
 end

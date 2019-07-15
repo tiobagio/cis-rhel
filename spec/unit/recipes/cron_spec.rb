@@ -31,11 +31,10 @@ describe 'cis-rhel::cron' do
 
     ['/etc/cron.d', '/etc/cron.monthly', '/etc/cron.weekly',
      '/etc/cron.daily', '/etc/cron.hourly'].each do |crondir|
-
       it "creates #{crondir} directory with attributes" do
         expect(chef_run).to create_directory(crondir).with(
-          mode:  '0600',
-          user:  'root',
+          mode: '0600',
+          user: 'root',
           group: 'root'
         )
       end
@@ -44,8 +43,8 @@ describe 'cis-rhel::cron' do
     ['/etc/crontab', '/etc/anacrontab'].each do |cronfile|
       it "creates #{cronfile} file with attributes" do
         expect(chef_run).to create_file(cronfile).with(
-          mode:  '0600',
-          user:  'root',
+          mode: '0600',
+          user: 'root',
           group: 'root'
         )
       end
@@ -57,8 +56,8 @@ describe 'cis-rhel::cron' do
 
     it 'creates /etc/cron.allow file' do
       expect(chef_run).to create_file('/etc/cron.allow').with(
-        mode:  '0600',
-        user:  'root',
+        mode: '0600',
+        user: 'root',
         group: 'root'
       )
     end

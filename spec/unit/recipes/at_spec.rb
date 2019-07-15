@@ -31,8 +31,8 @@ describe 'cis-rhel::at' do
 
     it 'creates /etc/at.allow file' do
       expect(chef_run).to create_file('/etc/at.allow').with(
-        mode:  '0700',
-        user:  'root',
+        mode: '0700',
+        user: 'root',
         group: 'root'
       )
     end

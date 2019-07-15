@@ -19,14 +19,35 @@
 require 'spec_helper'
 
 describe 'cis-rhel::aide' do
-  context 'When all attributes are default, on an CentOS 7' do
+  context 'When all attributes are default, on RHEL 7' do
     cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
+      runner = ChefSpec::ServerRunner.new(platform: 'redhat', version: '7.6')
       runner.converge(described_recipe)
     end
 
-    it 'includes the aide::default recipe' do
-      expect(chef_run).to include_recipe 'aide::default'
+    it 'installs package' do
+      expect(chef_run).to install_package('aide')
+    end
+
+    it 'creates cron' do
+      expect(chef_run).to create_cron_d('aide')
+    end
+  end
+end
+
+describe 'cis-rhel::aide' do
+  context 'When all attributes are default, on RHEL 6' do
+    cached(:chef_run) do
+      runner = ChefSpec::ServerRunner.new(platform: 'redhat', version: '6.10')
+      runner.converge(described_recipe)
+    end
+
+    it 'installs package' do
+      expect(chef_run).to install_package('aide')
+    end
+
+    it 'creates cron' do
+      expect(chef_run).to create_cron_d('aide')
     end
   end
 end

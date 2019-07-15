@@ -27,18 +27,18 @@ describe 'cis-rhel::partitions' do
 
     it 'enables /tmp mount with attributes' do
       expect(chef_run).to enable_mount('/tmp').with(
-        pass:    0,
-        fstype:  'tmpfs',
-        device:  'tmpfs',
+        pass: 0,
+        fstype: 'tmpfs',
+        device: 'tmpfs',
         options: %w(nodev nosuid noexec)
       )
     end
 
     it 'mounts a /tmp with attributes' do
       expect(chef_run).to mount_mount('/tmp').with(
-        pass:    0,
-        fstype:  'tmpfs',
-        device:  'tmpfs',
+        pass: 0,
+        fstype: 'tmpfs',
+        device: 'tmpfs',
         options: %w(nodev nosuid noexec)
       )
     end

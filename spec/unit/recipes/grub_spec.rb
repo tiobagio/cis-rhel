@@ -31,14 +31,14 @@ describe 'cis-rhel::grub' do
 
     it 'sets correct file permissions for /boot/grub2/grub.cfg' do
       expect(chef_run).to create_file('/boot/grub2/grub.cfg').with(
-        mode:  '0600',
+        mode: '0600',
         owner: 'root',
         group: 'root'
       )
     end
     it 'sets correct file permissions for /boot/grub2/user.cfg' do
       expect(chef_run).to create_file('/boot/grub2/user.cfg').with(
-        mode:  '0600',
+        mode: '0600',
         owner: 'root',
         group: 'root'
       )
