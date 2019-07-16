@@ -43,10 +43,10 @@ end
   end
   next unless node['platform_version'].to_i >= 7
   # xccdf_org.cisecurity.benchmarks_rule_5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
-  replace_or_add "ensure user shell timeout is set to #{node['shell']['tmout']}" do
+  replace_or_add "ensure user shell timeout is set to #{node['cis-rhel']['shell']['tmout']}" do
     path    "/etc/#{file}"
     pattern 'TMOUT=*'
-    line    "TMOUT=#{node['shell']['tmout']}"
+    line    "TMOUT=#{node['cis-rhel']['shell']['tmout']}"
     ignore_missing false
   end
 end

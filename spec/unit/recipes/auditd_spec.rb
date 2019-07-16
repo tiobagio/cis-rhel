@@ -19,19 +19,41 @@
 require 'spec_helper'
 
 describe 'cis-rhel::auditd' do
-  context 'When all attributes are default, on an CentOS 7' do
-    cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
-      runner.converge(described_recipe)
-    end
-    let(:node) { chef_run.node }
+  context 'When all attributes are default, on an RHEL 7' do
+    platform 'redhat', '7'
 
-    it 'sets the node attribute for the CIS audit rules' do
-      expect(node['auditd']['ruleset']).to eq('cis')
+    it 'renders the /etc/audit/rules.d/cis.rules file' do
+      expect(chef_run).to render_file('/etc/audit/rules.d/cis.rules')
     end
 
-    it 'includes the auditd::rules recipe' do
-      expect(chef_run).to include_recipe 'auditd::rules'
+    it 'template /etc/audit/rules.d/cis.rules notifies auditd service restart' do
+      template = chef_run.template('/etc/audit/rules.d/cis.rules')
+      expect(template).to notify('service[auditd]').to(:restart).immediately
+    end
+
+    it 'template /etc/audit/auditd.conf notifies auditd service reload' do
+      template = chef_run.template('/etc/audit/auditd.conf')
+      expect(template).to notify('service[auditd]').to(:reload).immediately
+    end
+  end
+end
+
+describe 'cis-rhel::auditd' do
+  context 'When all attributes are default, on an RHEL 6' do
+    platform 'redhat', '6'
+
+    it 'renders the /etc/audit/rules.d/cis.rules file' do
+      expect(chef_run).to render_file('/etc/audit/rules.d/cis.rules')
+    end
+
+    it 'template /etc/audit/rules.d/cis.rules notifies auditd service restart' do
+      template = chef_run.template('/etc/audit/rules.d/cis.rules')
+      expect(template).to notify('service[auditd]').to(:restart).immediately
+    end
+
+    it 'template /etc/audit/auditd.conf notifies auditd service reload' do
+      template = chef_run.template('/etc/audit/auditd.conf')
+      expect(template).to notify('service[auditd]').to(:reload).immediately
     end
   end
 end
