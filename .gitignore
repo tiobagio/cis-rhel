@@ -50,3 +50,6 @@ Cheffile.lock
 .vagrant/
 .vagrant.d/
 .kitchen/
+
+# habitat stuff
+results/
