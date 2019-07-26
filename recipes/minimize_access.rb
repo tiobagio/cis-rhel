@@ -26,21 +26,7 @@ execute '4-2-4-log-permissions' do
   action  :run
 end
 
-# xccdf_org.cisecurity.benchmarks_rule_5.4.4_Ensure_default_user_umask_is_027_or_more_restrictive
-# rubocop:disable Style/RescueModifier
 %w(bashrc profile).each do |file|
-  ruby_block 'ensure default user umask is 027' do
-    block do
-      fe = Chef::Util::FileEdit.new("/etc/#{file}")
-      fe.search_file_replace_line(/(umask )\d{1,3}/, 'umask 027')
-      fe.write_file
-    end
-
-    only_if { ::File.exist?("/etc/#{file}") }
-    not_if  { find_resource!(:file, "/etc/#{file}") rescue false }
-    not_if  { find_resource!(:template, "/etc/#{file}") rescue false }
-    action :run
-  end
   next unless node['platform_version'].to_i >= 7
   # xccdf_org.cisecurity.benchmarks_rule_5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
   replace_or_add "ensure user shell timeout is set to #{node['cis-rhel']['shell']['tmout']}" do
@@ -50,7 +36,6 @@ end
     ignore_missing false
   end
 end
-# rubocop:enable Style/RescueModifier
 
 # xccdf_org.cisecurity.benchmarks_rule_6.1.13_Audit_SUID_executables
 include_recipe 'os-hardening::suid_sgid'

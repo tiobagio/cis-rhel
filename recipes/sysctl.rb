@@ -21,7 +21,34 @@ node.default['os-hardening']['security']['init']['prompt'] = false if rhel_6?
 # RHEL6 xccdf_org.cisecurity.benchmarks_rule_1.4.3_Ensure_authentication_required_for_single_user_mode
 node.default['os-hardening']['security']['init']['single'] = true if rhel_6?
 
-include_recipe 'os-hardening::sysctl'
+# xccdf_org.cisecurity.benchmarks_rule_5.4.4_Ensure_default_user_umask_is_027_or_more_restrictive
+template '/etc/sysconfig/init' do
+  source 'sysconfig_init.erb'
+  action :create
+  mode '0544'
+  owner 'root'
+  group 'root'
+  variables umask: node['cis-rhel']['init']['daemon_umask']
+  only_if { !node['cis-rhel']['init']['daemon_umask'].nil? }
+end
+
+# xccdf_org.cisecurity.benchmarks_rule_1.5.1_Ensure_core_dumps_are_restricted
+# xccdf_org.cisecurity.benchmarks_rule_1.5.3_Ensure_address_space_layout_randomization_ASLR_is_enabled
+# xccdf_org.cisecurity.benchmarks_rule_3.1.1_Ensure_IP_forwarding_is_disabled
+# xccdf_org.cisecurity.benchmarks_rule_3.1.2_Ensure_packet_redirect_sending_is_disabled
+# xccdf_org.cisecurity.benchmarks_rule_3.2.1_Ensure_source_routed_packets_are_not_accepted
+# xccdf_org.cisecurity.benchmarks_rule_3.2.5_Ensure_broadcast_ICMP_requests_are_ignored
+# xccdf_org.cisecurity.benchmarks_rule_3.2.6_Ensure_bogus_ICMP_responses_are_ignored
+# xccdf_org.cisecurity.benchmarks_rule_3.2.7_Ensure_Reverse_Path_Filtering_is_enabled
+# xccdf_org.cisecurity.benchmarks_rule_3.2.8_Ensure_TCP_SYN_Cookies_is_enabled
+if node.attribute?('sysctl') && node['sysctl'].attribute?('params')
+  coerce_attributes(node['sysctl']['params']).each do |x|
+    k, v = x.split('=')
+    sysctl k do
+      value v
+    end
+  end
+end
 
 # xccdf_org.cisecurity.benchmarks_rule_2.2.7_Ensure_NFS_and_RPC_are_not_enabled
 %w(

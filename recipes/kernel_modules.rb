@@ -16,58 +16,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# 3.5.1 Ensure DCCP is disabled
-cookbook_file '/etc/modprobe.d/dccp.conf' do
-  source 'dccp.conf'
-  owner  'root'
-  group  'root'
-  mode   '0600'
-  action :create
+# xccdf_org.cisecurity.benchmarks_rule_1.1.1.1_Ensure_mounting_of_cramfs_filesystems_is_disabled
+# xccdf_org.cisecurity.benchmarks_rule_1.1.1.2_Ensure_mounting_of_freevxfs_filesystems_is_disabled
+# xccdf_org.cisecurity.benchmarks_rule_1.1.1.3_Ensure_mounting_of_jffs2_filesystems_is_disabled
+# xccdf_org.cisecurity.benchmarks_rule_1.1.1.4_Ensure_mounting_of_hfs_filesystems_is_disabled
+# xccdf_org.cisecurity.benchmarks_rule_1.1.1.5_Ensure_mounting_of_hfsplus_filesystems_is_disabled
+# xccdf_org.cisecurity.benchmarks_rule_1.1.1.6_Ensure_mounting_of_squashfs_filesystems_is_disabled
+# xccdf_org.cisecurity.benchmarks_rule_1.1.1.7_Ensure_mounting_of_udf_filesystems_is_disabled
+# xccdf_org.cisecurity.benchmarks_rule_1.1.1.8_Ensure_mounting_of_FAT_filesystems_is_disabled
+if node['cis-rhel']['kernel']['disable_filesystems'].empty?
+  file '/etc/modprobe.d/CIS-filesystems.conf' do
+    action :delete
+  end
+else
+  template '/etc/modprobe.d/CIS-filesystem.conf' do
+    source 'filesystem_blacklisting.erb'
+    mode '0440'
+    owner 'root'
+    group 'root'
+    variables filesystems: node['os-hardening']['security']['kernel']['disable_filesystems']
+  end
+
+  node['os-hardening']['security']['kernel']['disable_filesystems'].each do |file_system|
+    kernel_module file_system do
+      modname file_system
+      action  :unload
+    end
+  end
 end
 
-execute 'disable_dccp' do
-  command '/sbin/modprobe -r dccp'
-  only_if 'lsmod | grep dccp'
-end
-
-# 3.5.2 Ensure SCTP is disabled
-cookbook_file '/etc/modprobe.d/sctp.conf' do
-  source 'sctp.conf'
-  owner  'root'
-  group  'root'
-  mode   '0600'
-  action :create
-end
-
-execute 'disable_sctp' do
-  command '/sbin/modprobe -r sctp'
-  only_if 'lsmod | grep sctp'
-end
-
+# xccdf_org.cisecurity.benchmarks_rule_3.5.1 Ensure DCCP is disabled
+# xccdf_org.cisecurity.benchmarks_rule_3.5.2 Ensure SCTP is disabled
 # xccdf_org.cisecurity.benchmarks_rule_3.5.4_Ensure_TIPC_is_disabled
-cookbook_file '/etc/modprobe.d/tipc.conf' do
-  source 'tipc.conf'
-  owner  'root'
-  group  'root'
-  mode   '0600'
-  action :create
-end
-
-execute 'disable_tipc' do
-  command '/sbin/modprobe -r tipc'
-  only_if 'lsmod | grep tipc'
-end
-
 # xccdf_org.cisecurity.benchmarks_rule_3.5.3_Ensure_RDS_is_disabled
-cookbook_file '/etc/modprobe.d/rds.conf' do
-  source 'rds.conf'
-  owner  'root'
-  group  'root'
-  mode   '0600'
-  action :create
-end
+if node['cis-rhel']['kernel']['disable_network_protocols'].empty?
+  file '/etc/modprobe.d/CIS-network-protocols.conf' do
+    action :delete
+  end
+else
+  template '/etc/modprobe.d/CIS-network-protocols.conf' do
+    source 'network_protocols_blacklisting.erb'
+    mode '0440'
+    owner 'root'
+    group 'root'
+    variables network_protocols: node['cis-rhel']['kernel']['disable_network_protocols']
+  end
 
-execute 'disable_rds' do
-  command '/sbin/modprobe -r rds'
-  only_if 'lsmod | grep rds'
+  node['cis-rhel']['kernel']['disable_network_protocols'].each do |file_system|
+    kernel_module file_system do
+      modname file_system
+      action  :unload
+    end
+  end
 end

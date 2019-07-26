@@ -21,6 +21,23 @@ module CISRHELCookbook
       false
     end
   end
+
+  module SysctlHelpers
+    module Param
+      def coerce_attributes(attr, out = nil)
+        case attr
+        when Array
+          "#{out}=#{attr.join(' ')}"
+        when String, Integer
+          "#{out}=#{attr}"
+        when Hash
+          out += '.' unless out.nil?
+          attr.map { |k, v| coerce_attributes(v, "#{out}#{k}") }.flatten.sort
+        end
+      end
+    end
+  end
 end
 
 ::Chef::Recipe.send(:include, CISRHELCookbook::Helpers)
+::Chef::Recipe.send(:include, CISRHELCookbook::SysctlHelpers::Param)

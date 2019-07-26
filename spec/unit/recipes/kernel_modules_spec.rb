@@ -19,26 +19,29 @@
 require 'spec_helper'
 
 describe 'cis-rhel::kernel_modules' do
-  context 'When all attributes are default, on CentOS 7' do
-    cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
-      runner.converge(described_recipe)
+  context 'When all attributes are default, on an RHEL 7' do
+    platform 'redhat', '7'
+
+    it 'renders the /etc/modprobe.d/CIS-filesystem.conf file' do
+      expect(chef_run).to render_file('/etc/modprobe.d/CIS-filesystem.conf')
     end
 
-    before(:each) do
-      # mocked results for kernel modules
-      stub_command('lsmod | grep dccp').and_return('dccp')
-      stub_command('lsmod | grep sctp').and_return('sctp')
-      stub_command('lsmod | grep tipc').and_return('tipc')
-      stub_command('lsmod | grep rds').and_return('rds')
+    it 'renders the /etc/modprobe.d/CIS-network-protocols.conf file' do
+      expect(chef_run).to render_file('/etc/modprobe.d/CIS-network-protocols.conf')
+    end
+  end
+end
+
+describe 'cis-rhel::kernel_modules' do
+  context 'When all attributes are default, on an RHEL 6' do
+    platform 'redhat', '6'
+
+    it 'renders the /etc/modprobe.d/CIS-filesystem.conf file' do
+      expect(chef_run).to render_file('/etc/modprobe.d/CIS-filesystem.conf')
     end
 
-    it 'renders the /etc/modprobe.d/dccp.conf file' do
-      expect(chef_run).to create_cookbook_file('/etc/modprobe.d/dccp.conf')
-    end
-
-    it 'disables dccp kernel module if currently enabled' do
-      expect(chef_run).to run_execute('disable_dccp')
+    it 'renders the /etc/modprobe.d/CIS-network-protocols.conf file' do
+      expect(chef_run).to render_file('/etc/modprobe.d/CIS-network-protocols.conf')
     end
   end
 end
