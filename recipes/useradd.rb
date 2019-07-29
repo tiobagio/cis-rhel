@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-# xccdf_org.cisecurity.benchmarks_rule_5.4.1.4_Ensure_inactive_password_lock_is_30_days_or_less
+# 5.4.1.4_Ensure_inactive_password_lock_is_30_days_or_less
 cookbook_file '/etc/default/useradd' do
   source 'useradd'
   owner  'root'

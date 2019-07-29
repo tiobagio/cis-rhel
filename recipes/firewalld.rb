@@ -19,7 +19,7 @@
 node.default['firewall']['redhat7_iptables'] = true
 
 # TODO: Figure out a way to fix control 3.6.2
-# xccdf_org.cisecurity.benchmarks_rule_3.6.3_Ensure_loopback_traffic_is_configured
+# 3.6.3_Ensure_loopback_traffic_is_configured
 node.default['firewall']['allow_loopback'] = true
 
 # If IPV6 is disabled in grub we cannot manage the IPV6 settings
@@ -41,7 +41,7 @@ firewall_rule 'ssh' do
   command  :allow
 end
 
-# xccdf_org.cisecurity.benchmarks_rule_3.6.3_Ensure_loopback_traffic_is_configured
+# 3.6.3_Ensure_loopback_traffic_is_configured
 firewall_rule 'allow loopback' do
   interface 'lo'
   protocol :none
@@ -68,7 +68,7 @@ firewall_rule '-A INPUT -s 127.0.0.0/8 -j DROP' do
   only_if { node['firewall']['allow_loopback'] }
 end
 
-# xccdf_org.cisecurity.benchmarks_rule_3.6.4_Ensure_outbound_and_established_connections_are_configured
+# 3.6.4_Ensure_outbound_and_established_connections_are_configured
 %i(tcp udp icmp).each do |p|
   firewall_rule "-A INPUT -p #{p} -m state --state NEW,ESTABLISHED -j ACCEPT" do
     direction :in

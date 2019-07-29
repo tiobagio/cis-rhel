@@ -22,6 +22,7 @@ package 'audit' do
   action :install
 end
 
+# 4.1.2_Ensure_auditd_service_is_enabled
 service 'auditd' do
   if platform_family?('rhel') && node['init_package'] == 'systemd' && node['platform_version'] < '7'
     reload_command '/usr/libexec/initscripts/legacy-actions/auditd/reload'
@@ -35,6 +36,9 @@ service 'auditd' do
   action :enable
 end
 
+auditd_rules_cookbook = node['auditd_rules_template_path'] || 'cis-rhel'
+auditd_cookbook = node['auditd_template_path'] || 'cis-rhel'
+
 # Dynamically generate list of privileged programs and add to audit.rules
 auditd_rules = Mixlib::ShellOut.new("find / -xdev \\( -perm -4000 -o -perm -2000 \\) -type f | awk '\{print \"-a always,exit -F path=\" $1 \" -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged\"\}'").run_command.stdout.split("\n")
 template '/etc/audit/rules.d/cis.rules' do
@@ -42,12 +46,12 @@ template '/etc/audit/rules.d/cis.rules' do
     'priveleged_programs': auditd_rules
   )
   source 'auditd.rules.erb'
-  cookbook node['cis-rhel']['template_path']
+  cookbook auditd_rules_cookbook
   notifies :restart, 'service[auditd]', :immediately
 end
 
 template '/etc/audit/auditd.conf' do
   source 'auditd.conf.erb'
-  cookbook node['cis-rhel']['template_path']
+  cookbook auditd_cookbook
   notifies :reload, 'service[auditd]', :immediately
 end

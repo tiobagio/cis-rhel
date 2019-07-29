@@ -55,7 +55,7 @@ end
 # rubocop:disable Style/NumericPredicate
 if ::File.exist?('/etc/default/grub')
   if File.readlines('/etc/default/grub').grep(/ipv6.disable=1/).size.zero?
-    # xccdf_org.cisecurity.benchmarks_rule_3.3.3_Ensure_IPv6_is_disabled
+    # 3.3.3_Ensure_IPv6_is_disabled
     cis_rhel_ipv6 'harden_ipv6' do
       action :harden
     end
@@ -64,7 +64,7 @@ if ::File.exist?('/etc/default/grub')
     end
   end
 else
-  # xccdf_org.cisecurity.benchmarks_rule_3.3.3_Ensure_IPv6_is_disabled
+  # 3.3.3_Ensure_IPv6_is_disabled
   cis_rhel_ipv6 'harden_ipv6' do
     action :harden
   end
@@ -74,7 +74,7 @@ else
 end
 # rubocop:enable Style/NumericPredicate
 
-# xccdf_org.cisecurity.benchmarks_rule_3.4.1_Ensure_TCP_Wrappers_is_installed
+# 3.4.1_Ensure_TCP_Wrappers_is_installed
 package 'tcp_wrappers' do
   action :install
 end

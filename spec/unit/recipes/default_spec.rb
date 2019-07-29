@@ -56,7 +56,6 @@ describe 'cis-rhel::default' do
       cis-rhel::aide
       cis-rhel::at
       cis-rhel::auditd
-      cis-rhel::core_dumps
       cis-rhel::cron
       cis-rhel::grub
       cis-rhel::firewalld

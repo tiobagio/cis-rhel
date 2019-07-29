@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# xccdf_org.cisecurity.benchmarks_rule_1.4.1_Ensure_permissions_on_bootloader_config_are_configured
+# 1.4.1_Ensure_permissions_on_bootloader_config_are_configured
 if node['platform_version'].to_i >= 7
   package 'grub2' do
     action :install
@@ -37,7 +37,7 @@ if node['platform_version'].to_i >= 7
     action :create
   end
 
-  # xccdf_org.cisecurity.benchmarks_rule_1.4.2_Ensure_bootloader_password_is_set
+  # 1.4.2_Ensure_bootloader_password_is_set
   execute 'set bootloader password' do
     command "yes #{node['cis-rhel']['bootloader']['password']} | sudo script -q -c 'grub2-setpassword'"
     user    'root'
@@ -46,8 +46,8 @@ if node['platform_version'].to_i >= 7
     action  :run
   end
 
-  # xccdf_org.cisecurity.benchmarks_rule_3.3.3_Ensure_IPv6_is_disabled
-  # xccdf_org.cisecurity.benchmarks_rule_4.1.3_Ensure_auditing_for_processes_that_start_prior_to_auditd_is_enabled
+  # 3.3.3_Ensure_IPv6_is_disabled
+  # 4.1.3_Ensure_auditing_for_processes_that_start_prior_to_auditd_is_enabled
   replace_or_add 'insert line if it does not exist' do
     path    '/etc/default/grub'
     pattern 'GRUB_CMDLINE_LINUX="ipv6.disable=1 audit=1"'

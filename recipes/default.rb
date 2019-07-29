@@ -19,7 +19,6 @@
 include_recipe 'cis-rhel::aide'
 include_recipe 'cis-rhel::at'
 include_recipe 'cis-rhel::auditd'
-include_recipe 'cis-rhel::core_dumps'
 include_recipe 'cis-rhel::cron'
 include_recipe 'cis-rhel::grub'
 include_recipe 'cis-rhel::firewalld'

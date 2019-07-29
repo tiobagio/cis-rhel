@@ -19,18 +19,7 @@
 
 include_recipe 'cron::default'
 
-# Start fix for hardening of cronfiles
-['/etc/cron.d', '/etc/cron.monthly', '/etc/cron.weekly',
- '/etc/cron.daily', '/etc/cron.hourly'].each do |crondir|
-  directory crondir do
-    mode   '0600'
-    owner  'root'
-    group  'root'
-    action :create
-  end
-end
-
-# xccdf_org.cisecurity.benchmarks_rule_5.1.2_Ensure_permissions_on_etccrontab_are_configured
+# 5.1.2_Ensure_permissions_on_etccrontab_are_configured
 ['/etc/crontab', '/etc/anacrontab'].each do |cronfile|
   file cronfile do
     mode   '0600'
@@ -40,7 +29,47 @@ end
   end
 end
 
-# Begin xccdf_org.cisecurity.benchmarks_rule_6.1.11_Restrict_atcron_to_Authorized_Users
+# 5.1.3_Ensure_permissions_on_etccron.hourly_are_configured
+directory '/etc/cron.hourly' do
+  mode   '0600'
+  owner  'root'
+  group  'root'
+  action :create
+end
+
+# 5.1.4_Ensure_permissions_on_etccron.daily_are_configured
+directory '/etc/cron.daily' do
+  mode   '0600'
+  owner  'root'
+  group  'root'
+  action :create
+end
+
+# 5.1.5_Ensure_permissions_on_etccron.weekly_are_configured
+directory '/etc/cron.weekly' do
+  mode   '0600'
+  owner  'root'
+  group  'root'
+  action :create
+end
+
+# 5.1.6_Ensure_permissions_on_etccron.monthly_are_configured
+directory '/etc/cron.monthly' do
+  mode   '0600'
+  owner  'root'
+  group  'root'
+  action :create
+end
+
+# 5.1.7_Ensure_permissions_on_etccron.d_are_configured
+directory '/etc/cron.d' do
+  mode   '0600'
+  owner  'root'
+  group  'root'
+  action :create
+end
+
+# 5.1.8_Ensure_atcron_is_restricted_to_authorized_user
 file '/etc/cron.deny' do
   action :delete
 end
@@ -52,7 +81,6 @@ file '/etc/cron.allow' do
   action :create
 end
 
-# xccdf_org.cisecurity.benchmarks_rule_5.1.8_Ensure_atcron_is_restricted_to_authorized_user
 file '/etc/at.allow' do
   mode   '0600'
   owner  'root'

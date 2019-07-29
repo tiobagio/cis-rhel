@@ -16,9 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'os-hardening::minimize_access'
-
-# xccdf_org.cisecurity.benchmarks_rule_4.2.4_Ensure_permissions_on_all_logfiles_are_configured
+# 4.2.4_Ensure_permissions_on_all_logfiles_are_configured
 execute '4-2-4-log-permissions' do
   command 'find /var/log -type f -exec chmod g-wx,o-rwx {} +'
   user    'root'
@@ -27,8 +25,16 @@ execute '4-2-4-log-permissions' do
 end
 
 %w(bashrc profile).each do |file|
+  # 5.4.4_Ensure_default_user_umask_is_027_or_more_restrictive
+  replace_or_add "ensure default user umask is #{node['init']['daemon_umask']}" do
+    path    "/etc/#{file}"
+    pattern '\s{7}umask*'
+    line    "       umask #{node['init']['daemon_umask']}"
+    ignore_missing false
+  end
+
   next unless node['platform_version'].to_i >= 7
-  # xccdf_org.cisecurity.benchmarks_rule_5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
+  # 5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
   replace_or_add "ensure user shell timeout is set to #{node['cis-rhel']['shell']['tmout']}" do
     path    "/etc/#{file}"
     pattern 'TMOUT=*'
@@ -36,6 +42,3 @@ end
     ignore_missing false
   end
 end
-
-# xccdf_org.cisecurity.benchmarks_rule_6.1.13_Audit_SUID_executables
-include_recipe 'os-hardening::suid_sgid'

@@ -17,7 +17,8 @@
 # limitations under the License.
 #
 
-# CIS-RHEL7 v2.2.0 - 5.1.8 Restrict_at_Daemon
+# Partially remediates:
+# 5.1.8_Ensure_atcron_is_restricted_to_authorized_users
 file '/etc/at.deny' do
   action :delete
 end

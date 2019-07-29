@@ -25,7 +25,7 @@ node.default['ntp']['servers'] = [
   '3.rhel.pool.ntp.org',
 ]
 
-# xccdf_org.cisecurity.benchmarks_rule_3.6_Configure_Network_Time_Protocol_NTP
+# 3.6_Configure_Network_Time_Protocol_NTP
 include_recipe 'ntp::default'
 
 cookbook_file '/etc/sysconfig/ntpd' do
@@ -37,14 +37,14 @@ cookbook_file '/etc/sysconfig/ntpd' do
   notifies :restart, "service[#{node['ntp']['service']}]"
 end
 
-# xccdf_org.cisecurity.benchmarks_rule_2.2.1.2_Ensure_ntp_is_configured
+# 2.2.1.2_Ensure_ntp_is_configured
 # Managing template file in this cookbook instead of recipe[ntp::default]
 edit_resource!(:template, node['ntp']['conffile']) do
   cookbook 'cis-rhel'
   source   'ntp.conf.erb'
 end
 
-# xccdf_org.cisecurity.benchmarks_rule_2.2.1.3_Ensure_chrony_is_configured
+# 2.2.1.3_Ensure_chrony_is_configured
 unless rhel_6?
   package 'chrony' do
     action :install
@@ -56,6 +56,8 @@ unless rhel_6?
     action       [:enable, :start]
   end
 
+  ntp_cookbook = node['chrony_template_path'] || 'cis-rhel'
+
   template '/etc/chrony.conf' do
     source 'chrony.conf.erb'
     mode   '0644'
@@ -63,6 +65,7 @@ unless rhel_6?
     owner  'root'
     action :create
     notifies :restart, 'service[chrony-daemon]'
+    cookbook ntp_cookbook
   end
 
   cookbook_file '/etc/sysconfig/chronyd' do

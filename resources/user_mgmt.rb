@@ -16,14 +16,14 @@
 
 # This resource should probably exist in the users community cookbook.
 action :harden do
-  # xccdf_org.cisecurity.benchmarks_rule_6.1.2_Ensure_permissions_on_etcpasswd_are_configured
-  # xccdf_org.cisecurity.benchmarks_rule_6.1.3_Ensure_permissions_on_etcshadow_are_configured
-  # xccdf_org.cisecurity.benchmarks_rule_6.1.4_Ensure_permissions_on_etcgroup_are_configured
-  # xccdf_org.cisecurity.benchmarks_rule_6.1.5_Ensure_permissions_on_etcgshadow_are_configured
-  # xccdf_org.cisecurity.benchmarks_rule_6.1.6_Ensure_permissions_on_etcpasswd-_are_configured
-  # xccdf_org.cisecurity.benchmarks_rule_6.1.7_Ensure_permissions_on_etcshadow-_are_configured
-  # xccdf_org.cisecurity.benchmarks_rule_6.1.8_Ensure_permissions_on_etcgroup-_are_configured
-  # xccdf_org.cisecurity.benchmarks_rule_6.1.9_Ensure_permissions_on_etcgshadow-_are_configured
+  # 6.1.2_Ensure_permissions_on_etcpasswd_are_configured
+  # 6.1.3_Ensure_permissions_on_etcshadow_are_configured
+  # 6.1.4_Ensure_permissions_on_etcgroup_are_configured
+  # 6.1.5_Ensure_permissions_on_etcgshadow_are_configured
+  # 6.1.6_Ensure_permissions_on_etcpasswd-_are_configured
+  # 6.1.7_Ensure_permissions_on_etcshadow-_are_configured
+  # 6.1.8_Ensure_permissions_on_etcgroup-_are_configured
+  # 6.1.9_Ensure_permissions_on_etcgshadow-_are_configured
   ['/etc/default/useradd', '/etc/passwd', '/etc/passwd-', '/etc/pam.d/su', '/etc/bashrc', '/etc/group', '/etc/group-'].each do |systemfile|
     file systemfile do
       mode '0644'

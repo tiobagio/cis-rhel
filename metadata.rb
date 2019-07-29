@@ -13,7 +13,7 @@ issues_url 'https://github.com/chef/cis-rhel/issues'
 supports 'redhat', '>= 6.7'
 supports 'centos', '>= 6.7'
 
-depends 'cron', '~> 5.1'
+depends 'cron', '~> 6.2'
 depends 'firewall', '~> 2.6'
 depends 'ntp', '~> 3.5'
 depends 'os-hardening', '~> 3.0'

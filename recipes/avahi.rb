@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# CIS-RHEL7 v2.2.0 - 2.2.3 Ensure Avahi Server is not enabled
+# 2.2.3_Ensure_Avahi_Server_is_not_enabled
 service 'avahi-daemon' do
   action [:disable, :stop]
 end
