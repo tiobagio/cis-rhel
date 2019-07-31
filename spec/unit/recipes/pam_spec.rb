@@ -19,18 +19,15 @@
 require 'spec_helper'
 
 describe 'cis-rhel::pam' do
-  context 'When all attributes are default, on an CentOS 7' do
-    cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
-      runner.converge(described_recipe)
-    end
-
-    it 'includes the os-hardening::pam recipe' do
-      expect(chef_run).to include_recipe 'os-hardening::pam'
-    end
+  context 'When all attributes are default, on RHEL 7' do
+    platform 'redhat', '7'
 
     it 'renders the /etc/security/pwquality.conf file' do
       expect(chef_run).to create_cookbook_file('/etc/security/pwquality.conf')
+    end
+
+    it 'renders the /etc/pam.d/system-auth-ac file' do
+      expect(chef_run).to create_template('/etc/pam.d/system-auth-ac')
     end
 
     it 'renders the /etc/pam.d/password-auth file' do

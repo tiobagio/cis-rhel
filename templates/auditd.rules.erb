@@ -8,7 +8,7 @@
 
 # Increase the buffers to survive stress events.
 # Make this bigger for busy systems
--b <%= node['cis-rhel']['auditd']['backlog'] %>
+-b <%= node['auditd']['backlog'] %>
 
 # Feel free to add below this line. See auditctl man page
 

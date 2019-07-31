@@ -27,5 +27,5 @@ cron_d 'aide' do
   minute '5'
   user 'root'
   command '/usr/sbin/aide --check'
-  mailto node['cis-rhel']['cron_mailto'] if node['cis-rhel']['cron_mailto']
+  mailto node['cron_mailto'] if node['cron_mailto']
 end

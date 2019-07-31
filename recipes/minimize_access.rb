@@ -24,21 +24,32 @@ execute '4-2-4-log-permissions' do
   action  :run
 end
 
-%w(bashrc profile).each do |file|
-  # 5.4.4_Ensure_default_user_umask_is_027_or_more_restrictive
-  replace_or_add "ensure default user umask is #{node['init']['daemon_umask']}" do
-    path    "/etc/#{file}"
-    pattern '\s{7}umask*'
-    line    "       umask #{node['init']['daemon_umask']}"
+# 5.4.4_Ensure_default_user_umask_is_027_or_more_restrictive
+replace_or_add "ensure default user umask is #{node['init']['umask']} in /etc/bashrc" do
+  path    '/etc/bashrc'
+  pattern '\s{7}umask*'
+  line    "       umask #{node['init']['umask']}"
+end
+
+replace_or_add "ensure default user umask is #{node['init']['umask']} in /etc/profile" do
+  path    '/etc/profile'
+  pattern '\s{3}umask*'
+  line    "   umask #{node['init']['umask']}"
+end
+
+if node['platform_version'].to_i >= 7
+  # 5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
+  replace_or_add "ensure user shell timeout is set to #{node['shell']['tmout']} in /etc/bashrc" do
+    path    '/etc/bashrc'
+    pattern 'TMOUT=*'
+    line    "TMOUT=#{node['shell']['tmout']}"
     ignore_missing false
   end
 
-  next unless node['platform_version'].to_i >= 7
-  # 5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
-  replace_or_add "ensure user shell timeout is set to #{node['cis-rhel']['shell']['tmout']}" do
-    path    "/etc/#{file}"
+  replace_or_add "ensure user shell timeout is set to #{node['shell']['tmout']} in /etc/profile" do
+    path    '/etc/profile'
     pattern 'TMOUT=*'
-    line    "TMOUT=#{node['cis-rhel']['shell']['tmout']}"
+    line    "TMOUT=#{node['shell']['tmout']}"
     ignore_missing false
   end
 end

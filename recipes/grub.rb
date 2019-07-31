@@ -39,9 +39,9 @@ if node['platform_version'].to_i >= 7
 
   # 1.4.2_Ensure_bootloader_password_is_set
   execute 'set bootloader password' do
-    command "yes #{node['cis-rhel']['bootloader']['password']} | sudo script -q -c 'grub2-setpassword'"
+    command "yes #{node['bootloader']['password']} | sudo script -q -c 'grub2-setpassword'"
     user    'root'
-    only_if { !node['cis-rhel']['bootloader']['password'].nil? }
+    only_if { !node['bootloader']['password'].nil? }
     not_if  "grep -E '^GRUB2_PASSWORD=.+$' /boot/grub2/user.cfg"
     action  :run
   end

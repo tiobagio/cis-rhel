@@ -17,35 +17,29 @@
 # limitations under the License.
 #
 
-node.default['ntp']['restrict_default'] = 'kod nomodify notrap nopeer noquery'
-node.default['ntp']['servers'] = [
-  '0.rhel.pool.ntp.org',
-  '1.rhel.pool.ntp.org',
-  '2.rhel.pool.ntp.org',
-  '3.rhel.pool.ntp.org',
-]
+chrony_cookbook = node['chrony_template_path'] || 'cis-rhel'
 
-# 3.6_Configure_Network_Time_Protocol_NTP
-include_recipe 'ntp::default'
+if node['ntp']['install'] == true && node['chrony']['install'] == false
+  # 3.6_Configure_Network_Time_Protocol_NTP
+  include_recipe 'ntp::default'
 
-cookbook_file '/etc/sysconfig/ntpd' do
-  source 'etc_sysconfig_ntpd'
-  owner  'root'
-  group  'root'
-  mode   '0644'
-  action :create
-  notifies :restart, "service[#{node['ntp']['service']}]"
-end
+  cookbook_file '/etc/sysconfig/ntpd' do
+    source 'etc_sysconfig_ntpd'
+    owner  'root'
+    group  'root'
+    mode   '0644'
+    action :create
+    notifies :restart, "service[#{node['ntp']['service']}]"
+  end
 
-# 2.2.1.2_Ensure_ntp_is_configured
-# Managing template file in this cookbook instead of recipe[ntp::default]
-edit_resource!(:template, node['ntp']['conffile']) do
-  cookbook 'cis-rhel'
-  source   'ntp.conf.erb'
-end
-
-# 2.2.1.3_Ensure_chrony_is_configured
-unless rhel_6?
+  # 2.2.1.2_Ensure_ntp_is_configured
+  # Managing template file in this cookbook instead of recipe[ntp::default]
+  edit_resource!(:template, node['ntp']['conffile']) do
+    cookbook 'cis-rhel'
+    source   'ntp.conf.erb'
+  end
+elsif node['chrony']['install'] == true || node['ntp']['install'] == false
+  # 2.2.1.3_Ensure_chrony_is_configured
   package 'chrony' do
     action :install
   end
@@ -56,8 +50,6 @@ unless rhel_6?
     action       [:enable, :start]
   end
 
-  ntp_cookbook = node['chrony_template_path'] || 'cis-rhel'
-
   template '/etc/chrony.conf' do
     source 'chrony.conf.erb'
     mode   '0644'
@@ -65,7 +57,7 @@ unless rhel_6?
     owner  'root'
     action :create
     notifies :restart, 'service[chrony-daemon]'
-    cookbook ntp_cookbook
+    cookbook chrony_cookbook
   end
 
   cookbook_file '/etc/sysconfig/chronyd' do
