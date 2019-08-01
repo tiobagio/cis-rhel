@@ -21,6 +21,30 @@ default['cis-rhel']['kernel']['disable_filesystems'] = %w(cramfs freevxfs jffs2 
 # 3.5.3_Ensure_RDS_is_disabled
 default['cis-rhel']['kernel']['disable_network_protocols'] = %w(dccp sctp tipc rds)
 
+## Recipe::login_defs
+default['env']['extra_user_paths'] = []
+default['env']['umask'] = '077'
+# # 5.4.1.1_Ensure_password_expiration_is_365_days_or_less
+default['auth']['pw_max_age'] = 365
+# 5.4.1.2_Ensure_minimum_days_between_password_changes_is_7_or_mor
+default['auth']['pw_min_age'] = 7
+# 5.4.1.3_Ensure_password_expiration_warning_days_is_7_or_more
+default['auth']['pw_warn_age'] = 7
+# 5.4.1.4_Ensure_inactive_password_lock_is_30_days_or_less
+default['auth']['pw_inactive'] = 30
+default['auth']['retries'] = 5
+default['auth']['lockout_time'] = 600 # 10min
+default['auth']['maildir'] = '/var/mail'
+default['auth']['timeout'] = 60
+default['auth']['allow_homeless'] = false
+default['auth']['root_ttys'] = %w(console tty1 tty2 tty3 tty4 tty5 tty6)
+default['auth']['uid_min'] = 1000
+default['auth']['uid_max'] = 60000
+default['auth']['gid_min'] = 1000
+default['auth']['gid_max'] = 60000
+default['auth']['sys_uid_max'] = 999
+default['auth']['sys_gid_max'] = 999
+
 ## Recipe::minimize_access
 # 5.4.4_Ensure_default_user_umask_is_027_or_more_restrictive
 default['init']['umask'] = '027'

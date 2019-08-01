@@ -26,12 +26,8 @@ describe 'cis-rhel::login_defs' do
     end
 
     it 'attribute pw_max_age should be 365' do
-      pw_max_age_attribute = chef_run.node['os-hardening']['auth']['pw_max_age']
+      pw_max_age_attribute = chef_run.node['auth']['pw_max_age']
       expect(pw_max_age_attribute).to eq 365
-    end
-
-    it 'includes the os-hardening::login_defs recipe' do
-      expect(chef_run).to include_recipe 'os-hardening::login_defs'
     end
   end
 end
@@ -44,12 +40,8 @@ describe 'cis-rhel::login_defs' do
     end
 
     it 'attribute pw_max_age should be 90' do
-      pw_max_age_attribute = chef_run.node['os-hardening']['auth']['pw_max_age']
+      pw_max_age_attribute = chef_run.node['auth']['pw_max_age']
       expect(pw_max_age_attribute).to eq 90
-    end
-
-    it 'includes the os-hardening::login_defs recipe' do
-      expect(chef_run).to include_recipe 'os-hardening::login_defs'
     end
   end
 end
