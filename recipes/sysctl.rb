@@ -48,20 +48,3 @@ template '/etc/security/limits.conf' do
   action :delete if node['kernel']['enable_core_dump']
   cookbook limits_cookbook
 end
-
-# 2.2.7_Ensure_NFS_and_RPC_are_not_enabled
-%w(
-  nfs
-  nfs-server
-  rpcbind
-).each do |svc|
-  service svc do
-    action [:disable, :stop]
-  end
-end
-
-# Ensure rpcbind is inactive by removing it
-# https://bugzilla.redhat.com/show_bug.cgi?id=1531984
-package 'rpcbind' do
-  action :remove
-end
