@@ -71,6 +71,15 @@ default['sysctl']['params']['net.ipv4.conf.default.send_redirects'] = 0
 # 3.2.1_Ensure_source_routed_packets_are_not_accepted
 default['sysctl']['params']['net.ipv4.conf.all.accept_source_route'] = 0
 default['sysctl']['params']['net.ipv4.conf.default.accept_source_route'] = 0
+# 3.2.2_Ensure_ICMP_redirects_are_not_accepted
+default['sysctl']['params']['net.ipv4.conf.all.accept_redirects'] = 0
+default['sysctl']['params']['net.ipv4.conf.default.accept_redirects'] = 0
+# 3.2.3_Ensure_secure_ICMP_redirects_are_not_accepted
+default['sysctl']['params']['net.ipv4.conf.all.secure_redirects'] = 0
+default['sysctl']['params']['net.ipv4.conf.default.secure_redirects'] = 0
+# 3.2.4_Ensure_suspicious_packets_are_logged
+default['sysctl']['params']['net.ipv4.conf.all.log_martians'] = 1
+default['sysctl']['params']['net.ipv4.conf.default.log_martians'] = 1
 # 3.2.5_Ensure_broadcast_ICMP_requests_are_ignored
 default['sysctl']['params']['net.ipv4.icmp_echo_ignore_broadcasts'] = 1
 # 3.2.6_Ensure_bogus_ICMP_responses_are_ignored
@@ -81,11 +90,11 @@ default['sysctl']['params']['net.ipv4.conf.default.rp_filter'] = 1
 # 3.2.8_Ensure_TCP_SYN_Cookies_is_enabled
 default['sysctl']['params']['net.ipv4.tcp_syncookies'] = 1
 # 3.3.1_Ensure_IPv6_router_advertisements_are_not_accepted
-default['sysctl']['params']['net']['ipv6']['conf']['all']['accept_ra'] = 0
-default['sysctl']['params']['net']['ipv6']['conf']['default']['accept_ra'] = 0
+default['sysctl']['params']['net.ipv6.conf.all.accept_ra'] = 0
+default['sysctl']['params']['net.ipv6.conf.default.accept_ra'] = 0
 # 3.3.2_Ensure_IPv6_redirects_are_not_accepted
-default['sysctl']['params']['net']['ipv6']['conf']['all']['accept_redirects'] = 0
-default['sysctl']['params']['net']['ipv6']['conf']['default']['accept_redirects'] = 0
+default['sysctl']['params']['net.ipv6.conf.all.accept_redirects'] = 0
+default['sysctl']['params']['net.ipv6.conf.default.accept_redirects'] = 0
 
 # Template::auditd.rules
 default['auditd']['backlog'] = 320

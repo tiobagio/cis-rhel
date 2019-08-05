@@ -22,15 +22,8 @@ require 'spec_helper'
 # The sysctl cookbook this uses is older (because of os-hardening dependency)
 # Chef 14 also includes a sysctl resource and the sysctl cookbook is being deprecated in favor of the resource
 describe 'cis-rhel::network_packet_remediation' do
-  context 'When all attributes are default, on an CentOS 7' do
-    cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
-      runner.converge(described_recipe)
-    end
-
-    it 'includes sysctl::default recipe' do
-      expect(chef_run).to include_recipe 'sysctl::default'
-    end
+  context 'When all attributes are default, on RHEL 7' do
+    platform 'redhat', '7'
 
     it 'installs tcp_wrappers package' do
       expect(chef_run).to install_package 'tcp_wrappers'

@@ -34,7 +34,6 @@ include_recipe 'cis-rhel::packages_services'
 include_recipe 'cis-rhel::ssh'
 include_recipe 'cis-rhel::sysctl'
 include_recipe 'cis-rhel::syslog-ng'
-include_recipe 'cis-rhel::useradd'
 include_recipe 'cis-rhel::minimize_access'
 
 cis_rhel_user_mgmt 'CIS benchmark'

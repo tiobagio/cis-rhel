@@ -16,64 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO: Migrate to newer sysctl resources
-# The sysctl cookbook this uses is older (because of os-hardening dependency)
-# Chef 14 also includes a sysctl resource and the sysctl cookbook is being deprecated in favor of the resource
-include_recipe 'sysctl::default'
-
-# Addresses Log Suspicious Packets
-sysctl_param 'net.ipv4.conf.all.log_martians' do
-  value 1
-end
-sysctl_param 'net.ipv4.conf.default.log_martians' do
-  value 1
-end
-
-# Addresses Send Packet Redirects
-sysctl_param 'net.ipv4.conf.all.send_redirects' do
-  value 0
-end
-sysctl_param 'net.ipv4.conf.default.send_redirects' do
-  value 0
-end
-
-# Addresses ICMP Redirect Acceptance
-sysctl_param 'net.ipv4.conf.all.accept_redirects' do
-  value 0
-end
-sysctl_param 'net.ipv4.conf.default.accept_redirects' do
-  value 0
-end
-sysctl_param 'net.ipv4.conf.all.secure_redirects' do
-  value 0
-end
-sysctl_param 'net.ipv4.conf.default.secure_redirects' do
-  value 0
-end
-
-# If IPV6 is disabled in grub we cannot manage the IPV6 settings
-# rubocop:disable Style/NumericPredicate
-if ::File.exist?('/etc/default/grub')
-  if File.readlines('/etc/default/grub').grep(/ipv6.disable=1/).size.zero?
-    # 3.3.3_Ensure_IPv6_is_disabled
-    cis_rhel_ipv6 'harden_ipv6' do
-      action :harden
-    end
-    cis_rhel_ipv6 'disable_ipv6' do
-      action :disable
-    end
-  end
-else
-  # 3.3.3_Ensure_IPv6_is_disabled
-  cis_rhel_ipv6 'harden_ipv6' do
-    action :harden
-  end
-  cis_rhel_ipv6 'disable_ipv6' do
-    action :disable
-  end
-end
-# rubocop:enable Style/NumericPredicate
-
 # 3.4.1_Ensure_TCP_Wrappers_is_installed
 package 'tcp_wrappers' do
   action :install

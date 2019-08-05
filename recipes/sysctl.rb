@@ -21,6 +21,8 @@
 # 3.1.1_Ensure_IP_forwarding_is_disabled
 # 3.1.2_Ensure_packet_redirect_sending_is_disabled
 # 3.2.1_Ensure_source_routed_packets_are_not_accepted
+# 3.2.2_Ensure_ICMP_redirects_are_not_accepted
+# 3.2.3_Ensure_secure_ICMP_redirects_are_not_accepted
 # 3.2.5_Ensure_broadcast_ICMP_requests_are_ignored
 # 3.2.6_Ensure_bogus_ICMP_responses_are_ignored
 # 3.2.7_Ensure_Reverse_Path_Filtering_is_enabled

@@ -19,11 +19,8 @@
 require 'spec_helper'
 
 describe 'cis-rhel::login_banners' do
-  context 'When all attributes are default, on an CentOS 7' do
-    cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
-      runner.converge(described_recipe)
-    end
+  context 'When all attributes are default, on RHEL 7' do
+    platform 'redhat', '7'
 
     ['/etc/motd', '/etc/issue', '/etc/issue.net'].each do |loginfile|
       it "creates #{loginfile} file with attributes" do

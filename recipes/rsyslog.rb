@@ -17,7 +17,18 @@
 # limitations under the License.
 #
 
-# CIS-RHEL7 v2.2.0 - 4.2 Configure Logging
+package 'rsyslog' do
+  action :install
+end
+
+# 4.2.1.1_Ensure_rsyslog_Service_is_enabled
+service 'rsyslog' do
+  action :enable
+end
+
+# 4.2.1.3_Ensure_rsyslog_default_file_permissions_configured
+# 4.2.1.4_Ensure_rsyslog_is_configured_to_send_logs_to_a_remote_log_host
+# 4.2.1.5_Ensure_remote_rsyslog_messages_are_only_accepted_on_designated_log_hosts
 # TODO: Add notes in README about setting server
 include_recipe 'rsyslog::client'
 

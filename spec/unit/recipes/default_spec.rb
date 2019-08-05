@@ -71,7 +71,6 @@ describe 'cis-rhel::default' do
       cis-rhel::ssh
       cis-rhel::sysctl
       cis-rhel::syslog-ng
-      cis-rhel::useradd
       cis-rhel::minimize_access
     ).each do |recipe|
       it "includes #{recipe} recipe" do

@@ -19,11 +19,8 @@
 require 'spec_helper'
 
 describe 'cis-rhel::login_defs' do
-  context 'When all attributes are default, on an CentOS 7' do
-    cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
-      runner.converge(described_recipe)
-    end
+  context 'When all attributes are default, on RHEL 7' do
+    platform 'redhat', '7'
 
     it 'attribute pw_max_age should be 365' do
       pw_max_age_attribute = chef_run.node['auth']['pw_max_age']
@@ -33,11 +30,8 @@ describe 'cis-rhel::login_defs' do
 end
 
 describe 'cis-rhel::login_defs' do
-  context 'When all attributes are default, on an CentOS 6' do
-    cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '6.9')
-      runner.converge(described_recipe)
-    end
+  context 'When all attributes are default, on an RHEL 6' do
+    platform 'redhat', '6'
 
     it 'attribute pw_max_age should be 90' do
       pw_max_age_attribute = chef_run.node['auth']['pw_max_age']

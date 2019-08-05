@@ -19,11 +19,8 @@
 require 'spec_helper'
 
 describe 'cis-rhel::grub' do
-  context 'When all attributes are default, on CentOS 7' do
-    cached(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.4.1708')
-      runner.converge(described_recipe)
-    end
+  context 'When all attributes are default, on RHEL 7' do
+    platform 'redhat', '7'
 
     it 'ensures grub2 package is installed' do
       expect(chef_run).to install_package 'grub2'
