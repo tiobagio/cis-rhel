@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Spec:: network_packet_remediation
+# Recipe:: network_config
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -16,17 +16,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'spec_helper'
+# 3.4.1_Ensure_TCP_Wrappers_is_installed
+package 'tcp_wrappers' do
+  action :install
+end
 
-# TODO: Migrate to newer sysctl resources
-# The sysctl cookbook this uses is older (because of os-hardening dependency)
-# Chef 14 also includes a sysctl resource and the sysctl cookbook is being deprecated in favor of the resource
-describe 'cis-rhel::network_packet_remediation' do
-  context 'When all attributes are default, on RHEL 7' do
-    platform 'redhat', '7'
+# 3.4.4_Ensure_permissions_on_etchosts.allow_are_configured
+execute 'set ownership on /etc/hosts.allow' do
+  command 'chown root:root /etc/hosts.allow'
+end
 
-    it 'installs tcp_wrappers package' do
-      expect(chef_run).to install_package 'tcp_wrappers'
-    end
-  end
+execute 'set permissions on /etc/hosts.allow' do
+  command 'chmod 644 /etc/hosts.allow'
+end
+
+# 3.4.5_Ensure_permissions_on_etchosts.deny_are_configured
+execute 'set ownership on /etc/hosts.deny' do
+  command 'chown root:root /etc/hosts.deny'
+end
+
+execute 'set permissions on /etc/hosts.deny' do
+  command 'chmod 644 /etc/hosts.deny'
 end

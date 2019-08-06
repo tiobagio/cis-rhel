@@ -24,6 +24,14 @@ execute '4-2-4-log-permissions' do
   action  :run
 end
 
+# 5.4.3_Ensure_default_group_for_the_root_account_is_GID_0
+execute 'set GID for the root account' do
+  command 'usermod -g 0 root'
+  user    'root'
+  not_if { 'id -g' == 0 }
+  action  :run
+end
+
 # 5.4.4_Ensure_default_user_umask_is_027_or_more_restrictive
 replace_or_add "ensure default user umask is #{node['init']['umask']} in /etc/bashrc" do
   path    '/etc/bashrc'

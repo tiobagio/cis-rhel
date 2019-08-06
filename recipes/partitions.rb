@@ -27,7 +27,7 @@ mount '/tmp' do
   fstype  'tmpfs'
   device  'tmpfs'
   options 'nodev,nosuid,noexec,relatime'
-  action  [:enable, :mount]
+  action  [:remount, :enable]
   not_if  { tmp_mount.match? /(?=.*noexec)(?=.*nosuid)(?=.*nodev)/ }
   only_if { !tmp_mount.empty? }
 end
@@ -41,7 +41,7 @@ mount '/var/tmp' do
   fstype  'tmpfs'
   device  'tmpfs'
   options 'rw,nosuid,nodev,noexec,relatime'
-  action  [:enable, :remount]
+  action  [:remount, :enable]
   not_if  { var_tmp_mount.match? /(?=.*noexec)(?=.*nosuid)(?=.*nodev)/ }
   only_if { !var_tmp_mount.empty? }
 end
@@ -53,7 +53,7 @@ mount '/home' do
   fstype  'tmpfs'
   device  'tmpfs'
   options 'rw,nodev,relatime,data=ordered'
-  action  [:enable, :remount]
+  action  [:remount, :enable]
   not_if  { home_mount.match? /(?=.*nodev)/ }
   only_if { !home_mount.empty? }
 end
@@ -66,8 +66,8 @@ mount '/dev/shm' do
   pass    0
   fstype  'tmpfs'
   device  'tmpfs'
-  options 'defaults,nodev,nosuid,noexec'
-  action  [:enable, :remount]
+  options 'rw,nodev,nosuid,noexec,relatime'
+  action  [:remount, :enable]
   not_if  { shm_configured.match? /(?=.*noexec)(?=.*nosuid)(?=.*nodev)/ }
   only_if { !shm_configured.empty? }
 end

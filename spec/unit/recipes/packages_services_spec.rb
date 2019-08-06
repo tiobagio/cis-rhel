@@ -29,41 +29,6 @@ describe 'cis-rhel::packages_services' do
       expect(chef_run).to remove_package 'mcstrans'
     end
 
-    it 'disables and stops chargen-dgram & chargen-stream' do
-      expect(chef_run).to disable_service 'chargen-dgram'
-      expect(chef_run).to stop_service 'chargen-dgram'
-      expect(chef_run).to disable_service 'chargen-stream'
-      expect(chef_run).to stop_service 'chargen-stream'
-    end
-
-    it 'disables and stops daytime-dgram & daytime-stream' do
-      expect(chef_run).to disable_service 'daytime-dgram'
-      expect(chef_run).to stop_service 'daytime-dgram'
-      expect(chef_run).to disable_service 'daytime-stream'
-      expect(chef_run).to stop_service 'daytime-stream'
-    end
-
-    it 'disables and stops discard-dgram & discard-stream' do
-      expect(chef_run).to disable_service 'discard-dgram'
-      expect(chef_run).to stop_service 'discard-dgram'
-      expect(chef_run).to disable_service 'discard-stream'
-      expect(chef_run).to stop_service 'discard-stream'
-    end
-
-    it 'disables and stops echo-dgram & echo-stream' do
-      expect(chef_run).to disable_service 'echo-dgram'
-      expect(chef_run).to stop_service 'echo-dgram'
-      expect(chef_run).to disable_service 'echo-stream'
-      expect(chef_run).to stop_service 'echo-stream'
-    end
-
-    it 'disables and stops time-dgram & time-stream' do
-      expect(chef_run).to disable_service 'time-dgram'
-      expect(chef_run).to stop_service 'time-dgram'
-      expect(chef_run).to disable_service 'time-stream'
-      expect(chef_run).to stop_service 'time-stream'
-    end
-
     it 'disables and stops tftp' do
       expect(chef_run).to disable_service 'tftp'
       expect(chef_run).to stop_service 'tftp'

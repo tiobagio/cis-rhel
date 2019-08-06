@@ -22,8 +22,13 @@ describe 'cis-rhel::cron' do
   context 'When all attributes are default, on RHEL 7' do
     platform 'redhat', '7'
 
-    it 'includes the cron::default recipe' do
-      expect(chef_run).to include_recipe 'cron::default'
+    it 'installs the cronie package' do
+      expect(chef_run).to install_package 'cronie'
+    end
+
+    it 'enables and starts crond' do
+      expect(chef_run).to enable_service 'crond'
+      expect(chef_run).to start_service 'crond'
     end
 
     ['/etc/cron.d', '/etc/cron.monthly', '/etc/cron.weekly',

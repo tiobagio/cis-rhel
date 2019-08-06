@@ -17,7 +17,11 @@
 # limitations under the License.
 #
 
-include_recipe 'cron::default'
+package 'cronie'
+
+service 'crond' do
+  action [:enable, :start]
+end
 
 # 5.1.2_Ensure_permissions_on_etccrontab_are_configured
 ['/etc/crontab', '/etc/anacrontab'].each do |cronfile|

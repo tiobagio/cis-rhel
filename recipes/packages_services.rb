@@ -29,48 +29,48 @@ package 'mcstrans' do
 end
 
 # 2.1.1_Ensure_chargen_services_are_not_enabled
-service 'chargen-dgram' do
-  action [:disable, :stop]
+execute 'set chargen-stream chkconfig off' do
+  command 'chkconfig chargen-stream off'
 end
 
-service 'chargen-stream' do
-  action [:disable, :stop]
+execute 'set chargen-dgram chkconfig off' do
+  command 'chkconfig chargen-dgram off'
 end
 
 # 2.1.2_Ensure_daytime_services_are_not_enabled
-service 'daytime-dgram' do
-  action [:disable, :stop]
+execute 'set daytime-stream chkconfig off' do
+  command 'chkconfig daytime-stream off'
 end
 
-service 'daytime-stream' do
-  action [:disable, :stop]
+execute 'set daytime-dgram chkconfig off' do
+  command 'chkconfig daytime-dgram off'
 end
 
 # 2.1.3_Ensure_discard_services_are_not_enabled
-service 'discard-dgram' do
-  action [:disable, :stop]
+execute 'set discard-stream chkconfig off' do
+  command 'chkconfig discard-stream off'
 end
 
-service 'discard-stream' do
-  action [:disable, :stop]
+execute 'set discard-dgram chkconfig off' do
+  command 'chkconfig discard-dgram off'
 end
 
 # 2.1.4_Ensure_echo_services_are_not_enabled
-service 'echo-dgram' do
-  action [:disable, :stop]
+execute 'set echo-stream chkconfig off' do
+  command 'chkconfig echo-stream off'
 end
 
-service 'echo-stream' do
-  action [:disable, :stop]
+execute 'set echo-dgram chkconfig off' do
+  command 'chkconfig echo-dgram off'
 end
 
 # 2.1.5_Ensure_time_services_are_not_enabled
-service 'time-dgram' do
-  action [:disable, :stop]
+execute 'set time-stream chkconfig off' do
+  command 'chkconfig time-stream off'
 end
 
-service 'time-stream' do
-  action [:disable, :stop]
+execute 'set time-dgram chkconfig off' do
+  command 'chkconfig time-dgram off'
 end
 
 # 2.1.6_Ensure_tftp_server_is_not_enabled

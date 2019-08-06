@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: network_packet_remediation
+# Spec:: network_config
 #
 # Copyright:: 2018, Chef Software, Inc.
 #
@@ -16,7 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# 3.4.1_Ensure_TCP_Wrappers_is_installed
-package 'tcp_wrappers' do
-  action :install
+require 'spec_helper'
+
+describe 'cis-rhel::network_config' do
+  context 'When all attributes are default, on RHEL 7' do
+    platform 'redhat', '7'
+
+    it 'installs tcp_wrappers package' do
+      expect(chef_run).to install_package 'tcp_wrappers'
+    end
+  end
 end
