@@ -21,12 +21,41 @@
 # 1.1.3_Ensure_nodev_option_set_on_tmp_partition
 # 1.1.4_Ensure_nosuid_option_set_on_tmp_partition
 # 1.1.5_Ensure_noexec_option_set_on_tmp_partition
+tmp_mount = Mixlib::ShellOut.new('mount | grep /tmp').run_command.stdout
 mount '/tmp' do
   pass    0
   fstype  'tmpfs'
   device  'tmpfs'
-  options 'nodev,nosuid,noexec'
+  options 'nodev,nosuid,noexec,relatime'
   action  [:enable, :mount]
+  not_if  { tmp_mount.match? /(?=.*noexec)(?=.*nosuid)(?=.*nodev)/ }
+  only_if { !tmp_mount.empty? }
+end
+
+# 1.1.8_Ensure_nodev_option_set_on_vartmp_partition
+# 1.1.9_Ensure_nosuid_option_set_on_vartmp_partition
+# 1.1.10_Ensure_noexec_option_set_on_vartmp_partition
+var_tmp_mount = Mixlib::ShellOut.new('mount | grep /var/tmp').run_command.stdout
+mount '/var/tmp' do
+  pass    0
+  fstype  'tmpfs'
+  device  'tmpfs'
+  options 'rw,nosuid,nodev,noexec,relatime'
+  action  [:enable, :remount]
+  not_if  { var_tmp_mount.match? /(?=.*noexec)(?=.*nosuid)(?=.*nodev)/ }
+  only_if { !var_tmp_mount.empty? }
+end
+
+# 1.1.14_Ensure_nodev_option_set_on_home_partition
+home_mount = Mixlib::ShellOut.new('mount | grep /home').run_command.stdout
+mount '/home' do
+  pass    0
+  fstype  'tmpfs'
+  device  'tmpfs'
+  options 'rw,nodev,relatime,data=ordered'
+  action  [:enable, :remount]
+  not_if  { home_mount.match? /(?=.*nodev)/ }
+  only_if { !home_mount.empty? }
 end
 
 # 1.1.15_Ensure_nodev_option_set_on_devshm_partition

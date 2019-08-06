@@ -22,22 +22,8 @@ describe 'cis-rhel::partitions' do
   context 'When all attributes are default, on RHEL 7' do
     platform 'redhat', '7'
 
-    it 'enables /tmp mount with attributes' do
-      expect(chef_run).to enable_mount('/tmp').with(
-        pass: 0,
-        fstype: 'tmpfs',
-        device: 'tmpfs',
-        options: %w(nodev nosuid noexec)
-      )
-    end
-
-    it 'mounts a /tmp with attributes' do
-      expect(chef_run).to mount_mount('/tmp').with(
-        pass: 0,
-        fstype: 'tmpfs',
-        device: 'tmpfs',
-        options: %w(nodev nosuid noexec)
-      )
+    it 'converges successfully' do
+      expect { chef_run }.to_not raise_error
     end
   end
 end
