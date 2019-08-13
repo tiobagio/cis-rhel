@@ -32,7 +32,7 @@ else
   node.default['firewall']['ipv6_enabled'] = false
 end
 # rubocop:enable Style/NumericPredicate
-
+node.default['firewall']['ipv6_enabled'] = false
 include_recipe 'firewall::default'
 
 firewall_rule 'ssh' do
@@ -73,14 +73,16 @@ end
   firewall_rule "-A INPUT -p #{p} -m state --state NEW,ESTABLISHED -j ACCEPT" do
     direction :in
     protocol  p
-    stateful  [:related, :established]
+    stateful  [:new, :established]
     command   :allow
+    include_comment false
   end
 
   firewall_rule "-A OUTPUT -p #{p} -m state --state NEW,ESTABLISHED -j ACCEPT" do
     direction :out
     protocol  p
-    stateful  [:related, :established]
+    stateful  [:new, :established]
     command   :allow
+    include_comment false
   end
 end

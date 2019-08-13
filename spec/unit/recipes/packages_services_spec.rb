@@ -7,6 +7,10 @@ describe 'cis-rhel::packages_services' do
       runner.converge(described_recipe)
     end
 
+    before(:all) do
+      stub_command('yum list installed | grep "xinetd"').and_return('')
+    end
+
     it 'disables and stops autofs' do
       expect(chef_run).to disable_service 'autofs'
       expect(chef_run).to stop_service 'autofs'

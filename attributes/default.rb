@@ -57,6 +57,12 @@ default['chrony']['install'] = true
 default['ntp']['servers'] = %w(0.rhel.pool.ntp.org 1.rhel.pool.ntp.org 2.rhel.pool.ntp.org 3.rhel.pool.ntp.org)
 default['ntp']['restrict_default'] = 'kod nomodify notrap nopeer noquery'
 
+## Recipe::ssh
+default['ssh-hardening']['ssh']['server']['deny_users'] = []
+default['ssh-hardening']['ssh']['server']['allow_users'] = []
+default['ssh-hardening']['ssh']['server']['deny_groups'] = []
+default['ssh-hardening']['ssh']['server']['allow_groups'] = []
+
 ## Recipe::sysctl
 # 1.5.1_Ensure_core_dumps_are_restricted
 default['kernel']['enable_core_dump'] = false

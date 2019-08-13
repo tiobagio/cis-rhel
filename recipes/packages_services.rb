@@ -31,46 +31,56 @@ end
 # 2.1.1_Ensure_chargen_services_are_not_enabled
 execute 'set chargen-stream chkconfig off' do
   command 'chkconfig chargen-stream off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 execute 'set chargen-dgram chkconfig off' do
   command 'chkconfig chargen-dgram off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 # 2.1.2_Ensure_daytime_services_are_not_enabled
 execute 'set daytime-stream chkconfig off' do
   command 'chkconfig daytime-stream off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 execute 'set daytime-dgram chkconfig off' do
   command 'chkconfig daytime-dgram off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 # 2.1.3_Ensure_discard_services_are_not_enabled
 execute 'set discard-stream chkconfig off' do
   command 'chkconfig discard-stream off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 execute 'set discard-dgram chkconfig off' do
   command 'chkconfig discard-dgram off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 # 2.1.4_Ensure_echo_services_are_not_enabled
 execute 'set echo-stream chkconfig off' do
   command 'chkconfig echo-stream off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 execute 'set echo-dgram chkconfig off' do
   command 'chkconfig echo-dgram off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 # 2.1.5_Ensure_time_services_are_not_enabled
 execute 'set time-stream chkconfig off' do
   command 'chkconfig time-stream off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 execute 'set time-dgram chkconfig off' do
   command 'chkconfig time-dgram off'
+  only_if 'yum list installed | grep "xinetd"'
 end
 
 # 2.1.6_Ensure_tftp_server_is_not_enabled
