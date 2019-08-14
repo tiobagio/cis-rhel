@@ -27,7 +27,7 @@ cis_network_protocols_cookbook = node['cis_network_protocols_template_path'] || 
 # 1.1.1.6_Ensure_mounting_of_squashfs_filesystems_is_disabled
 # 1.1.1.7_Ensure_mounting_of_udf_filesystems_is_disabled
 # 1.1.1.8_Ensure_mounting_of_FAT_filesystems_is_disabled
-if node['cis-rhel']['kernel']['disable_filesystems'].empty?
+if node['kernel']['disable_filesystems'].empty?
   file '/etc/modprobe.d/CIS-filesystems.conf' do
     action :delete
   end
@@ -37,11 +37,11 @@ else
     mode '0440'
     owner 'root'
     group 'root'
-    variables filesystems: node['cis-rhel']['kernel']['disable_filesystems']
+    variables filesystems: node['kernel']['disable_filesystems']
     cookbook cis_filesystem_cookbook
   end
 
-  node['cis-rhel']['kernel']['disable_filesystems'].each do |file_system|
+  node['kernel']['disable_filesystems'].each do |file_system|
     kernel_module file_system do
       modname file_system
       action  :unload
@@ -53,7 +53,7 @@ end
 # 3.5.2 Ensure SCTP is disabled
 # 3.5.4_Ensure_TIPC_is_disabled
 # 3.5.3_Ensure_RDS_is_disabled
-if node['cis-rhel']['kernel']['disable_network_protocols'].empty?
+if node['kernel']['disable_network_protocols'].empty?
   file '/etc/modprobe.d/CIS-network-protocols.conf' do
     action :delete
   end
@@ -63,11 +63,11 @@ else
     mode '0440'
     owner 'root'
     group 'root'
-    variables network_protocols: node['cis-rhel']['kernel']['disable_network_protocols']
+    variables network_protocols: node['kernel']['disable_network_protocols']
     cookbook cis_network_protocols_cookbook
   end
 
-  node['cis-rhel']['kernel']['disable_network_protocols'].each do |file_system|
+  node['kernel']['disable_network_protocols'].each do |file_system|
     kernel_module file_system do
       modname file_system
       action  :unload

@@ -14,12 +14,12 @@ default['bootloader']['password'] = nil
 # 1.1.1.6_Ensure_mounting_of_squashfs_filesystems_is_disabled
 # 1.1.1.7_Ensure_mounting_of_udf_filesystems_is_disabled
 # 1.1.1.8_Ensure_mounting_of_FAT_filesystems_is_disabled
-default['cis-rhel']['kernel']['disable_filesystems'] = %w(cramfs freevxfs jffs2 hfs hfsplus squashfs udf vfat)
+default['kernel']['disable_filesystems'] = %w(cramfs freevxfs jffs2 hfs hfsplus squashfs udf vfat)
 # 3.5.1 Ensure DCCP is disabled
 # 3.5.2 Ensure SCTP is disabled
 # 3.5.4_Ensure_TIPC_is_disabled
 # 3.5.3_Ensure_RDS_is_disabled
-default['cis-rhel']['kernel']['disable_network_protocols'] = %w(dccp sctp tipc rds)
+default['kernel']['disable_network_protocols'] = %w(dccp sctp tipc rds)
 
 ## Recipe::login_defs
 default['env']['extra_user_paths'] = []
@@ -50,6 +50,8 @@ default['auth']['sys_gid_max'] = 999
 default['init']['umask'] = '027'
 # 5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
 default['shell']['tmout'] = 600
+# 6.1.10_Ensure_no_world_writable_files_exist
+default['filesystem']['non_world_writable_files'] = []
 
 ## Recipe::ntp
 default['ntp']['install'] = false

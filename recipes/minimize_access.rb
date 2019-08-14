@@ -61,3 +61,14 @@ if node['platform_version'].to_i >= 7
     ignore_missing false
   end
 end
+
+# 6.1.10_Ensure_no_world_writable_files_exist
+unless node['filesystem']['non_world_writable_files'].empty?
+  node['filesystem']['non_world_writable_files'].each do |filesystem|
+    execute "ensure #{filesystem} is not world writable" do
+      command "chmod -R o-w #{filesystem}"
+      user    'root'
+      action  :run
+    end
+  end
+end
