@@ -39,6 +39,10 @@ describe 'cis-rhel::default' do
       stub_command('lsmod | grep rds').and_return('')
       # cis-rhel::minimize_access
       stub_command('find /var/log -type f -ls').and_return('')
+      stub_command("grep ^\s*umask\s+027\s*(\s+#.*)?$ /etc/bashrc").and_return('')
+      stub_command("grep ^\s*umask\s+027\s*(\s+#.*)?$ /etc/profile").and_return('')
+      stub_command("grep ^\s*TMOUT=600\s*(\s+#.*)?$ /etc/bashrc").and_return('')
+      stub_command("grep ^\s*TMOUT=600\s*(\s+#.*)?$ /etc/profile").and_return('')
       # os-hardening::minimize_access
       stub_command("find /usr/local/sbin  -perm -go+w -type f | wc -l | egrep '^0$'").and_return(false)
       stub_command("find /usr/local/bin  -perm -go+w -type f | wc -l | egrep '^0$'").and_return(false)

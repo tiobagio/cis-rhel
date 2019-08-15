@@ -33,32 +33,42 @@ execute 'set GID for the root account' do
 end
 
 # 5.4.4_Ensure_default_user_umask_is_027_or_more_restrictive
-replace_or_add "ensure default user umask is #{node['init']['umask']} in /etc/bashrc" do
-  path    '/etc/bashrc'
-  pattern '\s{7}umask*'
-  line    "       umask #{node['init']['umask']}"
+execute "ensure umask is #{node['init']['umask']} in /etc/bashrc" do
+  command "sed -i \"s/umask\s[0-9]*/umask #{node['init']['umask']}/\" /etc/bashrc"
 end
 
-replace_or_add "ensure default user umask is #{node['init']['umask']} in /etc/profile" do
-  path    '/etc/profile'
-  pattern '\s{3}umask*'
-  line    "   umask #{node['init']['umask']}"
+execute "set umask #{node['init']['umask']} in /etc/bashrc if not present" do
+  command "echo 'umask #{node['init']['umask']}' >> /etc/bashrc"
+  not_if  "grep ^\s*umask\s+#{node['init']['umask']}\s*(\s+#.*)?$ /etc/bashrc"
+end
+
+execute "ensure umask is #{node['init']['umask']} in /etc/profile" do
+  command "sed -i \"s/umask\s[0-9]*/umask #{node['init']['umask']}/\" /etc/profile"
+end
+
+execute "set umask #{node['init']['umask']} in /etc/profile if not present" do
+  command "echo 'umask #{node['init']['umask']}' >> /etc/profile"
+  not_if  "grep ^\s*umask\s+#{node['init']['umask']}\s*(\s+#.*)?$ /etc/profile"
 end
 
 if node['platform_version'].to_i >= 7
   # 5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
-  replace_or_add "ensure user shell timeout is set to #{node['shell']['tmout']} in /etc/bashrc" do
-    path    '/etc/bashrc'
-    pattern 'TMOUT=*'
-    line    "TMOUT=#{node['shell']['tmout']}"
-    ignore_missing false
+  execute "ensure TMOUT is #{node['shell']['tmout']} in /etc/bashrc" do
+    command "sed -i \"s/TMOUT=[0-9]*/#{node['shell']['tmout']}=600/\" /etc/bashrc"
   end
 
-  replace_or_add "ensure user shell timeout is set to #{node['shell']['tmout']} in /etc/profile" do
-    path    '/etc/profile'
-    pattern 'TMOUT=*'
-    line    "TMOUT=#{node['shell']['tmout']}"
-    ignore_missing false
+  execute "set timeout #{node['shell']['tmout']} in /etc/bashrc if not present" do
+    command "echo 'TMOUT=#{node['shell']['tmout']}' >> /etc/bashrc"
+    not_if  "grep ^\s*TMOUT=#{node['shell']['tmout']}\s*(\s+#.*)?$ /etc/bashrc"
+  end
+
+  execute "ensure TMOUT is #{node['shell']['tmout']} in /etc/profile" do
+    command "sed -i \"s/TMOUT=[0-9]*/TMOUT=#{node['shell']['tmout']}/\" /etc/profile"
+  end
+
+  execute "set timeout #{node['shell']['tmout']} in /etc/profile if not present" do
+    command "echo 'TMOUT=#{node['shell']['tmout']}' >> /etc/profile"
+    not_if  "grep ^\s*TMOUT=#{node['shell']['tmout']}\s*(\s+#.*)?$ /etc/bashrc"
   end
 end
 
