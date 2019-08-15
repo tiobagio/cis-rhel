@@ -1,6 +1,6 @@
 #
 # Cookbook:: cis-rhel
-# Recipe:: ntp
+# Recipe:: time_sync
 #
 # Copyright:: 2018, Chef Software, Inc.
 #

@@ -165,12 +165,6 @@ default['shell']['tmout'] = 600
 # 6.1.10_Ensure_no_world_writable_files_exist
 default['filesystem']['non_world_writable_files'] = []
 
-## Recipe::ntp
-default['ntp']['install'] = false
-default['chrony']['install'] = true
-default['ntp']['servers'] = %w(0.rhel.pool.ntp.org 1.rhel.pool.ntp.org 2.rhel.pool.ntp.org 3.rhel.pool.ntp.org)
-default['ntp']['restrict_default'] = 'kod nomodify notrap nopeer noquery'
-
 ## Recipe::ssh
 default['ssh-hardening']['ssh']['server']['deny_users'] = []
 default['ssh-hardening']['ssh']['server']['allow_users'] = []
@@ -215,3 +209,9 @@ default['sysctl']['params']['net.ipv6.conf.default.accept_ra'] = 0
 # 3.3.2_Ensure_IPv6_redirects_are_not_accepted
 default['sysctl']['params']['net.ipv6.conf.all.accept_redirects'] = 0
 default['sysctl']['params']['net.ipv6.conf.default.accept_redirects'] = 0
+
+## Recipe::time_sync
+default['ntp']['install'] = false
+default['chrony']['install'] = true
+default['ntp']['servers'] = %w(0.rhel.pool.ntp.org 1.rhel.pool.ntp.org 2.rhel.pool.ntp.org 3.rhel.pool.ntp.org)
+default['ntp']['restrict_default'] = 'kod nomodify notrap nopeer noquery'

@@ -65,7 +65,7 @@ describe 'cis-rhel::default' do
       cis-rhel::login_banners
       cis-rhel::login_defs
       cis-rhel::network_config
-      cis-rhel::ntp
+      cis-rhel::time_sync
       cis-rhel::pam
       cis-rhel::partitions
       cis-rhel::rsyslog

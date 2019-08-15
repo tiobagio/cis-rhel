@@ -58,9 +58,9 @@ describe 'cis-rhel::packages_services' do
       expect(chef_run).to stop_service 'dhcpd'
     end
 
-    it 'disables and stops ldap' do
-      expect(chef_run).to disable_service 'ldap'
-      expect(chef_run).to stop_service 'ldap'
+    it 'disables and stops slapd' do
+      expect(chef_run).to disable_service 'slapd'
+      expect(chef_run).to stop_service 'slapd'
     end
 
     it 'disables and stops nfs & nfs-server & rpcbind' do

@@ -116,7 +116,7 @@ service 'dhcpd' do
 end
 
 # 2.2.6_Ensure_LDAP_server_is_not_enabled
-service 'ldap' do
+service 'slapd' do
   action [:disable, :stop]
 end
 
