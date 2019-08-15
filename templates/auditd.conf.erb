@@ -32,11 +32,9 @@
  enable_krb5 = no
  krb5_principal = auditd
  distribute_network = no
- # CIS 4.1.1.2
- admin_space_left_action = halt
- # CIS 4.1.1.2
- space_left_action = email
- # CIS 4.1.1.2
- action_mail_acct = root
- # CIS 4.1.1.3
- max_log_file_action = keep_logs
+ # 4.1.1.2_Ensure_system_is_disabled_when_audit_logs_are_full
+ admin_space_left_action = <%= node['auditd']['admin_space_left_action'] %>
+ space_left_action = <%= node['auditd']['space_left_action'] %>
+ action_mail_acct = <%= node['auditd']['action_mail_acct'] %>
+# 4.1.1.3_Ensure_audit_logs_are_not_automatically_deleted
+ max_log_file_action = <%= node['auditd']['max_log_file_action'] %>

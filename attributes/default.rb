@@ -1,6 +1,118 @@
 ## Recipe::aide
 default['cron_mailto'] = nil
 
+## Recipe::auditd
+# 4.1.1.2_Ensure_system_is_disabled_when_audit_logs_are_full
+default['auditd']['admin_space_left_action'] = 'halt'
+default['auditd']['space_left_action'] = 'email'
+default['auditd']['action_mail_acct'] = 'root'
+# 4.1.1.3_Ensure_audit_logs_are_not_automatically_deleted
+default['auditd']['max_log_file_action'] = 'keep_logs'
+# 4.1.4_Ensure_events_that_modify_date_and_time_information_are_collected
+default['auditd']['collect_events_that_modify_date_and_time'] = [
+    '-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change',
+    '-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change',
+    '-a always,exit -F arch=b64 -S clock_settime -k time-change',
+    '-a always,exit -F arch=b32 -S clock_settime -k time-change',
+    '-w /etc/localtime -p wa -k time-change',
+]
+# 4.1.5_Ensure_events_that_modify_usergroup_information_are_collected
+default['auditd']['collect_events_that_modify_usergroup'] = [
+    '-w /etc/group -p wa -k identity',
+    '-w /etc/passwd -p wa -k identity',
+    '-w /etc/gshadow -p wa -k identity',
+    '-w /etc/shadow -p wa -k identity',
+    '-w /etc/security/opasswd -p wa -k identity',
+]
+# 4.1.6_Ensure_events_that_modify_the_systems_network_environment_are_collected
+default['auditd']['collect_events_that_modify_the_systems_network_environment'] = [
+    '-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale',
+    '-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale',
+    '-w /etc/issue -p wa -k system-locale',
+    '-w /etc/issue.net -p wa -k system-locale',
+    '-w /etc/hosts -p wa -k system-locale',
+    '-w /etc/sysconfig/network -p wa -k system-locale',
+    '-w /etc/sysconfig/network-scripts/ -p wa -k system-locale',
+]
+# 4.1.7_Ensure_events_that_modify_the_systems_Mandatory_Access_Controls_are_collected
+default['auditd']['collect_events_that_modify_the_systems_MAC'] = [
+    '-w /etc/selinux/ -p wa -k MAC-policy',
+    '-w /usr/share/selinux/ -p wa -k MAC-policy',
+]
+# 4.1.8_Ensure_login_and_logout_events_are_collected
+default['auditd']['collect_login_and_logout_events'] = [
+    '-w /var/log/lastlog -p wa -k logins',
+    '-w /var/run/faillock/ -p wa -k logins',
+]
+# 4.1.9_Ensure_session_initiation_information_is_collected
+if node['platform_version'].to_i == 6
+  default['auditd']['collect_session_initiation_information'] = [
+      '-w /var/run/utmp -p wa -k session',
+      '-w /var/log/wtmp -p wa -k session',
+      '-w /var/log/btmp -p wa -k session',
+  ]
+elsif node['platform_version'].to_i == 7
+  default['auditd']['collect_session_initiation_information'] = [
+      '-w /var/run/utmp -p wa -k session',
+      '-w /var/log/wtmp -p wa -k logins',
+      '-w /var/log/btmp -p wa -k logins',
+  ]
+end
+# 4.1.10_Ensure_discretionary_access_control_permission_modification_events_are_collected
+default['auditd']['collect_DAC_permission_modification_events'] = [
+    '-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod',
+    '-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod',
+    '-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod',
+    '-a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod',
+    '-a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod',
+    '-a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod',
+]
+# 4.1.11_Ensure_unsuccessful_unauthorized_file_access_attempts_are_collected
+default['auditd']['collect_unsuccessful_unauthorized_file_access_attempts'] = [
+    '-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access',
+    '-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access',
+    '-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access',
+    '-a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access',
+]
+# 4.1.13_Ensure_successful_file_system_mounts_are_collected
+default['auditd']['collect_successful_file_system_mounts'] = [
+    '-a always,exit -F arch=b64 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts',
+    '-a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts',
+]
+# 4.1.14_Ensure_file_deletion_events_by_users_are_collected
+if node['platform_version'].to_i == 6
+  default['auditd']['collect_file_deletion_events_by_users'] = [
+      '-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete',
+      '-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete',
+  ]
+elsif node['platform_version'].to_i == 7
+  default['auditd']['collect_file_deletion_events_by_users'] = [
+      '-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete',
+      '-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete',
+  ]
+end
+# 4.1.15_Ensure_changes_to_system_administration_scope_sudoers_is_collected
+default['auditd']['collect_changes_to_system_admin_scope_sudoers'] = [
+    '-w /etc/sudoers -p wa -k scope',
+    '-w /etc/sudoers.d/ -p wa -k scope',
+]
+# 4.1.16_Ensure_system_administrator_actions_sudolog_are_collected
+default['auditd']['collect_system_admin_scope_actions_sudolog'] = [
+    '-w /var/log/sudo.log -p wa -k actions',
+]
+# 4.1.17_Ensure_kernel_module_loading_and_unloading_is_collected
+default['auditd']['collect_kernel_module_loading_and_unloading'] = [
+    '-w /sbin/insmod -p x -k modules',
+    '-w /sbin/rmmod -p x -k modules',
+    '-w /sbin/modprobe -p x -k modules',
+    '-a always,exit -F arch=b32 -S init_module -S delete_module -k modules',
+    '-a always,exit -F arch=b64 -S init_module -S delete_module -k modules',
+]
+# 4.1.18_Ensure_the_audit_configuration_is_immutable
+default['auditd']['audit_configuration_is_immutable'] = '-e 2'
+# Template::auditd.rules
+default['auditd']['backlog'] = 320
+
 ## Recipe::grub
 # 1.4.2_Ensure_bootloader_password_is_set
 default['bootloader']['password'] = nil
@@ -103,6 +215,3 @@ default['sysctl']['params']['net.ipv6.conf.default.accept_ra'] = 0
 # 3.3.2_Ensure_IPv6_redirects_are_not_accepted
 default['sysctl']['params']['net.ipv6.conf.all.accept_redirects'] = 0
 default['sysctl']['params']['net.ipv6.conf.default.accept_redirects'] = 0
-
-# Template::auditd.rules
-default['auditd']['backlog'] = 320

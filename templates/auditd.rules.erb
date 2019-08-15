@@ -15,92 +15,75 @@
 # CIS Benchmark Adjustments
 
 # 4.1.4_Ensure_events_that_modify_date_and_time_information_are_collected
--a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change
--a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change
--a always,exit -F arch=b64 -S clock_settime -k time-change
--a always,exit -F arch=b32 -S clock_settime -k time-change
--w /etc/localtime -p wa -k time-change
+<% node['auditd']['collect_events_that_modify_date_and_time'].each do |rule| %>
+  <%= rule %>
+<% end %>
 
 # 4.1.5_Ensure_events_that_modify_usergroup_information_are_collected
--w /etc/group -p wa -k identity
--w /etc/passwd -p wa -k identity
--w /etc/gshadow -p wa -k identity
--w /etc/shadow -p wa -k identity
--w /etc/security/opasswd -p wa -k identity
+<% node['auditd']['collect_events_that_modify_usergroup'].each do |rule| %>
+  <%= rule %>
+<% end %>
 
 # 4.1.6_Ensure_events_that_modify_the_systems_network_environment_are_collected
--a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale
--a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale
--w /etc/issue -p wa -k system-locale
--w /etc/issue.net -p wa -k system-locale
--w /etc/hosts -p wa -k system-locale
--w /etc/sysconfig/network -p wa -k system-locale
--w /etc/sysconfig/network-scripts/ -p wa -k system-locale
+<% node['auditd']['collect_events_that_modify_the_systems_network_environment'].each do |rule| %>
+  <%= rule %>
+<% end %>
 
 # 4.1.7_Ensure_events_that_modify_the_systems_Mandatory_Access_Controls_are_collected
--w /etc/selinux/ -p wa -k MAC-policy
--w /usr/share/selinux/ -p wa -k MAC-policy
+<% node['auditd']['collect_events_that_modify_the_systems_MAC'].each do |rule| %>
+  <%= rule %>
+<% end %>
 
 # 4.1.8_Ensure_login_and_logout_events_are_collected
--w /var/log/lastlog -p wa -k logins
--w /var/run/faillock/ -p wa -k logins
+<% node['auditd']['collect_login_and_logout_events'].each do |rule| %>
+  <%= rule %>
+<% end %>
 
 # 4.1.9_Ensure_session_initiation_information_is_collected
-<% if node['platform_version'].to_i == 6 %>
--w /var/run/utmp -p wa -k session
--w /var/log/wtmp -p wa -k session
--w /var/log/btmp -p wa -k session
-<% elsif node['platform_version'].to_i == 7 %>
--w /var/run/utmp -p wa -k session
--w /var/log/wtmp -p wa -k logins
--w /var/log/btmp -p wa -k logins
+<% node['auditd']['collect_session_initiation_information'].each do |rule| %>
+  <%= rule %>
 <% end %>
 
 # 4.1.10_Ensure_discretionary_access_control_permission_modification_events_are_collected
--a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod
--a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod
--a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod
--a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod
--a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod
--a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod
+<% node['auditd']['collect_DAC_permission_modification_events'].each do |rule| %>
+  <%= rule %>
+<% end %>
 
 # 4.1.11_Ensure_unsuccessful_unauthorized_file_access_attempts_are_collected
--a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access
--a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access
--a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access
--a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access
+<% node['auditd']['collect_unsuccessful_unauthorized_file_access_attempts'].each do |rule| %>
+  <%= rule %>
+<% end %>s
 
 # 4.1.12_Ensure_use_of_privileged_commands_is_collected
-<% @priveleged_programs.each do |rule| %>
+<% @privileged_programs.each do |rule| %>
   <%= rule %>
 <% end %>
 
 # 4.1.13_Ensure_successful_file_system_mounts_are_collected
--a always,exit -F arch=b64 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts
--a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts
+<% node['auditd']['collect_successful_file_system_mounts'].each do |rule| %>
+  <%= rule %>
+<% end %>s
+
 
 # 4.1.14_Ensure_file_deletion_events_by_users_are_collected
-<% if node['platform_version'].to_i == 6 %>
--a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete
--a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete
-<% elsif node['platform_version'].to_i == 7 %>
--a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete
--a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete
-<% end %>
+<% node['auditd']['collect_file_deletion_events_by_users'].each do |rule| %>
+  <%= rule %>
+<% end %>s
 
 # 4.1.15_Ensure_changes_to_system_administration_scope_sudoers_is_collected
--w /etc/sudoers -p wa -k scope
--w /etc/sudoers.d/ -p wa -k scope
+<% node['auditd']['collect_changes_to_system_admin_scope_sudoers'].each do |rule| %>
+  <%= rule %>
+<% end %>s
 
 # 4.1.16_Ensure_system_administrator_actions_sudolog_are_collected
--w /var/log/sudo.log -p wa -k actions
+<% node['auditd']['collect_system_admin_scope_actions_sudolog'].each do |rule| %>
+  <%= rule %>
+<% end %>s
 
 # 4.1.17_Ensure_kernel_module_loading_and_unloading_is_collected
--w /sbin/insmod -p x -k modules
--w /sbin/rmmod -p x -k modules
--w /sbin/modprobe -p x -k modules
--a always,exit -F arch=b32 -S init_module -S delete_module -k modules
--a always,exit -F arch=b64 -S init_module -S delete_module -k modules
+<% node['auditd']['collect_kernel_module_loading_and_unloading'].each do |rule| %>
+  <%= rule %>
+<% end %>s
 
-# CIS 4.1.18
--e 2
+# 4.1.18_Ensure_the_audit_configuration_is_immutable
+<%= node['auditd']['audit_configuration_is_immutable'] %>
