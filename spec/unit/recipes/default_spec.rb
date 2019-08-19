@@ -52,6 +52,8 @@ describe 'cis-rhel::default' do
       stub_command("find /bin  -perm -go+w -type f | wc -l | egrep '^0$'").and_return(false)
       # cis-rhel:package_services
       stub_command('yum list installed | grep "xinetd"').and_return('')
+      stub_command('grep ^gpgcheck /etc/yum.conf').and_return('')
+      stub_command('grep ^gpgcheck=1 /etc/yum.conf').and_return('')
     end
 
     it 'converges successfully' do

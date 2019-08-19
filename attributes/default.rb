@@ -165,6 +165,9 @@ default['shell']['tmout'] = 600
 # 6.1.10_Ensure_no_world_writable_files_exist
 default['filesystem']['non_world_writable_files'] = []
 
+## Recipe::packages_services
+default['yum']['gpgcheck'] = 1
+
 ## Recipe::ssh
 default['ssh-hardening']['ssh']['server']['deny_users'] = []
 default['ssh-hardening']['ssh']['server']['allow_users'] = []

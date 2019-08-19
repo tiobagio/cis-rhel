@@ -8,6 +8,21 @@ service 'autofs' do
   action [:disable, :stop]
 end
 
+# 1.2.2_Ensure_gpgcheck_is_globally_activated
+execute "ensure gpgcheck is #{node['yum']['gpgcheck']} in /etc/yum.conf" do
+  command "sed -i \"s/gpgcheck=[0-9]*/gpgcheck=#{node['yum']['gpgcheck']}/\" /etc/yum.conf"
+  not_if "grep ^gpgcheck=#{node['yum']['gpgcheck']} /etc/yum.conf"
+end
+
+execute "add gpgcheck=#{node['yum']['gpgcheck']} in /etc/yum.conf if gpgcheck is not present" do
+  command "sed -i '/\\[main\\]/a gpgcheck=#{node['yum']['gpgcheck']}' /etc/yum.conf"
+  not_if  'grep ^gpgcheck /etc/yum.conf'
+end
+
+execute "ensure gpgcheck is #{node['yum']['gpgcheck']} in /etc/yum.repos.d/" do
+  command "sed -i \"s/gpgcheck=[0-9]*/gpgcheck=#{node['yum']['gpgcheck']}/\" /etc/yum.repos.d/*"
+end
+
 # 1.2.5_Disable_the_rhnsd_Daemon
 service 'rhnsd' do
   action [:disable, :stop]

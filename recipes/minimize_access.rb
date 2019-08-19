@@ -54,7 +54,7 @@ end
 if node['platform_version'].to_i >= 7
   # 5.4.5_Ensure_default_user_shell_timeout_is_900_seconds_or_less
   execute "ensure TMOUT is #{node['shell']['tmout']} in /etc/bashrc" do
-    command "sed -i \"s/TMOUT=[0-9]*/#{node['shell']['tmout']}=600/\" /etc/bashrc"
+    command "sed -i \"s/TMOUT=[0-9]*/TMOUT=#{node['shell']['tmout']}/\" /etc/bashrc"
   end
 
   execute "set timeout #{node['shell']['tmout']} in /etc/bashrc if not present" do
@@ -68,7 +68,30 @@ if node['platform_version'].to_i >= 7
 
   execute "set timeout #{node['shell']['tmout']} in /etc/profile if not present" do
     command "echo 'TMOUT=#{node['shell']['tmout']}' >> /etc/profile"
-    not_if  "grep ^\s*TMOUT=#{node['shell']['tmout']}\s*(\s+#.*)?$ /etc/bashrc"
+    not_if  "grep ^\s*TMOUT=#{node['shell']['tmout']}\s*(\s+#.*)?$ /etc/profile"
+  end
+end
+
+# 6.1.2_Ensure_permissions_on_etcpasswd_are_configured
+# 6.1.3_Ensure_permissions_on_etcshadow_are_configured
+# 6.1.4_Ensure_permissions_on_etcgroup_are_configured
+# 6.1.5_Ensure_permissions_on_etcgshadow_are_configured
+# 6.1.6_Ensure_permissions_on_etcpasswd-_are_configured
+# 6.1.7_Ensure_permissions_on_etcshadow-_are_configured
+# 6.1.8_Ensure_permissions_on_etcgroup-_are_configured
+# 6.1.9_Ensure_permissions_on_etcgshadow-_are_configured
+['/etc/passwd', '/etc/passwd-', '/etc/group', '/etc/group-'].each do |systemfile|
+  file systemfile do
+    mode '0644'
+    owner 'root'
+    group 'root'
+  end
+end
+['/etc/gshadow', '/etc/gshadow-', '/etc/shadow', '/etc/shadow-'].each do |systemfile|
+  file systemfile do
+    mode '0000'
+    owner 'root'
+    group 'root'
   end
 end
 
