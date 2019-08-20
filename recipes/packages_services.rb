@@ -181,6 +181,24 @@ service 'snmpd' do
   action [:disable, :stop]
 end
 
+# 2.2.15_Ensure_mail_transfer_agent_is_configured_for_local-only_mode
+execute 'edit inet_interfaces in postfix config' do
+  command 'sed -i \'/^#/!s/inet_interfaces\s*=\s.*/inet_interfaces = loopback-only/\' /etc/postfix/main.cf'
+  only_if { File.exist?('/etc/postfix/main.cf') }
+  notifies :restart, 'service[postfix]', :immediately
+end
+
+execute 'add inet_interfaces to postfix config if missing' do
+  command 'sed -i \'/# RECEIVING MAIL/a inet_interfaces = loopback-only\' /etc/postfix/main.cf'
+  not_if  'grep "inet_interfaces = loopback-only" /etc/postfix/main.cf'
+  only_if { File.exist?('/etc/postfix/main.cf') }
+  notifies :restart, 'service[postfix]', :immediately
+end
+
+service 'postfix' do
+  action :nothing
+end
+
 # 2.2.16_Ensure_NIS_Server_is_not_enabled
 service 'ypserv' do
   action [:disable, :stop]

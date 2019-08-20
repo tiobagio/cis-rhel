@@ -54,6 +54,7 @@ describe 'cis-rhel::default' do
       stub_command('yum list installed | grep "xinetd"').and_return('')
       stub_command('grep ^gpgcheck /etc/yum.conf').and_return('')
       stub_command('grep ^gpgcheck=1 /etc/yum.conf').and_return('')
+      stub_command('grep "inet_interfaces = loopback-only" /etc/postfix/main.cf').and_return('')
     end
 
     it 'converges successfully' do

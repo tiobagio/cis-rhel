@@ -83,7 +83,7 @@ users_with_passwords.each do |user|
   end
 
   # calculate the current pw_inactive value by getting the difference between the expiry date and the inactive date
-  pw_inactive = ((Date.parse foo['Password inactive']) - (Date.parse foo['Password expires'])).to_i
+  pw_inactive = ((Date.parse user_chage_info['Password inactive']) - (Date.parse user_chage_info['Password expires'])).to_i
   # 5.4.1.4_Ensure_inactive_password_lock_is_30_days_or_less
   execute 'set user inactive password lock' do
     command "chage --inactive #{node['auth']['pw_inactive']} #{user}"

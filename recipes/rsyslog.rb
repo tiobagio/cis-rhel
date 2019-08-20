@@ -52,6 +52,21 @@ directory '/etc/rsyslog.d/' do
   action  :create
 end
 
+# Set perms on conf files
+file '/etc/rsyslog.conf' do
+  mode    '0640'
+  owner   'root'
+  group   'root'
+end
+
+Mixlib::ShellOut.new('find /etc/rsyslog.d/ -iname \*.conf').run_command.stdout.split.each do |path|
+  file path do
+    mode    '0640'
+    owner   'root'
+    group   'root'
+  end
+end
+
 file '/usr/share/doc/rsyslog-doc/html/rsyslog_conf.html' do
   content 'This system is managed by Chef.'
   mode    '0640'
