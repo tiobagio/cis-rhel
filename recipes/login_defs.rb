@@ -101,3 +101,13 @@ execute 'set default password inactivity period' do
   action  :run
   not_if  { pw_inactive_default == node['auth']['pw_inactive'] }
 end
+
+# 6.2.1_Ensure_password_fields_are_not_empty
+Mixlib::ShellOut.new('cat /etc/shadow | awk -F: \'($2 == "" ) { print $1 }\'').run_command.stdout.split.each do |user|
+  execute 'lock user accounts with empty password field' do
+    command "passwd -l #{user}"
+    user    'root'
+    action  :run
+    only_if node['account']['lock_passwordless_accounts']
+  end
+end

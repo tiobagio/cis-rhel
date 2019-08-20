@@ -156,6 +156,8 @@ default['auth']['gid_min'] = 1000
 default['auth']['gid_max'] = 60000
 default['auth']['sys_uid_max'] = 999
 default['auth']['sys_gid_max'] = 999
+# 6.2.1_Ensure_password_fields_are_not_empty
+default['account']['lock_passwordless_accounts'] = true
 
 ## Recipe::minimize_access
 # 5.4.4_Ensure_default_user_umask_is_027_or_more_restrictive
