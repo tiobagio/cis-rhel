@@ -27,6 +27,8 @@
 # 3.2.6_Ensure_bogus_ICMP_responses_are_ignored
 # 3.2.7_Ensure_Reverse_Path_Filtering_is_enabled
 # 3.2.8_Ensure_TCP_SYN_Cookies_is_enabled
+# 3.3.1_Ensure_IPv6_router_advertisements_are_not_accepted
+# 3.3.2_Ensure_IPv6_redirects_are_not_accepted
 if node.attribute?('sysctl') && node['sysctl'].attribute?('params')
   coerce_attributes(node['sysctl']['params']).each do |x|
     k, v = x.split('=')

@@ -46,12 +46,40 @@ if node['platform_version'].to_i >= 7
     action  :run
   end
 
+  grub_cmdline_linux_config = Mixlib::ShellOut.new('grep -E \'^GRUB_CMDLINE_LINUX=.+$\' /etc/default/grub | cut -d \'"\' -f2').run_command.stdout.split
+  grub_cmdline_linux_default_config = Mixlib::ShellOut.new('grep -E \'^GRUB_CMDLINE_LINUX_DEFAULT=.+$\' /etc/default/grub | cut -d \'"\' -f2').run_command.stdout.split
+  # 1.6.1.1_Ensure_SELinux_is_not_disabled_in_bootloader_configuration
+  if node['grub']['selinux']
+    grub_cmdline_linux_config.reject! { |setting| node['grub']['selinux'].include? setting }
+    grub_cmdline_linux_default_config.reject! { |setting| node['grub']['selinux'].include? setting }
+    if grub_cmdline_linux_default_config.empty?
+      delete_lines 'remove GRUB_CMDLINE_LINUX_DEFAULT if the config is empty' do
+        path '/etc/default/grub'
+        pattern 'GRUB_CMDLINE_LINUX_DEFAULT=\"'
+      end
+    else
+      replace_or_add 'insert GRUB_CMDLINE_LINUX_DEFAULT line if it does not exist, or update if it does exist' do
+        path    '/etc/default/grub'
+        pattern 'GRUB_CMDLINE_LINUX_DEFAULT=\"'
+        line    "GRUB_CMDLINE_LINUX_DEFAULT=\"#{grub_cmdline_linux_default_config.join(' ')}\""
+        replace_only false
+      end
+    end
+  end
+
   # 3.3.3_Ensure_IPv6_is_disabled
+  if node['grub']['audit']
+    grub_cmdline_linux_config |= ["audit=#{node['grub']['audit']}"]
+  end
   # 4.1.3_Ensure_auditing_for_processes_that_start_prior_to_auditd_is_enabled
-  replace_or_add 'insert line if it does not exist' do
+  if node['grub']['ipv6.disable']
+    grub_cmdline_linux_config |= ["ipv6.disable=#{node['grub']['ipv6.disable']}"]
+  end
+
+  replace_or_add 'insert GRUB_CMDLINE_LINUX line if it does not exist, or update if it does exist' do
     path    '/etc/default/grub'
-    pattern 'GRUB_CMDLINE_LINUX="ipv6.disable=1 audit=1"'
-    line    'GRUB_CMDLINE_LINUX="ipv6.disable=1 audit=1"'
+    pattern 'GRUB_CMDLINE_LINUX=\"'
+    line    "GRUB_CMDLINE_LINUX=\"#{grub_cmdline_linux_config.join(' ')}\""
     replace_only false
   end
 

@@ -116,6 +116,12 @@ default['auditd']['backlog'] = 320
 ## Recipe::grub
 # 1.4.2_Ensure_bootloader_password_is_set
 default['bootloader']['password'] = nil
+# 3.3.3_Ensure_IPv6_is_disabled
+default['grub']['ipv6.disable'] = 1
+# 4.1.3_Ensure_auditing_for_processes_that_start_prior_to_auditd_is_enabled
+default['grub']['audit'] = 1
+# 1.6.1.1_Ensure_SELinux_is_not_disabled_in_bootloader_configuration
+default['grub']['selinux'] = %w(selinux=0 enforcing=0)
 
 # Recipe::kernel_modules
 # 1.1.1.1_Ensure_mounting_of_cramfs_filesystems_is_disabled

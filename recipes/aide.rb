@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# 1.3.2_Ensure_filesystem_integrity_is_regularly_checked
+# 1.3.1_Ensure_AIDE_is_installed
 package 'aide' do
   action :install
 end
