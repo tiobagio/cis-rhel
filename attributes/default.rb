@@ -176,6 +176,12 @@ default['filesystem']['non_world_writable_files'] = []
 ## Recipe::packages_services
 default['yum']['gpgcheck'] = 1
 
+## Recipe::selinux
+# 1.6.1.2_Ensure_the_SELinux_state_is_enforcing
+default['selinux']['state'] = 'enforcing'
+# 1.6.1.3_Ensure_SELinux_policy_is_configured
+default['selinux']['policy'] = 'targeted'
+
 ## Recipe::ssh
 default['ssh-hardening']['ssh']['server']['deny_users'] = []
 default['ssh-hardening']['ssh']['server']['allow_users'] = []

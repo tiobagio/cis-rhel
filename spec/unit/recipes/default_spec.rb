@@ -77,6 +77,7 @@ describe 'cis-rhel::default' do
       cis-rhel::partitions
       cis-rhel::rsyslog
       cis-rhel::packages_services
+      cis-rhel::selinux
       cis-rhel::ssh
       cis-rhel::sysctl
       cis-rhel::syslog-ng
