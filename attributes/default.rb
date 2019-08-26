@@ -162,6 +162,8 @@ default['auth']['gid_min'] = 1000
 default['auth']['gid_max'] = 60000
 default['auth']['sys_uid_max'] = 999
 default['auth']['sys_gid_max'] = 999
+# 5.4.1.5_Ensure_all_users_last_password_change_date_is_in_the_past
+default['auth']['lock_passwords'] = true
 # 6.2.1_Ensure_password_fields_are_not_empty
 default['account']['lock_passwordless_accounts'] = true
 

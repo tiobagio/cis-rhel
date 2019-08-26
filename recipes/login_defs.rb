@@ -57,7 +57,7 @@ users_with_passwords = Mixlib::ShellOut.new('egrep ^[^:]+:[^\!*] /etc/shadow | c
 
 users_with_passwords.each do |user|
   # convert user chage list to hash
-  user_chage_info = Hash[*Mixlib::ShellOut.new("chage --list #{user}").run_command.stdout.gsub("\t", '').gsub("\n", ': ').split(':')]
+  user_chage_info = Hash[*Mixlib::ShellOut.new("chage --list #{user}").run_command.stdout.delete("\t").strip.gsub(': ', ':').gsub("\n", ':').split(':')]
   # 5.4.1.1_Ensure_password_expiration_is_365_days_or_less
   execute 'set user pw_max_age' do
     command "chage --maxdays #{node['auth']['pw_max_age']} #{user}"
@@ -90,6 +90,17 @@ users_with_passwords.each do |user|
     user    'root'
     action  :run
     not_if { pw_inactive == node['auth']['pw_inactive'] }
+  end
+
+  # 5.4.1.5_Ensure_all_users_last_password_change_date_is_in_the_past
+  today = Date.today.to_time.to_i / 86400
+  password_last_changed = (Date.parse user_chage_info['Last password change']).to_time.to_i / 86400
+  next unless password_last_changed > today
+  execute 'lock user accounts with last password change date in the future' do
+    command "passwd -l #{user}"
+    user    'root'
+    action  :run
+    only_if node['auth']['lock_passwords']
   end
 end
 
