@@ -24,6 +24,21 @@ execute '4-2-4-log-permissions' do
   action  :run
 end
 
+# 5.4.2_Ensure_system_accounts_are_non-login
+script 'Ensure system accounts are non-login' do
+  interpreter 'bash'
+  code <<-EOH
+  for user in `awk -F: '($3 < 1000) {print $1 }' /etc/passwd` ; do
+    if [ $user != "root" ]; then
+      usermod -L $user
+      if [ $user != "sync" ] && [ $user != "shutdown" ] && [ $user != "halt" ]; then
+        usermod -s /sbin/nologin $user
+      fi
+    fi
+  done
+  EOH
+end
+
 # 5.4.3_Ensure_default_group_for_the_root_account_is_GID_0
 execute 'set GID for the root account' do
   command 'usermod -g 0 root'
