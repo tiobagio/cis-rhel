@@ -75,12 +75,11 @@ describe 'cis-rhel::default' do
       cis-rhel::time_sync
       cis-rhel::pam
       cis-rhel::partitions
-      cis-rhel::rsyslog
+      cis-rhel::rsyslog_syslog-ng
       cis-rhel::packages_services
       cis-rhel::selinux
       cis-rhel::ssh
       cis-rhel::sysctl
-      cis-rhel::syslog-ng
       cis-rhel::minimize_access
     ).each do |recipe|
       it "includes #{recipe} recipe" do

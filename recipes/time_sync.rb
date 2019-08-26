@@ -18,7 +18,7 @@
 #
 
 chrony_cookbook = node['chrony_template_path'] || 'cis-rhel'
-
+# 2.2.1.1_Ensure_time_synchronization_is_in_use
 if node['ntp']['install'] == true && node['chrony']['install'] == false
   # 3.6_Configure_Network_Time_Protocol_NTP
   include_recipe 'ntp::default'

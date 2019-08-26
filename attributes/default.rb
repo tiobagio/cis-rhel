@@ -176,6 +176,12 @@ default['filesystem']['non_world_writable_files'] = []
 ## Recipe::packages_services
 default['yum']['gpgcheck'] = 1
 
+## Recipe::rsyslog_syslog-ng
+# 4.2.1.1_Ensure_rsyslog_Service_is_enabled
+# 4.2.3_Ensure_rsyslog_or_syslog-ng_is_installed
+default['syslog-ng']['install'] = false
+default['rsyslog']['install'] = true
+
 ## Recipe::selinux
 # 1.6.1.2_Ensure_the_SELinux_state_is_enforcing
 default['selinux']['state'] = 'enforcing'

@@ -33,6 +33,7 @@ else
 end
 # rubocop:enable Style/NumericPredicate
 node.default['firewall']['ipv6_enabled'] = false
+# 3.6.1_Ensure_iptables_is_installed
 include_recipe 'firewall::default'
 
 firewall_rule 'ssh' do
