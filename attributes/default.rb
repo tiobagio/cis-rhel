@@ -2,6 +2,8 @@
 default['cron_mailto'] = nil
 
 ## Recipe::auditd
+# 4.1.1.1_Ensure_audit_log_storage_size_is_configured
+default['auditd']['max_log_file'] = 8
 # 4.1.1.2_Ensure_system_is_disabled_when_audit_logs_are_full
 default['auditd']['admin_space_left_action'] = 'halt'
 default['auditd']['space_left_action'] = 'email'

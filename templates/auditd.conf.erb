@@ -9,10 +9,9 @@
  log_format = RAW
  flush = INCREMENTAL_ASYNC
  freq = 50
- <% if node['platform_version'].to_i == 6 %>
- max_log_file = 6
- <% elsif node['platform_version'].to_i == 7 %>
- max_log_file = 8
+ # 4.1.1.1_Ensure_audit_log_storage_size_is_configured
+ max_log_file = <%= node['auditd']['max_log_file'] %>
+ <% if node['platform_version'].to_i == 7 %>
  local_events = yes
  write_logs = yes
  <% end %>

@@ -63,6 +63,7 @@ template '/etc/audit/rules.d/cis.rules' do
   notifies :restart, 'service[auditd]', :immediately
 end
 
+# 4.1.1.1_Ensure_audit_log_storage_size_is_configured
 # 4.1.1.2_Ensure_system_is_disabled_when_audit_logs_are_full
 # 4.1.1.3_Ensure_audit_logs_are_not_automatically_deleted
 template '/etc/audit/auditd.conf' do
