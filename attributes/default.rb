@@ -191,10 +191,53 @@ default['selinux']['state'] = 'enforcing'
 default['selinux']['policy'] = 'targeted'
 
 ## Recipe::ssh
-default['ssh-hardening']['ssh']['server']['deny_users'] = []
-default['ssh-hardening']['ssh']['server']['allow_users'] = []
-default['ssh-hardening']['ssh']['server']['deny_groups'] = []
-default['ssh-hardening']['ssh']['server']['allow_groups'] = []
+# 5.2.2_Ensure_SSH_Protocol_is_set_to_2
+default['ssh']['protocol'] = 2
+# 5.2.3_Ensure_SSH_LogLevel_is_set_to_INFO
+default['ssh']['loglevel'] = 'INFO'
+# 5.2.4_Ensure_SSH_X11_forwarding_is_disabled
+default['ssh']['x11_forwarding'] = 'no'
+# 5.2.5_Ensure_SSH_MaxAuthTries_is_set_to_4_or_less
+default['ssh']['max_auth_tries'] = 4
+# 5.2.6_Ensure_SSH_IgnoreRhosts_is_enabled
+default['ssh']['ignore_rhosts'] = 'yes'
+# 5.2.7_Ensure_SSH_HostbasedAuthentication_is_disabled
+default['ssh']['host_based_auth'] = 'no'
+# 5.2.8_Ensure_SSH_root_login_is_disabled
+default['ssh']['root_login'] = 'no'
+# 5.2.9_Ensure_SSH_PermitEmptyPasswords_is_disabled
+default['ssh']['empty_passwords'] = 'no'
+# 5.2.10_Ensure_SSH_PermitUserEnvironment_is_disabled
+default['ssh']['user_env'] = 'no'
+# 5.2.11_Ensure_only_approved_MAC_algorithms_are_used
+case node['platform_version'].to_i
+when 6
+  default['ssh']['macs'] = %w(
+    hmac-sha2-512
+    hmac-sha2-256
+  ).join(',')
+when 7
+  default['ssh']['macs'] = %w(
+    hmac-sha2-512-etm@openssh.com
+    hmac-sha2-256-etm@openssh.com
+    umac-128-etm@openssh.com
+    hmac-sha2-512
+    hmac-sha2-256
+    umac-128@openssh.com
+  ).join(',')
+end
+# 5.2.12_Ensure_SSH_Idle_Timeout_Interval_is_configured
+default['ssh']['alive_interval'] = 300
+default['ssh']['alive_count_max'] = 0
+# 5.2.13_Ensure_SSH_LoginGraceTime_is_set_to_one_minute_or_less
+node.default['ssh']['login_grace_time'] = 60
+# 5.2.14_Ensure_SSH_access_is_limited
+default['ssh']['deny_users'] = []
+default['ssh']['allow_users'] = []
+default['ssh']['deny_groups'] = []
+default['ssh']['allow_groups'] = []
+# 5.2.15_Ensure_SSH_warning_banner_is_configured
+default['ssh']['banner'] = '/etc/issue.net'
 
 ## Recipe::sysctl
 # 1.5.1_Ensure_core_dumps_are_restricted

@@ -27,23 +27,13 @@ describe 'cis-rhel::ssh' do
       runner.converge(described_recipe)
     end
 
-    before(:all) do
-      # ssh-hardening::server
-      stub_command('getenforce | grep -vq Disabled && semodule -l | grep -q ssh_password').and_return('')
-      # ssh-hardening::default
-      stub_command("test $(awk '$5 < 2047 && $5 ~ /^[0-9]+$/ { print $5 }' /etc/ssh/moduli | uniq | wc -c) -eq 0").and_return(true)
+    it 'renders the /etc/ssh/sshd_config file' do
+      expect(chef_run).to render_file('/etc/ssh/sshd_config')
     end
 
-    it 'includes the ssh-hardening::default recipe' do
-      expect(chef_run).to include_recipe 'ssh-hardening::default'
-    end
-
-    it 'has the correct log level set' do
-      expect(chef_run.node['ssh-hardening']['ssh']['server']['log_level']).to eq('INFO')
-    end
-
-    it 'has the correct ClientAliveCount set' do
-      expect(chef_run.node['ssh-hardening']['ssh']['server']['client_alive_count']).to eq(0)
+    it 'template /etc/ssh/sshd_config notifies sshd service restart' do
+      template = chef_run.template('/etc/ssh/sshd_config')
+      expect(template).to notify('service[sshd]').to(:restart)
     end
   end
 end

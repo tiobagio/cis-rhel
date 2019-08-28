@@ -16,32 +16,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-node.default['ssh-hardening']['ssh']['server']['client_alive_count'] = 0
-# 5.2.3_Ensure_SSH_LogLevel_is_set_to_INFO
-node.default['ssh-hardening']['ssh']['server']['log_level'] = 'INFO'
-
-# 5.2.12_Ensure_only_approved_MAC_algorithms_are_used
-node.default['ssh-hardening']['ssh']['server']['weak_hmac'] = false
-case node['platform_version'].to_i
-when 6
-  node.default['ssh-hardening']['ssh']['server']['mac'] = %w(
-    hmac-sha2-512
-    hmac-sha2-256
-  ).join(',')
-when 7
-  node.default['ssh-hardening']['ssh']['server']['mac'] = %w(
-    hmac-sha2-512-etm@openssh.com
-    hmac-sha2-256-etm@openssh.com
-    umac-128-etm@openssh.com
-    hmac-sha2-512
-    hmac-sha2-256
-    umac-128@openssh.com
-  ).join(',')
+service 'sshd' do
+  supports restart: true, status: true, reload: true
+  action   [:enable, :start]
 end
 
+# 5.2.1_Ensure_permissions_on_etcsshsshd_config_are_configured
+# 5.2.2_Ensure_SSH_Protocol_is_set_to_2
+# 5.2.3_Ensure_SSH_LogLevel_is_set_to_INFO
+# 5.2.4_Ensure_SSH_X11_forwarding_is_disabled
+# 5.2.5_Ensure_SSH_MaxAuthTries_is_set_to_4_or_less
+# 5.2.6_Ensure_SSH_IgnoreRhosts_is_enabled
+# 5.2.7_Ensure_SSH_HostbasedAuthentication_is_disabled
+# 5.2.8_Ensure_SSH_root_login_is_disabled
+# 5.2.9_Ensure_SSH_PermitEmptyPasswords_is_disabled
+# 5.2.10_Ensure_SSH_PermitUserEnvironment_is_disabled
+# 5.2.11_Ensure_only_approved_MAC_algorithms_are_used
+# 5.2.12_Ensure_SSH_Idle_Timeout_Interval_is_configured
 # 5.2.13_Ensure_SSH_LoginGraceTime_is_set_to_one_minute_or_less
-node.default['ssh-hardening']['ssh']['server']['login_grace_time'] = 60
+# 5.2.14_Ensure_SSH_access_is_limited
 # 5.2.15_Ensure_SSH_warning_banner_is_configured
-node.default['ssh-hardening']['ssh']['server']['banner'] = '/etc/issue.net'
-
-include_recipe 'ssh-hardening::default'
+template '/etc/ssh/sshd_config' do
+  source   'sshd_config.erb'
+  mode     '0644'
+  owner    'root'
+  group    'root'
+  notifies :restart, 'service[sshd]'
+end
