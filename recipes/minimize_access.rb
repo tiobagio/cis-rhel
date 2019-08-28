@@ -25,18 +25,15 @@ execute '4-2-4-log-permissions' do
 end
 
 # 5.4.2_Ensure_system_accounts_are_non-login
-script 'Ensure system accounts are non-login' do
-  interpreter 'bash'
-  code <<-EOH
-  for user in `awk -F: '($3 < 1000) {print $1 }' /etc/passwd` ; do
-    if [ $user != "root" ]; then
-      usermod -L $user
-      if [ $user != "sync" ] && [ $user != "shutdown" ] && [ $user != "halt" ]; then
-        usermod -s /sbin/nologin $user
-      fi
-    fi
-  done
-  EOH
+Mixlib::ShellOut.new('awk -F: \'($3 < 1000) {print $1 }\' /etc/passwd').run_command.stdout.split.each do |account|
+  next unless account != 'root'
+  user account do
+    action :lock
+  end
+  next unless account != 'root' && account != 'sync' && account != 'shutdown' && account != 'halt'
+  user account do
+    shell '/usr/sbin/nologin'
+  end
 end
 
 # 5.4.3_Ensure_default_group_for_the_root_account_is_GID_0
