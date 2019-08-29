@@ -20,7 +20,14 @@ require 'spec_helper'
 
 describe 'cis-rhel::login_banners' do
   context 'When all attributes are default, on RHEL 7' do
-    platform 'redhat', '7'
+    cached(:chef_run) do
+      runner = ChefSpec::ServerRunner.new(platform: 'redhat', version: '7.6')
+      runner.converge(described_recipe)
+    end
+
+    before(:all) do
+      stub_command('yum list installed | grep \'gdm\'').and_return('')
+    end
 
     ['/etc/motd', '/etc/issue', '/etc/issue.net'].each do |loginfile|
       it "creates #{loginfile} file with attributes" do

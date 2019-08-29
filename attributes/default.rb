@@ -141,6 +141,14 @@ default['kernel']['disable_filesystems'] = %w(cramfs freevxfs jffs2 hfs hfsplus 
 # 3.5.3_Ensure_RDS_is_disabled
 default['kernel']['disable_network_protocols'] = %w(dccp sctp tipc rds)
 
+## Recipe::login_banners
+# 1.7.2_Ensure_GDM_login_banner_is_configured
+default['gdm']['user-db'] = 'user'
+default['gdm']['system-db'] = 'gdm'
+default['gdm']['file-db'] = '/usr/share/gdm/greeter-dconf-defaults'
+default['gdm']['banner-message-enable'] = 'true'
+default['gdm']['banner-message-text'] = 'Authorized uses only. All activity may be monitored and reported.'
+
 ## Recipe::login_defs
 default['env']['extra_user_paths'] = []
 default['env']['umask'] = '077'

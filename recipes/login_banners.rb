@@ -17,6 +17,9 @@
 # limitations under the License.
 #
 
+cis_gdm_cookbook = node['cis_gdm_template_path'] || 'cis-rhel'
+cis_gdm_banner_message_cookbook = node['cis_filesystem_template_path'] || 'cis-rhel'
+
 # 1.7.1 Command Line Warning Banners
 #
 # 1.7.1.1_Ensure_message_of_the_day_is_configured_properly: Ensure message of the day is configured properly (expected "" to match /(\v|\r|\m|\s|\S)/
@@ -33,4 +36,31 @@
     group   'root'
     action  :create
   end
+end
+
+# 1.7.2_Ensure_GDM_login_banner_is_configured
+template '/etc/dconf/profile/gdm' do
+  source 'gdm.erb'
+  mode   '0644'
+  owner  'root'
+  group  'root'
+  action :create
+  only_if 'yum list installed | grep \'gdm\''
+  notifies :run, 'execute[update grub]', :immediately
+  cookbook cis_gdm_cookbook
+end
+
+template '/etc/dconf/db/gdm.d/01-banner-message' do
+  source '01-banner-message.erb'
+  mode   '0644'
+  owner  'root'
+  group  'root'
+  action :create
+  only_if 'yum list installed | grep \'gdm\''
+  cookbook cis_gdm_banner_message_cookbook
+end
+
+execute 'update grub' do
+  command 'dconf update'
+  action :nothing
 end

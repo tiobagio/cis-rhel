@@ -37,6 +37,8 @@ describe 'cis-rhel::default' do
       stub_command('lsmod | grep sctp').and_return('')
       stub_command('lsmod | grep tipc').and_return('')
       stub_command('lsmod | grep rds').and_return('')
+      # cis-rhel::login_banners
+      stub_command('yum list installed | grep \'gdm\'').and_return('')
       # cis-rhel::minimize_access
       stub_command('find /var/log -type f -ls').and_return('')
       stub_command("grep ^\s*umask\s+027\s*(\s+#.*)?$ /etc/bashrc").and_return('')
