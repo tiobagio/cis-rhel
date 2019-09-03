@@ -115,6 +115,21 @@ default['auditd']['audit_configuration_is_immutable'] = '-e 2'
 # Template::auditd.rules
 default['auditd']['backlog'] = 320
 
+## Recipe::firewalld
+# 3.6.4_Ensure_outbound_and_established_connections_are_configured
+default['firewall']['inbound']['connection']['tcp'] = '-A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT'
+default['firewall']['inbound']['connection']['stateful']['tcp'] = %w(established)
+default['firewall']['inbound']['connection']['udp'] = '-A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT'
+default['firewall']['inbound']['connection']['stateful']['udp'] = %w(established)
+default['firewall']['inbound']['connection']['icmp'] = '-A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT'
+default['firewall']['inbound']['connection']['stateful']['icmp'] = %w(established)
+default['firewall']['outbound']['connection']['tcp'] = '-A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT'
+default['firewall']['outbound']['connection']['stateful']['tcp'] = %w(new established)
+default['firewall']['outbound']['connection']['udp'] = '-A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT'
+default['firewall']['outbound']['connection']['stateful']['udp'] = %w(new established)
+default['firewall']['outbound']['connection']['icmp'] = '-A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT'
+default['firewall']['outbound']['connection']['stateful']['icmp'] = %w(new established)
+
 ## Recipe::grub
 # 1.4.2_Ensure_bootloader_password_is_set
 default['bootloader']['password'] = nil

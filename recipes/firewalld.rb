@@ -70,20 +70,50 @@ firewall_rule '-A INPUT -s 127.0.0.0/8 -j DROP' do
 end
 
 # 3.6.4_Ensure_outbound_and_established_connections_are_configured
-%i(tcp udp icmp).each do |p|
-  firewall_rule "-A INPUT -p #{p} -m state --state NEW,ESTABLISHED -j ACCEPT" do
-    direction :in
-    protocol  p
-    stateful  [:new, :established]
-    command   :allow
-    include_comment false
-  end
+firewall_rule node['firewall']['inbound']['connection']['tcp'] do
+  direction :in
+  protocol  :tcp
+  stateful  node['firewall']['inbound']['connection']['stateful']['tcp'].collect(&:to_sym)
+  command   :allow
+  include_comment false
+end
 
-  firewall_rule "-A OUTPUT -p #{p} -m state --state NEW,ESTABLISHED -j ACCEPT" do
-    direction :out
-    protocol  p
-    stateful  [:new, :established]
-    command   :allow
-    include_comment false
-  end
+firewall_rule node['firewall']['inbound']['connection']['udp'] do
+  direction :in
+  protocol  :udp
+  stateful  node['firewall']['inbound']['connection']['stateful']['udp'].collect(&:to_sym)
+  command   :allow
+  include_comment false
+end
+
+firewall_rule node['firewall']['inbound']['connection']['icmp'] do
+  direction :in
+  protocol  :icmp
+  stateful  node['firewall']['inbound']['connection']['stateful']['icmp'].collect(&:to_sym)
+  command   :allow
+  include_comment false
+end
+
+firewall_rule node['firewall']['outbound']['connection']['tcp'] do
+  direction :in
+  protocol  :tcp
+  stateful  node['firewall']['outbound']['connection']['stateful']['tcp'].collect(&:to_sym)
+  command   :allow
+  include_comment false
+end
+
+firewall_rule node['firewall']['outbound']['connection']['udp'] do
+  direction :in
+  protocol  :udp
+  stateful  node['firewall']['outbound']['connection']['stateful']['udp'].collect(&:to_sym)
+  command   :allow
+  include_comment false
+end
+
+firewall_rule node['firewall']['outbound']['connection']['icmp'] do
+  direction :in
+  protocol  :icmp
+  stateful  node['firewall']['outbound']['connection']['stateful']['icmp'].collect(&:to_sym)
+  command   :allow
+  include_comment false
 end
