@@ -118,6 +118,8 @@ default['auditd']['backlog'] = 320
 ## Recipe::grub
 # 1.4.2_Ensure_bootloader_password_is_set
 default['bootloader']['password'] = nil
+# 1.4.3_Ensure_authentication_required_for_single_user_mode
+default['auth']['ExecStart'] = '-/bin/sh -c "/usr/sbin/sulogin; /usr/bin/systemctl --fail --no-block default"'
 # 3.3.3_Ensure_IPv6_is_disabled
 default['grub']['ipv6.disable'] = 1
 # 4.1.3_Ensure_auditing_for_processes_that_start_prior_to_auditd_is_enabled

@@ -46,6 +46,25 @@ if node['platform_version'].to_i >= 7
     action  :run
   end
 
+  # 1.4.3_Ensure_authentication_required_for_single_user_mode
+  rescue_service_execstart = Mixlib::ShellOut.new('grep \'^ExecStart=\' /usr/lib/systemd/system/rescue.service').run_command.stdout.strip
+  replace_or_add 'insert ExecStart line if it does not exist, or update if it does exist' do
+    path    '/usr/lib/systemd/system/rescue.service'
+    pattern 'ExecStart='
+    line    "ExecStart=#{node['auth']['ExecStart']}"
+    not_if  { rescue_service_execstart == ('ExecStart=' << node['auth']['ExecStart']) }
+    replace_only false
+  end
+
+  emergency_service_execstart = Mixlib::ShellOut.new('grep \'^ExecStart=\' /usr/lib/systemd/system/rescue.service').run_command.stdout.strip
+  replace_or_add 'insert ExecStart line if it does not exist, or update if it does exist' do
+    path    '/usr/lib/systemd/system/emergency.service'
+    pattern 'ExecStart='
+    line    "ExecStart=#{node['auth']['ExecStart']}"
+    not_if  { emergency_service_execstart == ('ExecStart=' << node['auth']['ExecStart']) }
+    replace_only false
+  end
+
   grub_cmdline_linux_config = Mixlib::ShellOut.new('grep -E \'^GRUB_CMDLINE_LINUX=.+$\' /etc/default/grub | cut -d \'"\' -f2').run_command.stdout.split
   grub_cmdline_linux_default_config = Mixlib::ShellOut.new('grep -E \'^GRUB_CMDLINE_LINUX_DEFAULT=.+$\' /etc/default/grub | cut -d \'"\' -f2').run_command.stdout.split
   # 1.6.1.1_Ensure_SELinux_is_not_disabled_in_bootloader_configuration
