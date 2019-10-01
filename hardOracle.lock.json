@@ -1,0 +1,160 @@
+{
+  "revision_id": "8b543ea5abf9a52a7ec6e44be5ac1e151dbb385e33c5f00aa866227c6fddef68",
+  "name": "cis-rhel",
+  "run_list": [
+    "recipe[cis-rhel::default]"
+  ],
+  "included_policy_locks": [
+
+  ],
+  "cookbook_locks": {
+    "chef-sugar": {
+      "version": "5.0.4",
+      "identifier": "9060a224ace1124f7e4d1a5212fd246d037784a8",
+      "dotted_decimal_identifier": "40638646162612498.22375392779309821.40050628199592",
+      "cache_key": "chef-sugar-5.0.4-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/chef-sugar/versions/5.0.4/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/chef-sugar/versions/5.0.4/download",
+        "version": "5.0.4"
+      }
+    },
+    "cis-rhel": {
+      "version": "0.3.7",
+      "identifier": "cef5d8183dcd9ab9ce724c4f93a6fbbfa2ec1c50",
+      "dotted_decimal_identifier": "58254153670839706.52299860993348518.276800490708048",
+      "source": ".",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "https://github.com/chef/cis-rhel",
+        "revision": "1a32a8aa7f41d894e4a5029f39d3269b79e4eebb",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "."
+      }
+    },
+    "firewall": {
+      "version": "2.7.0",
+      "identifier": "12fad1a125585c8da0352273151999690ae67972",
+      "dotted_decimal_identifier": "5342327839479900.39864121787880729.168676433492338",
+      "cache_key": "firewall-2.7.0-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/firewall/versions/2.7.0/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/firewall/versions/2.7.0/download",
+        "version": "2.7.0"
+      }
+    },
+    "line": {
+      "version": "2.0.2",
+      "identifier": "b142ce3f437d4c55b272c374ea9f4a8e7c004d51",
+      "dotted_decimal_identifier": "49894524469869900.24121578995640991.81975826206033",
+      "cache_key": "line-2.0.2-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/line/versions/2.0.2/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/line/versions/2.0.2/download",
+        "version": "2.0.2"
+      }
+    },
+    "ntp": {
+      "version": "3.6.2",
+      "identifier": "7ac2f7eda39cba6ecf686af3fc9e6f4e9d29d979",
+      "dotted_decimal_identifier": "34554317258333370.31190294816095390.122383434897785",
+      "cache_key": "ntp-3.6.2-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/ntp/versions/3.6.2/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/ntp/versions/3.6.2/download",
+        "version": "3.6.2"
+      }
+    },
+    "rsyslog": {
+      "version": "6.0.7",
+      "identifier": "5c096f91a03feab3855bcb3cb0080ea1cfdbaea7",
+      "dotted_decimal_identifier": "25906072646598634.50530650129477640.16088139804327",
+      "cache_key": "rsyslog-6.0.7-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/rsyslog/versions/6.0.7/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/rsyslog/versions/6.0.7/download",
+        "version": "6.0.7"
+      }
+    }
+  },
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "solution_dependencies": {
+    "Policyfile": [
+      [
+        "chef-sugar",
+        "= 5.0.4"
+      ],
+      [
+        "cis-rhel",
+        ">= 0.0.0"
+      ],
+      [
+        "firewall",
+        "= 2.7.0"
+      ],
+      [
+        "line",
+        "= 2.0.2"
+      ],
+      [
+        "ntp",
+        "= 3.6.2"
+      ],
+      [
+        "rsyslog",
+        "= 6.0.7"
+      ]
+    ],
+    "dependencies": {
+      "chef-sugar (5.0.4)": [
+
+      ],
+      "cis-rhel (0.3.7)": [
+        [
+          "firewall",
+          "~> 2.7"
+        ],
+        [
+          "ntp",
+          "~> 3.5"
+        ],
+        [
+          "rsyslog",
+          "~> 6.0"
+        ],
+        [
+          "line",
+          "~> 2.0.2"
+        ]
+      ],
+      "firewall (2.7.0)": [
+        [
+          "chef-sugar",
+          ">= 0.0.0"
+        ]
+      ],
+      "line (2.0.2)": [
+
+      ],
+      "ntp (3.6.2)": [
+
+      ],
+      "rsyslog (6.0.7)": [
+
+      ]
+    }
+  }
+}

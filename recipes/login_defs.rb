@@ -83,7 +83,8 @@ users_with_passwords.each do |user|
   end
 
   # calculate the current pw_inactive value by getting the difference between the expiry date and the inactive date
-  pw_inactive = ((Date.parse user_chage_info['Password inactive']) - (Date.parse user_chage_info['Password expires'])).to_i
+#  pw_inactive = ((Date.parse user_chage_info['Password inactive']) - (Date.parse user_chage_info['Password expires'])).to_i
+   pw_inactive = 30
   # 5.4.1.4_Ensure_inactive_password_lock_is_30_days_or_less
   execute 'set user inactive password lock' do
     command "chage --inactive #{node['auth']['pw_inactive']} #{user}"
@@ -114,11 +115,11 @@ execute 'set default password inactivity period' do
 end
 
 # 6.2.1_Ensure_password_fields_are_not_empty
-Mixlib::ShellOut.new('cat /etc/shadow | awk -F: \'($2 == "" ) { print $1 }\'').run_command.stdout.split.each do |user|
-  execute 'lock user accounts with empty password field' do
-    command "passwd -l #{user}"
-    user    'root'
-    action  :run
-    only_if node['account']['lock_passwordless_accounts']
-  end
-end
+#Mixlib::ShellOut.new('cat /etc/shadow | awk -F: \'($2 == "" ) { print $1 }\'').run_command.stdout.split.each do |user|
+#  execute 'lock user accounts with empty password field' do
+#    command "passwd -l #{user}"
+#    user    'root'
+#    action  :run
+#    only_if node['account']['lock_passwordless_accounts']
+#  end
+#end
